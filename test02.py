@@ -88,7 +88,10 @@ with input:
     except:
         access_code = ''
 
-    st.write("ACCESS CODE FROM SPECKLE: ", access_code)
+    if access_code:
+        st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
+    else:
+        st.write("NO ACCESS CODE HAS BEEN RECEVIED YET")
  
     #-------
     #-------
