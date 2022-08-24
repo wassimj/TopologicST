@@ -94,6 +94,8 @@ with authenticate:
             "challenge": "6a406094f6",
         },
     )
+        st.write("RESPONSE", response)
+
         response_json = response.json()
         token = response_json['token']
     #-------
