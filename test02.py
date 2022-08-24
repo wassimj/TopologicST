@@ -1,17 +1,4 @@
-
 import streamlit as st
-
-from specklepy.api.client import SpeckleClient
-from specklepy.api.credentials import get_default_account
-from specklepy.api.credentials import get_account_from_token
-from specklepy.transports.memory import MemoryTransport
-from specklepy.api import operations
-from specklepy.api.wrapper import StreamWrapper
-from specklepy.api.resources.stream import Stream
-from specklepy.transports.server import ServerTransport
-from specklepy.objects.geometry import *
-from specklepy.logging.exceptions import SpeckleException
-from specklepy.objects.other import RenderMaterial
 
 import sys
 import os, re
