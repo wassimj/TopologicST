@@ -101,7 +101,8 @@ with input:
             "challenge": "6a406094f6",
         },
     )
-        st.write(response.text)
+        response_json = response.json()
+        st.write(response_json['token'])
     #-------
     #-------
     #Columns for inputs
