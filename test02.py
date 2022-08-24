@@ -81,15 +81,15 @@ with input:
          unsafe_allow_html=True)
     
     # Get the token part back.
-    returned_token = st.experimental_get_query_params()
-    st.write(returned_token)
+    access_code = st.experimental_get_query_params()['access_code']
+    st.write(access_code)
     #-------
     #-------
     #Columns for inputs
     serverCol, tokenCol = st.columns([1,3])
     #User Input boxes
-    #speckleServer = serverCol.text_input("Server URL", "speckle.xyz", help="Speckle server to connect.")
-    #speckleToken = tokenCol.text_input("Speckle token", returned_token, help="If you don't know how to get your token, take a look at this [link](https://speckle.guide/dev/tokens.html)👈")
+    speckleServer = serverCol.text_input("Server URL", "speckle.xyz", help="Speckle server to connect.")
+    speckleToken = tokenCol.text_input("Speckle token", access_code, help="If you don't know how to get your token, take a look at this [link](https://speckle.guide/dev/tokens.html)👈")
     #-------
 
 
