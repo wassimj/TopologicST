@@ -181,9 +181,20 @@ def wireByVertices(item):
 		return None
 
 
+header = st.container()
+input = st.container()
+viewer = st.container()
+report = st.container()
+graphs = st.container()
+
+with header:
+    st.title("Topologic - Speckle - Streamlit Testing Application")
+with header.expander("About this App", expanded=True):
+    st.markdown("""This is a test application that shows you how you can use Topologic with Speckle and Streamlit.""")
+
 st.header("Hi. Topologic works. Now we are testing Speckle which we still have to figure out. Don't mind the errors below")
-st.subheader("This is a Topologic CellComplex modified by a Streamlit App")
-st.components.v1.iframe(src="https://speckle.xyz/embed?stream=06e8de26bb&commit=6c7d43cbc8", width=400,height=600)
+#st.subheader("This is a Topologic CellComplex modified by a Streamlit App")
+s#t.components.v1.iframe(src="https://speckle.xyz/embed?stream=06e8de26bb&commit=6c7d43cbc8", width=400,height=600)
 st.subheader("Anything below is still testing in progress")
 
 with input:
