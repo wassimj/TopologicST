@@ -2,3 +2,4 @@
 specklepy
 plotly
 pandas
+httpx-oauth==0.3.5
