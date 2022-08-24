@@ -89,6 +89,7 @@ with authenticate:
                 flag = False
         except:
             flag = True
+        st.write("FLAG", flag)
         if flag:
             st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
             response = requests.post(
