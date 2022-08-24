@@ -182,7 +182,7 @@ st.header("Hi. Topologic works. Now we are testing Speckle which we still have t
 secret = st.text_input("OAUTH Secret", type="password")
 
 url = 'https://speckle.xyz/authn/verify/5c017e480f/'+secret
-
+st.write(url)
 # create and authenticate a client
 hostString = st.text_input('Speckle Host', 'speckle.xyz')
 
