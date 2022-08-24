@@ -178,6 +178,11 @@ def wireByVertices(item):
 		return None
 
 
+# Authenticte to Speckle
+
+secret = st.text_input('Password')
+url = "https://speckle.xyz/authn/verify/f081fa6bf4/"+secret
+st.write(url)
 
 # create and authenticate a client
 hostString = st.text_input('Speckle Host', 'speckle.xyz')
