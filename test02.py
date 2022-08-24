@@ -77,6 +77,9 @@ with authenticate:
     Please login using this <a target="_new"
     href="{authorization_url}">link</a></h2>''',
         unsafe_allow_html=True)
+    response = requests.post(url=authorization_url)
+    st.write("RESPONSE: ", response)
+    st.write(st.experimental_get_query_params())
     access_code = st.experimental_get_query_params()['access_code'][0]
     st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
     response = requests.post(
