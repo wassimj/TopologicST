@@ -188,7 +188,6 @@ if hostString:
     tokenString = st.text_input("Secret Token", type="password")
     if tokenString:
         client.authenticate_with_token(tokenString)
-        st.write(client)
 
         streams = getStreams(client)
 
