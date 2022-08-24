@@ -29,5 +29,14 @@ c1 = e1.Centroid()
 st.write("C1: The centroid of the Topologic Edge is at", c1.X(), c1.Y(), c1.Z())
 
 st.write("Trying to import specklepy")
-import specklepy
+from specklepy.api.client import SpeckleClient
+from specklepy.api.credentials import get_default_account
+from specklepy.transports.memory import MemoryTransport
+from specklepy.api import operations
+from specklepy.api.wrapper import StreamWrapper
+from specklepy.api.resources.stream import Stream
+from specklepy.transports.server import ServerTransport
+from specklepy.objects.geometry import *
+from specklepy.logging.exceptions import SpeckleException
+from specklepy.objects.other import RenderMaterial
 st.write("Success!")
