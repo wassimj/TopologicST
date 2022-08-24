@@ -64,12 +64,6 @@ with header.expander("About this app🔽", expanded=True):
     )
 #--------------------------
 
-# 
-
-
-https://speckle.xyz/authn/verify/{appId}/{challenge}
-code = st.experimental_get_query_params()['code']
-
 #--------------------------
 #INPUTS
 with input:
@@ -86,6 +80,7 @@ with input:
     href="{authorization_url}">url</a></h1>''',
          unsafe_allow_html=True)
     
+    # Get the token part back.
     returned_token = st.experimental_get_query_params()['code']
     #-------
     #-------
