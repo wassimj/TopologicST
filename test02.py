@@ -45,8 +45,7 @@ def to_speckle_material(diffuse_color) -> RenderMaterial:
     speckle_mat.opacity = diffuse_color[-1]
     return speckle_mat
 
-def getBranches(item):
-	client, stream = item
+def getBranches(client, stream):
 	bList = client.branch.list(stream.id)
 	branches = []
 	for b in bList:
@@ -178,11 +177,7 @@ def wireByVertices(item):
 		return None
 
 
-# Authenticte to Speckle
 
-secret = st.text_input('Password')
-url = "https://speckle.xyz/authn/verify/f081fa6bf4/"+secret
-st.write(url)
 
 # create and authenticate a client
 hostString = st.text_input('Speckle Host', 'speckle.xyz')
@@ -193,6 +188,7 @@ if hostString:
     tokenString = st.text_input("Secret Token", type="password")
     if tokenString:
         client.authenticate_with_token(tokenString)
+        st.write(client)
 
         streams = getStreams(client)
 
@@ -205,7 +201,7 @@ if hostString:
         if option != "Select a stream":
             stream = streams[stream_names.index(option)-1]
 
-            branches = getBranches([client, stream])
+            branches = getBranches(tokenString, client, stream)
             branch_names = ["Select a branch"]
             for aBranch in branches:
                 branch_names.append(aBranch.name)
@@ -216,7 +212,7 @@ if hostString:
             if option != "Select a branch":
                 branch = branches[branch_names.index(option)-1]
                 
-                commits = getCommits(branch)
+                commits = getCommits(tokenString, branch)
                 commit_names = ["Select a commit"]
                 for aCommit in commits:
                     commit_names.append(str(aCommit.id)+": "+aCommit.message)
