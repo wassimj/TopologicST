@@ -64,17 +64,36 @@ with header.expander("About this app🔽", expanded=True):
     )
 #--------------------------
 
+# 
+
+
+https://speckle.xyz/authn/verify/{appId}/{challenge}
+code = st.experimental_get_query_params()['code']
+
 #--------------------------
 #INPUTS
 with input:
     st.subheader("Inputs")
-
+#-------
+    #Columns for inputs
+    idCol, secretCol = st.columns([1,3])
+    #User Input boxes
+    appID = idCol.text_input("App ID", "618a698b8a", help="Speckle App ID.")
+    appSecret = secretCol.text_input("App Secret", "")
+    authorization_url = https://speckle.xyz/authn/verify/appID/appSecret
+    st.write(f'''<h1>
+    Please login using this <a target="_self"
+    href="{authorization_url}">url</a></h1>''',
+         unsafe_allow_html=True)
+    
+    returned_token = st.experimental_get_query_params()['code']
+    #-------
     #-------
     #Columns for inputs
     serverCol, tokenCol = st.columns([1,3])
     #User Input boxes
     speckleServer = serverCol.text_input("Server URL", "speckle.xyz", help="Speckle server to connect.")
-    speckleToken = tokenCol.text_input("Speckle token", "087fea753d12f91a6f692c8ea087c1bf4112e93ed7", help="If you don't know how to get your token, take a look at this [link](https://speckle.guide/dev/tokens.html)👈")
+    speckleToken = tokenCol.text_input("Speckle token", returned_token, help="If you don't know how to get your token, take a look at this [link](https://speckle.guide/dev/tokens.html)👈")
     #-------
 
 
