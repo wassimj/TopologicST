@@ -98,12 +98,14 @@ with input:
     #-------
     #CLIENT
     client = SpeckleClient(host="speckle.xyz")
-    #Get account from Token
-    account = get_account_from_token(access_code, client)
-    st.write(account)
+    
     #Authenticate
-    status = client.authenticate_with_account(account)
-    st.write(status)
+    client.authenticate_with_token(access_code)
+
+    #Get account from Token
+    account = get_account_from_token(access_code, "speckle.xyz")
+    
+    st.write(account)
     #-------
 
     #-------
