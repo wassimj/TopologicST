@@ -178,6 +178,9 @@ def wireByVertices(item):
 
 
 st.header("Hi. Topologic works. Now we are testing Speckle which we still have to figure out. Don't mind the errors below")
+st.subhead("This is a Topologic CellComplex modified by a Streamlit App")
+st.components.v1.iframe(src="https://speckle.xyz/embed?stream=06e8de26bb&commit=6c7d43cbc8", width=400,height=600)
+st.subhead("Anything below is still testing in progress")
 
 secret = st.text_input("OAUTH Secret", type="password")
 
