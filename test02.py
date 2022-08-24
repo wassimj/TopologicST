@@ -179,6 +179,11 @@ def wireByVertices(item):
 
 st.header("Hi. Topologic works. Now we are testing Speckle which we still have to figure out. Don't mind the errors below")
 
+secret = st.text_input("Secret Token", type="password")
+
+url = 'https://speckle.xyz/authn/verify/5c017e480f/'+secret
+st.markdown("["+url+"](Go to Speckle)", unsafe_allow_html=True)
+
 # create and authenticate a client
 hostString = st.text_input('Speckle Host', 'speckle.xyz')
 
@@ -188,16 +193,17 @@ if hostString:
     tokenString = st.text_input("Secret Token", type="password")
     if tokenString:
         client.authenticate_with_token(tokenString)
-        st.subhead(str(client))
+        try:
+            streams = getStreams(client)
 
-        streams = getStreams(client)
-
-        stream_names = ["Select a stream"]
-        for aStream in streams:
-            stream_names.append(aStream.name)
-        option = st.selectbox(
-            'Select A Stream',
-            (stream_names))
+            stream_names = ["Select a stream"]
+            for aStream in streams:
+                stream_names.append(aStream.name)
+            option = st.selectbox(
+                'Select A Stream',
+                (stream_names))
+        except:
+            option = "Select a stream"
         if option != "Select a stream":
             stream = streams[stream_names.index(option)-1]
 
