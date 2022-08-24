@@ -3,6 +3,7 @@ import streamlit as st
 
 from specklepy.api.client import SpeckleClient
 from specklepy.api.credentials import get_default_account
+from specklepy.api.credentials import get_account_from_token
 from specklepy.transports.memory import MemoryTransport
 from specklepy.api import operations
 from specklepy.api.wrapper import StreamWrapper
@@ -30,6 +31,9 @@ sys.path.append(topologicPath)
 
 import topologic
 
+st.set_page_config (
+    page_title = "TopologicST Test02"
+)
 def to_argb_int(diffuse_color) -> int:
     """Converts an RGBA array to an ARGB integer"""
     diffuse_color = diffuse_color[-1:] + diffuse_color[:3]
@@ -182,162 +186,159 @@ st.subheader("This is a Topologic CellComplex modified by a Streamlit App")
 st.components.v1.iframe(src="https://speckle.xyz/embed?stream=06e8de26bb&commit=6c7d43cbc8", width=400,height=600)
 st.subheader("Anything below is still testing in progress")
 
-secret = st.text_input("OAUTH Secret", type="password")
+with input:
+    st.subheader("Inputs")
+    serverCol, tokenCol = st.columns(1,2)
+    speckleHost = serverCol.text_input('Speckle Host', 'speckle.xyz')
+    speckleToken = tokenCol.text_input('Speckle Token', '', type='password')
 
-url = 'https://speckle.xyz/authn/verify/5c017e480f/'+secret
-st.write(url)
-# create and authenticate a client
-hostString = st.text_input('Speckle Host', 'speckle.xyz')
 
-if hostString:
+if speckleHost and speckleToken:
     client = SpeckleClient(host=hostString)
+    client.authenticate_with_token(tokenString)
+    try:
+        streams = getStreams(client)
 
-    tokenString = st.text_input("Secret Token", type="password")
-    if tokenString:
-        client.authenticate_with_token(tokenString)
-        try:
-            streams = getStreams(client)
+        stream_names = ["Select a stream"]
+        for aStream in streams:
+            stream_names.append(aStream.name)
+        option = st.selectbox(
+            'Select A Stream',
+            (stream_names))
+    except:
+        option = "Select a stream"
+    if option != "Select a stream":
+        stream = streams[stream_names.index(option)-1]
 
-            stream_names = ["Select a stream"]
-            for aStream in streams:
-                stream_names.append(aStream.name)
-            option = st.selectbox(
-                'Select A Stream',
-                (stream_names))
-        except:
-            option = "Select a stream"
-        if option != "Select a stream":
-            stream = streams[stream_names.index(option)-1]
+        branches = getBranches(tokenString, client, stream)
+        branch_names = ["Select a branch"]
+        for aBranch in branches:
+            branch_names.append(aBranch.name)
 
-            branches = getBranches(tokenString, client, stream)
-            branch_names = ["Select a branch"]
-            for aBranch in branches:
-                branch_names.append(aBranch.name)
-
-            option = st.selectbox(
-                'Select A Branch',
-                (branch_names))
-            if option != "Select a branch":
-                branch = branches[branch_names.index(option)-1]
+        option = st.selectbox(
+            'Select A Branch',
+            (branch_names))
+        if option != "Select a branch":
+            branch = branches[branch_names.index(option)-1]
+            
+            commits = getCommits(tokenString, branch)
+            commit_names = ["Select a commit"]
+            for aCommit in commits:
+                commit_names.append(str(aCommit.id)+": "+aCommit.message)
+            option = st.selectbox('Select A Commit', (commit_names))
+            if option != "Select a commit":
+                commit = commits[commit_names.index(option)-1]
+                last_obj = getObject(client, stream, commit)
+                sp_vertices = last_obj.vertices
+                sp_faces = last_obj.faces
+                tp_vertices = []
+                for i in range(0,len(sp_vertices),3):
+                    x = sp_vertices[i]
+                    y = sp_vertices[i+1]
+                    z = sp_vertices[i+2]
+                    tp_vertices.append(topologic.Vertex.ByCoordinates(x,y,z))
                 
-                commits = getCommits(tokenString, branch)
-                commit_names = ["Select a commit"]
-                for aCommit in commits:
-                    commit_names.append(str(aCommit.id)+": "+aCommit.message)
-                option = st.selectbox('Select A Commit', (commit_names))
-                if option != "Select a commit":
-                    commit = commits[commit_names.index(option)-1]
-                    last_obj = getObject(client, stream, commit)
-                    sp_vertices = last_obj.vertices
-                    sp_faces = last_obj.faces
-                    tp_vertices = []
-                    for i in range(0,len(sp_vertices),3):
-                        x = sp_vertices[i]
-                        y = sp_vertices[i+1]
-                        z = sp_vertices[i+2]
-                        tp_vertices.append(topologic.Vertex.ByCoordinates(x,y,z))
-                    
-                    tp_faces = []
-                    i = 0
-                    while True:
-                        if sp_faces[i] == 0:
-                            n = 3
-                        else:
-                            n = 4
-                        temp_verts = []
-                        for j in range(n):
-                            temp_verts.append(tp_vertices[sp_faces[i+j+1]])
-                        c = topologic.Cluster.ByTopologies(temp_verts)
-                        w = wireByVertices([c, True])
-                        f = topologic.Face.ByExternalBoundary(w)
-                        tp_faces.append(f)
-                        i = i + n + 1
-                        if i+n+1 > len(sp_faces):
-                            break
-
-                    volume = 0
-                    desc = ""
-                    if len(tp_faces) == 1:
-                        topology = tp_faces[0]
-                        desc = "Topologic Face"
-                        area = topologic.FaceUtility.Area(topology)
+                tp_faces = []
+                i = 0
+                while True:
+                    if sp_faces[i] == 0:
+                        n = 3
                     else:
-                        tp_object = cellComplexByFaces([tp_faces, 0.0001])
-                        if not tp_object:
-                            tp_object = cellByFaces([tp_faces, 0.0001])
-                        if not tp_object:
-                            tp_object = shellByFaces([tp_faces, 0.0001])
-                        if not tp_object:
-                            tp_object = topologic.Cluster.ByTopologies(tp_faces)
-                        if tp_object.Type() == topologic.CellComplex.Type():
-                            envelope = tp_object.ExternalBoundary()
-                            volume = round(topologic.CellUtility.Volume(envelope), 2)
-                            faces = []
-                            _ = tp_object.Faces(None, faces)
-                        elif tp_object.Type() == topologic.Cell.Type():
-                            envelope = tp_object
-                            volume = round(topologic.CellUtility.Volume(envelope), 2)
-                            faces = []
-                            _ = tp_object.Faces(None, faces)
-                        elif tp_object.Type() == topologic.Shell.Type():
-                            volume = 0
-                            envelope = tp_object
+                        n = 4
+                    temp_verts = []
+                    for j in range(n):
+                        temp_verts.append(tp_vertices[sp_faces[i+j+1]])
+                    c = topologic.Cluster.ByTopologies(temp_verts)
+                    w = wireByVertices([c, True])
+                    f = topologic.Face.ByExternalBoundary(w)
+                    tp_faces.append(f)
+                    i = i + n + 1
+                    if i+n+1 > len(sp_faces):
+                        break
+
+                volume = 0
+                desc = ""
+                if len(tp_faces) == 1:
+                    topology = tp_faces[0]
+                    desc = "Topologic Face"
+                    area = topologic.FaceUtility.Area(topology)
+                else:
+                    tp_object = cellComplexByFaces([tp_faces, 0.0001])
+                    if not tp_object:
+                        tp_object = cellByFaces([tp_faces, 0.0001])
+                    if not tp_object:
+                        tp_object = shellByFaces([tp_faces, 0.0001])
+                    if not tp_object:
+                        tp_object = topologic.Cluster.ByTopologies(tp_faces)
+                    if tp_object.Type() == topologic.CellComplex.Type():
+                        envelope = tp_object.ExternalBoundary()
+                        volume = round(topologic.CellUtility.Volume(envelope), 2)
                         faces = []
-                        _ = envelope.Faces(None, faces)
-                        area = 0
-                        for aFace in faces:
-                            area = area + topologic.FaceUtility.Area(aFace)
-                        area = round(area, 2)
-                            
+                        _ = tp_object.Faces(None, faces)
+                    elif tp_object.Type() == topologic.Cell.Type():
+                        envelope = tp_object
+                        volume = round(topologic.CellUtility.Volume(envelope), 2)
+                        faces = []
+                        _ = tp_object.Faces(None, faces)
+                    elif tp_object.Type() == topologic.Shell.Type():
+                        volume = 0
+                        envelope = tp_object
                     faces = []
-                    edges = []
-                    vertices = []
-                    _ = tp_object.Faces(None, faces)
-                    _ = tp_object.Edges(None, edges)
-                    _ = tp_object.Vertices(None, vertices)
-                    num_faces = len(faces)
-                    num_edges = len(edges)
-                    num_vertices = len(vertices)
-                    st.header('Topologic Analysis')
-                    col1, col2 = st.columns([2,3], gap="medium")
-                    with col1:
-                        st.subheader('Type: '+tp_object.GetTypeAsString())
-                        st.subheader('Volume: '+str(volume)+" m3")
-                        st.subheader('Area: '+str(area)+" m2")
-                        st.subheader('Faces: '+str(num_faces))
-                        st.subheader('Edges: '+str(num_edges))
-                        st.subheader('Vertices: '+str(num_vertices))
-                    with col2:
-                        st.components.v1.iframe(src="https://speckle.xyz/embed?stream="+stream.id+"&commit="+commit.id+"&transparent=false", width=400,height=600)
-                    
-                    colors = ["Select a color", "red", "green", "blue"]
-                    numeric_colors = [[1,0,0], [0,1,0], [0,0,1]]
-                    color_option = st.selectbox('Select A Color', (colors))
-                    if color_option != "Select a color":
-                        diffuse_color = numeric_colors[colors.index(color_option)-1]
-                        opacity = st.slider("Opacity", min_value=0.0, max_value=1.0, value=0.5, step=0.1)
-                        diffuse_color.append(float(opacity))
-                        # Change the Color of the Speckle Object and Create a New Commit
-                        speckle_material = to_speckle_material(diffuse_color) #Translucent Red Color
-                        last_obj["renderMaterial"] = speckle_material
-                        last_obj["opacity"] = opacity
-                        last_obj["units"] = "m"
-                        clicked = st.button("SEND TO SPECKLE")
+                    _ = envelope.Faces(None, faces)
+                    area = 0
+                    for aFace in faces:
+                        area = area + topologic.FaceUtility.Area(aFace)
+                    area = round(area, 2)
+                        
+                faces = []
+                edges = []
+                vertices = []
+                _ = tp_object.Faces(None, faces)
+                _ = tp_object.Edges(None, edges)
+                _ = tp_object.Vertices(None, vertices)
+                num_faces = len(faces)
+                num_edges = len(edges)
+                num_vertices = len(vertices)
+                st.header('Topologic Analysis')
+                col1, col2 = st.columns([2,3], gap="medium")
+                with col1:
+                    st.subheader('Type: '+tp_object.GetTypeAsString())
+                    st.subheader('Volume: '+str(volume)+" m3")
+                    st.subheader('Area: '+str(area)+" m2")
+                    st.subheader('Faces: '+str(num_faces))
+                    st.subheader('Edges: '+str(num_edges))
+                    st.subheader('Vertices: '+str(num_vertices))
+                with col2:
+                    st.components.v1.iframe(src="https://speckle.xyz/embed?stream="+stream.id+"&commit="+commit.id+"&transparent=false", width=400,height=600)
+                
+                colors = ["Select a color", "red", "green", "blue"]
+                numeric_colors = [[1,0,0], [0,1,0], [0,0,1]]
+                color_option = st.selectbox('Select A Color', (colors))
+                if color_option != "Select a color":
+                    diffuse_color = numeric_colors[colors.index(color_option)-1]
+                    opacity = st.slider("Opacity", min_value=0.0, max_value=1.0, value=0.5, step=0.1)
+                    diffuse_color.append(float(opacity))
+                    # Change the Color of the Speckle Object and Create a New Commit
+                    speckle_material = to_speckle_material(diffuse_color) #Translucent Red Color
+                    last_obj["renderMaterial"] = speckle_material
+                    last_obj["opacity"] = opacity
+                    last_obj["units"] = "m"
+                    clicked = st.button("SEND TO SPECKLE")
+                    if clicked:
+                        transport = ServerTransport(stream.id, client)
+                        obj_id = operations.send(last_obj, [transport])
+                        # now create a commit on that branch with your updated data!
+                        commit_id = client.commit.create(
+                            stream.id,
+                            obj_id,
+                            branch.name,
+                            message="This should be "+color_option+" color with opacity: "+str(opacity),
+                        )
+                        st.header('Success!')
+                        clicked = st.button("VIEW IN SPECKLE")
                         if clicked:
-                            transport = ServerTransport(stream.id, client)
-                            obj_id = operations.send(last_obj, [transport])
-                            # now create a commit on that branch with your updated data!
-                            commit_id = client.commit.create(
-                                stream.id,
-                                obj_id,
-                                branch.name,
-                                message="This should be "+color_option+" color with opacity: "+str(opacity),
-                            )
-                            st.header('Success!')
-                            clicked = st.button("VIEW IN SPECKLE")
-                            if clicked:
-                                st.components.v1.iframe(src="https://speckle.xyz/embed?stream="+stream.id+"&commit="+commit.id+"&transparent=false", width=400,height=600)
-                            
+                            st.components.v1.iframe(src="https://speckle.xyz/embed?stream="+stream.id+"&commit="+commit.id+"&transparent=false", width=400,height=600)
+                        
 
 
 
