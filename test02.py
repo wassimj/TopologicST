@@ -44,7 +44,7 @@ st.set_page_config(
 #--------------------------
 #CONTAINERS
 header = st.container()
-input = st.container()
+authenticate = st.container()
 viewer = st.container()
 report = st.container()
 graphs = st.container()
@@ -68,7 +68,7 @@ with header.expander("About this app🔽", expanded=True):
 
 #--------------------------
 #INPUTS
-with input:
+with authenticate:
 #-------
     try:
         access_code = st.experimental_get_query_params()['access_code'][0]
@@ -76,20 +76,13 @@ with input:
         access_code = ''
 
     if not access_code:
-        st.subheader("NO ACCESS CODE HAS BEEN RECEVIED YET")
-        st.subheader("Please enter your credentials")
-        #Columns for inputs
-        idCol, secretCol = st.columns([1,3])
-        #User Input boxes
-        appID = idCol.text_input("App ID", "618a698b8a", help="Speckle App ID.")
-        appSecret = secretCol.text_input("App Secret", "")
+        appID = "618a698b8a"
+        appSecret = "a406094f6"
         authorization_url = "https://speckle.xyz/authn/verify/"+appID+"/"+appSecret
-
-        if appSecret:
-            st.write(f'''<h1>
-            Please login using this <a target="_new"
-            href="{authorization_url}">url</a></h1>''',
-                unsafe_allow_html=True)
+        st.write(f'''<h2>
+        Please login using this <a target="_new"
+        href="{authorization_url}">link</a></h2>''',
+            unsafe_allow_html=True)
     else:
         st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
         response = requests.post(
@@ -115,7 +108,7 @@ with input:
 
     #-------
     #Get account from Token
-        account = get_account_from_token(access_code, "speckle.xyz")
+        account = get_account_from_token(token, "speckle.xyz")
 
         #CLIENT
         client = SpeckleClient(host="speckle.xyz")
