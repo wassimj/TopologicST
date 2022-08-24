@@ -77,9 +77,7 @@ with input:
     speckleToken = tokenCol.text_input("Speckle token", "087fea753d12f91a6f692c8ea087c1bf4112e93ed7", help="If you don't know how to get your token, take a look at this [link](https://speckle.guide/dev/tokens.html)👈")
     #-------
 
-client_id = os.environ['GOOGLE_CLIENT_ID']
-client_secret = os.environ['GOOGLE_CLIENT_SECRET']
-redirect_uri = os.environ['REDIRECT_URI']
+
     #-------
     #CLIENT
     client = SpeckleClient(host=speckleServer)
