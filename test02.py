@@ -18,13 +18,4 @@ sys.path.append(topologicPath)
 
 import topologic
 
-header = st.container()
-input = st.container()
-viewer = st.container()
-report = st.container()
-graphs = st.container()
-
-with header:
-    st.title("Topologic - Speckle - Streamlit Testing Application")
-with header.expander("About this App", expanded=True):
-    st.markdown("""This is a test application that shows you how you can use Topologic with Speckle and Streamlit.""")
+st.write("Success!")
