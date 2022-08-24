@@ -93,7 +93,7 @@ with input:
     else:
         st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
         tokens = requests.post(
-        url=f"http(s)://speckle.xyz/auth/token",
+        url=f"https://speckle.xyz/auth/token",
         json={
             "appSecret": "6a406094f6",
             "appId": "618a698b8a",
