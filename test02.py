@@ -84,20 +84,26 @@ with authenticate:
         href="{authorization_url}">link</a></h2>''',
             unsafe_allow_html=True)
     else:
-        st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
-        response = requests.post(
-        url=f"https://speckle.xyz/auth/token",
-        json={
-            "appSecret": "6a406094f6",
-            "appId": "618a698b8a",
-            "accessCode": access_code,
-            "challenge": "6a406094f6",
-        },
-    )
-        st.write("RESPONSE", response)
+        try:
+            if(token):
+                flag = False
+        except:
+            flag = True
+        if flag:
+            st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
+            response = requests.post(
+            url=f"https://speckle.xyz/auth/token",
+            json={
+                "appSecret": "6a406094f6",
+                "appId": "618a698b8a",
+                "accessCode": access_code,
+                "challenge": "6a406094f6",
+            },
+        )
+            st.write("RESPONSE", response)
 
-        response_json = response.json()
-        token = response_json['token']
+            response_json = response.json()
+            token = response_json['token']
     #-------
     #-------
     #Columns for inputs
