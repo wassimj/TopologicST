@@ -148,7 +148,7 @@ with input:
 
     #--------------------------
     #VIEWER👁‍🗨
-    with viewer:
-        st.subheader("Latest Commit👇")
-        commit2viewer(stream, commits[0])
+    #with viewer:
+        #st.subheader("Latest Commit👇")
+        #commit2viewer(stream, commits[0])
     #--------------------------
