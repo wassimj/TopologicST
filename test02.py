@@ -76,7 +76,7 @@ with input:
     appSecret = secretCol.text_input("App Secret", "")
     authorization_url = "https://speckle.xyz/authn/verify/"+appID+"/"+appSecret
     st.write(f'''<h1>
-    Please login using this <a target="_self"
+    Please login using this <a target="_new"
     href="{authorization_url}">url</a></h1>''',
          unsafe_allow_html=True)
     
