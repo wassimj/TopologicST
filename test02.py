@@ -83,7 +83,10 @@ with input:
             unsafe_allow_html=True)
     
     # Get the token part back.
-    access_code = st.experimental_get_query_params()['access_code'][0]
+    try:
+        access_code = st.experimental_get_query_params()['access_code'][0]
+    except:
+        access_code = ''
 
     st.write("ACCESS CODE FROM SPECKLE: ", access_code)
  
@@ -98,51 +101,54 @@ with input:
 
 
     #-------
-    #CLIENT
-    client = SpeckleClient(host="speckle.xyz")
-    
-    #Authenticate
-    client.authenticate_with_token(access_code)
-
     #Get account from Token
-    account = get_account_from_token(access_code, "speckle.xyz")
+    if access_code:
+        account = get_account_from_token(access_code, "speckle.xyz")
 
-    st.write(account)
-    #-------
+        #CLIENT
+        client = SpeckleClient(host="speckle.xyz")
+        
+        #Authenticate
+        client.authenticate_with_token(access_code)
 
-    #-------
-    #Streams List👇
-    streams = client.stream.list()
-    #Get Stream Names
-    streamNames = [s.name for s in streams]
-    #Dropdown for stream selection
-    sName = st.selectbox(label="Select your stream", options=streamNames, help="Select your stream from the dropdown")
-    #SELECTED STREAM ✅
-    stream = client.stream.search(sName)[0]
-    #Stream Branches 🌴
-    branches = client.branch.list(stream.id)
-    #Stream Commits 🏹
-    commits = client.commit.list(stream.id, limit=100)
-    #-------
-#--------------------------
+        
 
-#--------------------------
-#DEFINITIONS
-#create a definition to convert your list to markdown
-def listToMarkdown(list, column):
-    list = ["- " + i + " \n" for i in list]
-    list = "".join(list)
-    return column.markdown(list)
+        st.write(account)
+        #-------
 
-#create a definition that creates iframe from commit id
-def commit2viewer(stream, commit, height=400) -> str:
-    embed_src = "https://speckle.xyz/embed?stream="+stream.id+"&commit="+commit.id
-    return st.components.v1.iframe(src=embed_src, height=height)
-#--------------------------
+        #-------
+        #Streams List👇
+        streams = client.stream.list()
+        #Get Stream Names
+        streamNames = [s.name for s in streams]
+        #Dropdown for stream selection
+        sName = st.selectbox(label="Select your stream", options=streamNames, help="Select your stream from the dropdown")
+        #SELECTED STREAM ✅
+        stream = client.stream.search(sName)[0]
+        #Stream Branches 🌴
+        branches = client.branch.list(stream.id)
+        #Stream Commits 🏹
+        commits = client.commit.list(stream.id, limit=100)
+        #-------
+    #--------------------------
 
-#--------------------------
-#VIEWER👁‍🗨
-with viewer:
-    st.subheader("Latest Commit👇")
-    commit2viewer(stream, commits[0])
-#--------------------------
+    #--------------------------
+    #DEFINITIONS
+    #create a definition to convert your list to markdown
+    def listToMarkdown(list, column):
+        list = ["- " + i + " \n" for i in list]
+        list = "".join(list)
+        return column.markdown(list)
+
+    #create a definition that creates iframe from commit id
+    def commit2viewer(stream, commit, height=400) -> str:
+        embed_src = "https://speckle.xyz/embed?stream="+stream.id+"&commit="+commit.id
+        return st.components.v1.iframe(src=embed_src, height=height)
+    #--------------------------
+
+    #--------------------------
+    #VIEWER👁‍🗨
+    with viewer:
+        st.subheader("Latest Commit👇")
+        commit2viewer(stream, commits[0])
+    #--------------------------
