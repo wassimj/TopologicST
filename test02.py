@@ -98,6 +98,7 @@ with input:
             "appSecret": "6a406094f6",
             "appId": "618a698b8a",
             "accessCode": access_code,
+            "challenge": "6a406094f6",
         },
     )
         st.write(tokens)
