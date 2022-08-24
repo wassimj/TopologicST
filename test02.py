@@ -177,7 +177,7 @@ def wireByVertices(item):
 		return None
 
 
-
+st.header("Hi. Topologic works. Now we are testing Speckle which we still have to figure out. Don't mind the errors below")
 
 # create and authenticate a client
 hostString = st.text_input('Speckle Host', 'speckle.xyz')
