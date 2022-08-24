@@ -69,30 +69,24 @@ with header.expander("About this app🔽", expanded=True):
 with input:
     st.subheader("Inputs")
 #-------
-    #Columns for inputs
-    idCol, secretCol = st.columns([1,3])
-    #User Input boxes
-    appID = idCol.text_input("App ID", "618a698b8a", help="Speckle App ID.")
-    appSecret = secretCol.text_input("App Secret", "")
-    authorization_url = "https://speckle.xyz/authn/verify/"+appID+"/"+appSecret
 
-    if appSecret:
-        st.write(f'''<h1>
-        Please login using this <a target="_new"
-        href="{authorization_url}">url</a></h1>''',
-            unsafe_allow_html=True)
-    
-    # Get the token part back.
-    try:
-        access_code = st.experimental_get_query_params()['access_code'][0]
-    except:
-        access_code = ''
-
-    if access_code:
-        st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
-    else:
+    access_code = st.experimental_get_query_params()['access_code'][0]
+    if not access_code:
         st.write("NO ACCESS CODE HAS BEEN RECEVIED YET")
- 
+        #Columns for inputs
+        idCol, secretCol = st.columns([1,3])
+        #User Input boxes
+        appID = idCol.text_input("App ID", "618a698b8a", help="Speckle App ID.")
+        appSecret = secretCol.text_input("App Secret", "")
+        authorization_url = "https://speckle.xyz/authn/verify/"+appID+"/"+appSecret
+
+        if appSecret:
+            st.write(f'''<h1>
+            Please login using this <a target="_new"
+            href="{authorization_url}">url</a></h1>''',
+                unsafe_allow_html=True)
+    else:
+        st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code) 
     #-------
     #-------
     #Columns for inputs
@@ -105,7 +99,6 @@ with input:
 
     #-------
     #Get account from Token
-    if access_code:
         account = get_account_from_token(access_code, "speckle.xyz")
 
         #CLIENT
