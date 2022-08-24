@@ -102,32 +102,32 @@ with authenticate:
     #-------
 
 
+#-------
+#Get account from Token
+
+    #CLIENT
+    client = SpeckleClient(host="speckle.xyz")
+    
+    #Authenticate
+    client.authenticate_with_token(token)
+
     #-------
-    #Get account from Token
 
-        #CLIENT
-        client = SpeckleClient(host="speckle.xyz")
-        
-        #Authenticate
-        client.authenticate_with_token(token)
-
-        #-------
-
-        #-------
-        #Streams List👇
-        streams = client.stream.list()
-        #Get Stream Names
-        streamNames = [s.name for s in streams]
-        #Dropdown for stream selection
-        sName = st.selectbox(label="Select your stream", options=streamNames, help="Select your stream from the dropdown")
-        #SELECTED STREAM ✅
-        stream = client.stream.search(sName)[0]
-        #Stream Branches 🌴
-        branches = client.branch.list(stream.id)
-        #Stream Commits 🏹
-        commits = client.commit.list(stream.id, limit=100)
-        #-------
-    #--------------------------
+    #-------
+    #Streams List👇
+    streams = client.stream.list()
+    #Get Stream Names
+    streamNames = [s.name for s in streams]
+    #Dropdown for stream selection
+    sName = st.selectbox(label="Select your stream", options=streamNames, help="Select your stream from the dropdown")
+    #SELECTED STREAM ✅
+    stream = client.stream.search(sName)[0]
+    #Stream Branches 🌴
+    branches = client.branch.list(stream.id)
+    #Stream Commits 🏹
+    commits = client.commit.list(stream.id, limit=100)
+    #-------
+#--------------------------
 
     #--------------------------
     #DEFINITIONS
