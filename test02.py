@@ -67,16 +67,15 @@ with header.expander("About this app🔽", expanded=True):
 #--------------------------
 #INPUTS
 with input:
-    st.subheader("Inputs")
 #-------
-
     try:
         access_code = st.experimental_get_query_params()['access_code'][0]
     except:
         access_code = ''
-        
+
     if not access_code:
-        st.write("NO ACCESS CODE HAS BEEN RECEVIED YET")
+        st.subheader("NO ACCESS CODE HAS BEEN RECEVIED YET")
+        st.subheader("Please enter your credentials")
         #Columns for inputs
         idCol, secretCol = st.columns([1,3])
         #User Input boxes
