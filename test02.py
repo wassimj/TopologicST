@@ -21,7 +21,7 @@ import topologic
 
 v1 = topologic.Vertex.ByCoordinates(0,0,0)
 st.write("V1: Created a Topologic Vertex at", v1.X(), v1.Y(), v1.Z())
-v2 = topologic.Vertex.Bycoordinates(10,0,0)
+v2 = topologic.Vertex.ByCoordinates(10,0,0)
 st.write("V2: Created a Topologic Vertex at", v2.X(), v2.Y(), v2.Z())
 e1 = topologic.Edge.ByStartVertexEndVertex(v1, v2)
 st.write("E1: Connected V1 and V2 with a Toplogic Edge")
