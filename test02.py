@@ -81,7 +81,7 @@ with input:
          unsafe_allow_html=True)
     
     # Get the token part back.
-    access_code = st.experimental_get_query_params()['access_code']
+    access_code = st.experimental_get_query_params()['access_code'][0]
     st.write(access_code)
     #-------
     #-------
