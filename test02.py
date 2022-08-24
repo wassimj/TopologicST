@@ -1,6 +1,8 @@
 
 #--------------------------
 #IMPORT LIBRARIES
+#import requests
+import requests
 #import streamlit
 import streamlit as st
 
@@ -89,7 +91,16 @@ with input:
             href="{authorization_url}">url</a></h1>''',
                 unsafe_allow_html=True)
     else:
-        st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code) 
+        st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
+        tokens = requests.post(
+        url=f"http(s)://speckle.xyz/auth/token",
+        json={
+            "appSecret": "6a406094f6",
+            "appId": "618a698b8a",
+            "accessCode": access_code,
+        },
+    )
+        st.write(tokens)
     #-------
     #-------
     #Columns for inputs
