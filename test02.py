@@ -179,10 +179,9 @@ def wireByVertices(item):
 
 st.header("Hi. Topologic works. Now we are testing Speckle which we still have to figure out. Don't mind the errors below")
 
-secret = st.text_input("Secret Token", type="password")
+secret = st.text_input("OAUTH Secret", type="password")
 
 url = 'https://speckle.xyz/authn/verify/5c017e480f/'+secret
-st.markdown("["+url+"](Go to Speckle)", unsafe_allow_html=True)
 
 # create and authenticate a client
 hostString = st.text_input('Speckle Host', 'speckle.xyz')
