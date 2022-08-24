@@ -75,31 +75,33 @@ with input:
     appID = idCol.text_input("App ID", "618a698b8a", help="Speckle App ID.")
     appSecret = secretCol.text_input("App Secret", "")
     authorization_url = "https://speckle.xyz/authn/verify/"+appID+"/"+appSecret
-    st.write(f'''<h1>
-    Please login using this <a target="_new"
-    href="{authorization_url}">url</a></h1>''',
-         unsafe_allow_html=True)
+
+    if appSecret:
+        st.write(f'''<h1>
+        Please login using this <a target="_new"
+        href="{authorization_url}">url</a></h1>''',
+            unsafe_allow_html=True)
     
     # Get the token part back.
     access_code = st.experimental_get_query_params()['access_code'][0]
-    st.write(access_code)
+ 
     #-------
     #-------
     #Columns for inputs
-    serverCol, tokenCol = st.columns([1,3])
+    #serverCol, tokenCol = st.columns([1,3])
     #User Input boxes
-    speckleServer = serverCol.text_input("Server URL", "speckle.xyz", help="Speckle server to connect.")
-    speckleToken = tokenCol.text_input("Speckle token", access_code, help="If you don't know how to get your token, take a look at this [link](https://speckle.guide/dev/tokens.html)👈")
+    #speckleServer = serverCol.text_input("Server URL", "speckle.xyz", help="Speckle server to connect.")
+    #speckleToken = tokenCol.text_input("Speckle token", access_code, help="If you don't know how to get your token, take a look at this [link](https://speckle.guide/dev/tokens.html)👈")
     #-------
 
 
     #-------
     #CLIENT
-    client = SpeckleClient(host=speckleServer)
+    client = SpeckleClient(host="speckle.xyz")
     #Get account from Token
-    account = get_account_from_token(speckleToken, speckleServer)
+    account = get_account_from_token(access_code, "speckle.xyz")
     #Authenticate
-    #client.authenticate_with_account(account)
+    client.authenticate_with_account(account)
     #-------
 
     #-------
