@@ -101,7 +101,7 @@ with input:
             "challenge": "6a406094f6",
         },
     )
-        st.write(tokens)
+        st.write(tokens['token'])
     #-------
     #-------
     #Columns for inputs
