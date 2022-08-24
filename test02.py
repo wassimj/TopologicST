@@ -102,7 +102,7 @@ with input:
         },
     )
         response_json = response.json()
-        st.write(response_json['token'])
+        token = response_json['token']
     #-------
     #-------
     #Columns for inputs
@@ -121,7 +121,7 @@ with input:
         client = SpeckleClient(host="speckle.xyz")
         
         #Authenticate
-        client.authenticate_with_token(access_code)
+        client.authenticate_with_token(token)
 
         
 
