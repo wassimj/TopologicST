@@ -77,7 +77,7 @@ with authenticate:
 
     if not access_code:
         appID = "618a698b8a"
-        appSecret = "a406094f6"
+        appSecret = "6a406094f6"
         authorization_url = "https://speckle.xyz/authn/verify/"+appID+"/"+appSecret
         st.write(f'''<h2>
         Please login using this <a target="_new"
