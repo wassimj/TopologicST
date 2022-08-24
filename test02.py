@@ -84,6 +84,8 @@ with input:
     
     # Get the token part back.
     access_code = st.experimental_get_query_params()['access_code'][0]
+
+    st.write("ACCESS CODE FROM SPECKLE: ", access_code)
  
     #-------
     #-------
@@ -104,7 +106,7 @@ with input:
 
     #Get account from Token
     account = get_account_from_token(access_code, "speckle.xyz")
-    
+
     st.write(account)
     #-------
 
