@@ -70,7 +70,11 @@ with input:
     st.subheader("Inputs")
 #-------
 
-    access_code = st.experimental_get_query_params()['access_code'][0]
+    try:
+        access_code = st.experimental_get_query_params()['access_code'][0]
+    except:
+        access_code = ''
+        
     if not access_code:
         st.write("NO ACCESS CODE HAS BEEN RECEVIED YET")
         #Columns for inputs
