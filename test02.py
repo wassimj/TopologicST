@@ -82,55 +82,56 @@ with authenticate:
     st.write(st.experimental_get_query_params())
     access_code = st.experimental_get_query_params()['access_code'][0]
     st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
-    response = requests.post(
-    url=f"https://speckle.xyz/auth/token",
-    json={
-        "appSecret": "6a406094f6",
-        "appId": "618a698b8a",
-        "accessCode": access_code,
-        "challenge": "6a406094f6",
-    },
-)
-    st.write("RESPONSE", response)
+    if access_code:
+        response = requests.post(
+        url=f"https://speckle.xyz/auth/token",
+        json={
+            "appSecret": "6a406094f6",
+            "appId": "618a698b8a",
+            "accessCode": access_code,
+            "challenge": "6a406094f6",
+        },
+    )
+        st.write("RESPONSE", response)
 
-    response_json = response.json()
-    token = response_json['token']
-    #-------
-    #-------
-    #Columns for inputs
-    #serverCol, tokenCol = st.columns([1,3])
-    #User Input boxes
-    #speckleServer = serverCol.text_input("Server URL", "speckle.xyz", help="Speckle server to connect.")
-    #speckleToken = tokenCol.text_input("Speckle token", access_code, help="If you don't know how to get your token, take a look at this [link](https://speckle.guide/dev/tokens.html)👈")
-    #-------
+        response_json = response.json()
+        token = response_json['token']
+        #-------
+        #-------
+        #Columns for inputs
+        #serverCol, tokenCol = st.columns([1,3])
+        #User Input boxes
+        #speckleServer = serverCol.text_input("Server URL", "speckle.xyz", help="Speckle server to connect.")
+        #speckleToken = tokenCol.text_input("Speckle token", access_code, help="If you don't know how to get your token, take a look at this [link](https://speckle.guide/dev/tokens.html)👈")
+        #-------
 
-
-#-------
-#Get account from Token
-
-    #CLIENT
-    client = SpeckleClient(host="speckle.xyz")
-    
-    #Authenticate
-    client.authenticate_with_token(token)
 
     #-------
+    #Get account from Token
 
-    #-------
-    #Streams List👇
-    streams = client.stream.list()
-    #Get Stream Names
-    streamNames = [s.name for s in streams]
-    #Dropdown for stream selection
-    sName = st.selectbox(label="Select your stream", options=streamNames, help="Select your stream from the dropdown")
-    #SELECTED STREAM ✅
-    stream = client.stream.search(sName)[0]
-    #Stream Branches 🌴
-    branches = client.branch.list(stream.id)
-    #Stream Commits 🏹
-    commits = client.commit.list(stream.id, limit=100)
-    #-------
-#--------------------------
+        #CLIENT
+        client = SpeckleClient(host="speckle.xyz")
+        
+        #Authenticate
+        client.authenticate_with_token(token)
+
+        #-------
+
+        #-------
+        #Streams List👇
+        streams = client.stream.list()
+        #Get Stream Names
+        streamNames = [s.name for s in streams]
+        #Dropdown for stream selection
+        sName = st.selectbox(label="Select your stream", options=streamNames, help="Select your stream from the dropdown")
+        #SELECTED STREAM ✅
+        stream = client.stream.search(sName)[0]
+        #Stream Branches 🌴
+        branches = client.branch.list(stream.id)
+        #Stream Commits 🏹
+        commits = client.commit.list(stream.id, limit=100)
+        #-------
+    #--------------------------
 
     #--------------------------
     #DEFINITIONS
