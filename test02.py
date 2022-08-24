@@ -92,7 +92,7 @@ with input:
                 unsafe_allow_html=True)
     else:
         st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
-        tokens = requests.post(
+        response = requests.post(
         url=f"https://speckle.xyz/auth/token",
         json={
             "appSecret": "6a406094f6",
@@ -101,7 +101,7 @@ with input:
             "challenge": "6a406094f6",
         },
     )
-        st.write(tokens['token'])
+        st.write(response.text)
     #-------
     #-------
     #Columns for inputs
