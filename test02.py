@@ -70,41 +70,28 @@ with header.expander("About this app🔽", expanded=True):
 #INPUTS
 with authenticate:
 #-------
-    try:
-        access_code = st.experimental_get_query_params()['access_code'][0]
-    except:
-        access_code = ''
+    appID = "618a698b8a"
+    appSecret = "6a406094f6"
+    authorization_url = "https://speckle.xyz/authn/verify/"+appID+"/"+appSecret
+    st.write(f'''<h2>
+    Please login using this <a target="_new"
+    href="{authorization_url}">link</a></h2>''',
+        unsafe_allow_html=True)
+    access_code = st.experimental_get_query_params()['access_code'][0]
+    st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
+    response = requests.post(
+    url=f"https://speckle.xyz/auth/token",
+    json={
+        "appSecret": "6a406094f6",
+        "appId": "618a698b8a",
+        "accessCode": access_code,
+        "challenge": "6a406094f6",
+    },
+)
+    st.write("RESPONSE", response)
 
-    if not access_code:
-        appID = "618a698b8a"
-        appSecret = "6a406094f6"
-        authorization_url = "https://speckle.xyz/authn/verify/"+appID+"/"+appSecret
-        st.write(f'''<h2>
-        Please login using this <a target="_new"
-        href="{authorization_url}">link</a></h2>''',
-            unsafe_allow_html=True)
-    else:
-        try:
-            if(token):
-                flag = False
-        except:
-            flag = True
-        st.write("FLAG", flag)
-        if flag:
-            st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
-            response = requests.post(
-            url=f"https://speckle.xyz/auth/token",
-            json={
-                "appSecret": "6a406094f6",
-                "appId": "618a698b8a",
-                "accessCode": access_code,
-                "challenge": "6a406094f6",
-            },
-        )
-            st.write("RESPONSE", response)
-
-            response_json = response.json()
-            token = response_json['token']
+    response_json = response.json()
+    token = response_json['token']
     #-------
     #-------
     #Columns for inputs
@@ -117,7 +104,6 @@ with authenticate:
 
     #-------
     #Get account from Token
-        account = get_account_from_token(token, "speckle.xyz")
 
         #CLIENT
         client = SpeckleClient(host="speckle.xyz")
@@ -125,9 +111,6 @@ with authenticate:
         #Authenticate
         client.authenticate_with_token(token)
 
-        
-
-        st.write(account)
         #-------
 
         #-------
