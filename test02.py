@@ -28,3 +28,6 @@ st.write("E1: Connected V1 and V2 with a Toplogic Edge")
 c1 = e1.Centroid()
 st.write("C1: The centroid of the Topologic Edge is at", c1.X(), c1.Y(), c1.Z())
 
+st.write("Trying to import specklepy")
+import specklepy
+st.write("Success!")
