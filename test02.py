@@ -94,8 +94,13 @@ try:
     
 except:
     challenge = ''
+# Get Access Code
+try:
+    access_code = st.experimental_get_query_params()['access_code'][0]
+except:
+    access_code = ''
 
-if not challenge:
+if not challenge or not access_code:
     st.write('No challenge string is stored locally. Creating a new random challenge string')
     challenge = createRandomChallenge()
 
@@ -109,15 +114,9 @@ if not challenge:
     st.write("Click this to Verify:", verify_url)
 else:
     st.write('Found challenge string stored locally: ', challenge)
+    st.write('Found access code stored locally: ', access_code)
 
 #--------------------------
-# Get Access Code
-try:
-    access_code = st.experimental_get_query_params()['access_code'][0]
-except:
-    access_code = ''
-
-st.write("ACCESS CODE:", access_code)
 if access_code:
     tokens = requests.post(
             url=f"https://speckle.xyz/authn/token",
