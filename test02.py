@@ -140,9 +140,9 @@ if access_code and challenge:
         )
     st.write("TOKENS:", tokens)
     token = tokens.json()['token']
-    st.write('Emptying localStorage')
-    status = conn.setLocalStorageVal(key='challenge', val='')
-    st.write('Status: ' + status)
+    #st.write('Emptying localStorage')
+    #status = conn.setLocalStorageVal(key='challenge', val='')
+    #st.write('Status: ' + status)
     st.write('TOKEN: ', token)
     if token:
         account = get_account_from_token("speckle.xyz", token)
@@ -158,7 +158,7 @@ if access_code and challenge:
             (stream_names))
         if option != "Select a stream":
             stream = streams[stream_names.index(option)-1]
-        st.write(stream_names.index(option)-1)
+            st.write(option)
     else:
         st.write("Process Failed. Could not get account")
 
