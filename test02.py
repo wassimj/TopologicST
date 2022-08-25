@@ -119,20 +119,17 @@ token = ''
 if access_code:
     challenge = conn.getLocalStorageVal(key='challenge')
     st.write("Local Storage Challenge: ", challenge)
-    response = requests.post(
-        url=f"https://speckle.xyz/authn/token",
-        json={
-            "appSecret": appID,
-            "appId": appSecret,
-            "accessCode": access_code,
-            "challenge": challenge,
-        },)
+    token_url="https://speckle.xyz/authn/token/"+appID+"/"+appSecret+"/?challenge="+challenge
+    response = requests.post(token_url)
     st.write("Response Received: ", response)
     try:
         response_json = response.json()
         st.write(response_json)
         token = response_json['token']
     except:
+        st.write('Emptying localStorage')
+        ret = conn.setLocalStorageVal(key='challenge', val='')
+        st.write('ret: ' + ret)
         st.write("Received a BAD response. No token")
         token = ''
 
@@ -143,6 +140,3 @@ if token:
 else:
     st.write("Process Failed. Could not get account")
 
-st.write('Emptying localStorage')
-ret = conn.setLocalStorageVal(key='challenge', val='')
-st.write('ret: ' + ret)
