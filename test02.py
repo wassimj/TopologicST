@@ -80,7 +80,7 @@ with header.expander("About this app🔽", expanded=True):
     )
 #--------------------------
 
-# This needs to be changed into text input from the user
+# WARNING: This needs to be changed into text input from the user
 appID = "618a698b8a"
 appSecret = "6a406094f6"
 
@@ -94,44 +94,34 @@ try:
 except:
     challenge = ''
 
-st.write('First test if Challenge exists: ', challenge)
-
-# If there is no challenge string stored, create it
 if not challenge:
+    st.write('No challenge string is stored locally. Creating a new random challenge string')
     challenge = createRandomChallenge()
 
-    st.write('setting into localStorage')
-    ret = conn.setLocalStorageVal(key='challenge', val=challenge)
-    st.write('ret: ' + ret)
+    st.write('Saving challenge string locally')
+    status = conn.setLocalStorageVal(key='challenge', val=challenge)
+    st.write('Status: ' + status)
 
     # Verify the app with the challenge
-    st.write("Verifying the App with the Challenge")
+    st.write("Verifying the App with the challenge string")
     verify_url="https://speckle.xyz/authn/verify/"+appID+"/"+appSecret+"/?challenge="+challenge
     st.write("Click this to Verify:", verify_url)
 
+#--------------------------
+# Get Access Code
+token_url="https://speckle.xyz/authn/token/"+appID+"/"+appSecret+"/?challenge="+challenge
+response = requests.post(token_url)
+st.write("Response Received: ", response)
 try:
-    access_code = st.experimental_get_query_params()['access_code'][0]
-    st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
+    response_json = response.json()
+    st.write(response_json)
+    token = response_json['token']
 except:
-    access_code = ''
-
-token = ''
-if access_code:
-    challenge = conn.getLocalStorageVal(key='challenge')
-    st.write("Local Storage Challenge: ", challenge)
-    token_url="https://speckle.xyz/authn/token/"+appID+"/"+appSecret+"/?challenge="+challenge
-    response = requests.post(token_url)
-    st.write("Response Received: ", response)
-    try:
-        response_json = response.json()
-        st.write(response_json)
-        token = response_json['token']
-    except:
-        st.write('Emptying localStorage')
-        ret = conn.setLocalStorageVal(key='challenge', val='')
-        st.write('ret: ' + ret)
-        st.write("Received a BAD response. No token")
-        token = ''
+    st.write('Emptying localStorage')
+    status = conn.setLocalStorageVal(key='challenge', val='')
+    st.write('Status: ' + status)
+    st.write("Received a BAD response. No token")
+    token = ''
 
 st.write('TOKEN: ', token)
 if token:
