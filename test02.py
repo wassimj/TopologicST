@@ -46,6 +46,10 @@ def createRandomChallenge():
         random.shuffle(masterlist)
         masterlist = random.sample(masterlist, random.randint(math.floor(len(masterlist)*0.5),len(masterlist)))
         return ''.join(masterlist)
+
+def getStreams(client):
+    return client.stream.list()
+
 #--------------------------
 
 #--------------------------
