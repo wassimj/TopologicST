@@ -31,10 +31,21 @@ import topologic
 #specklepy libraries
 from specklepy.api.client import SpeckleClient
 from specklepy.api.credentials import get_account_from_token
-#import pandas
-import pandas as pd
-#import plotly express
-import plotly.express as px
+
+from streamlit_ws_localstorage import injectWebsocketCode, getOrCreateUID
+#--------------------------
+
+#--------------------------
+#DEFINITIONS
+def createRandomChallenge():
+        lowercase = list(string.ascii_lowercase)
+        uppercase = list(string.ascii_uppercase)
+        punctuation = ['(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?']
+        digits = list(string.digits)
+        masterlist = lowercase+uppercase+punctuation+digits
+        random.shuffle(masterlist)
+        masterlist = random.sample(masterlist, random.randint(math.floor(len(masterlist)*0.5),len(masterlist)))
+        return ''.join(masterlist)
 #--------------------------
 
 #--------------------------
@@ -49,38 +60,27 @@ st.set_page_config(
 #CONTAINERS
 header = st.container()
 authenticate = st.container()
-viewer = st.container()
-report = st.container()
-graphs = st.container()
 #--------------------------
 
-def createRandomChallenge():
-        lowercase = list(string.ascii_lowercase)
-        uppercase = list(string.ascii_uppercase)
-        punctuation = ['(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?']
-        digits = list(string.digits)
-        masterlist = lowercase+uppercase+punctuation+digits
-        random.shuffle(masterlist)
-        masterlist = random.sample(masterlist, random.randint(math.floor(len(masterlist)*0.5),len(masterlist)))
-        return ''.join(masterlist)
+
 
 #--------------------------
 #HEADER
 #Page Header
 with header:
-    st.title("Speckle Stream Activity App📈")
+    st.title("Topologic Speckle Testing App📈")
 #About info
 with header.expander("About this app🔽", expanded=True):
     st.markdown(
-        """This is a beginner web app developed using Streamlit. My goal was to understand how to interact with Speckle API using SpecklePy, 
-        analyze what is received and its structure. This was easy and fun experiment.
+        """This is a beginner web app developed using Topologic, Speckle, and Streamlit. My goal was to use Streamlit to deploy Topologic as server-based app, understand how to interact with Speckle API using SpecklePy, 
+        analyze what is received and its structure. This was NOT and easy (but fun) experiment.
 
-        **Topologic works! Now I have moved on to testing Speckle. Please ignore any errors that appear below**
+        Topologic works! Now I have moved on to testing Speckle. Please ignore any errors that appear below.
         """
     )
 #--------------------------
 
-from streamlit_ws_localstorage import injectWebsocketCode, getOrCreateUID
+
 
 # Main call to the api, returns a communication object
 conn = injectWebsocketCode(hostPort='linode.liquidco.in', uid=getOrCreateUID())
@@ -91,31 +91,31 @@ st.write('setting into localStorage')
 ret = conn.setLocalStorageVal(key='challenge', val=challenge)
 st.write('ret: ' + ret)
 
-
-
-
-
-#--------------------------
-#INPUTS
-with authenticate:
-#-------
-    appID = "618a698b8a"
-    
-    authorization_url = "https://speckle.xyz/authn/verify/"+appID+"/"+challenge
-    st.write(f'''<h2>
+st.write("Registering the App with the Challenge")
+register_url="https://speckle.xyz/auth/local/register?challenge="+challenge
+response = requests.post(url=register_url)
+st.write("REGISTRATION RESPONSE: ", response)
+response = requests.post(url=authorization_url)
+appID = "618a698b8a"
+appSecret = "6a406094f6"
+authorization_url = "https://speckle.xyz/authn/verify/"+appID+"/"+challenge
+st.write(f'''<h2>
     Please login using this <a target="_new"
     href="{authorization_url}">link</a></h2>''',
         unsafe_allow_html=True)
-    response = requests.post(url=authorization_url)
-    st.write("RESPONSE: ", response)
-    st.write(st.experimental_get_query_params())
+response = requests.post(url=authorization_url)
+st.write("RESPONSE: ", response)
+st.write(st.experimental_get_query_params())
+try:
     access_code = st.experimental_get_query_params()['access_code'][0]
     st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
-    if access_code:
-        st.write('getting challenge from localStorage')
-        challenge = conn.getLocalStorageVal(key='challenge')
-        st.write('challenge: ' + challenge)
-        response = requests.post(
+except:
+    access_code = ''
+
+token = 'NONE'
+if access_code:
+    challenge = conn.getLocalStorageVal(key='challenge')
+    response = requests.post(
         url=f"https://speckle.xyz/auth/token",
         json={
             "appSecret": "6a406094f6",
@@ -123,65 +123,9 @@ with authenticate:
             "accessCode": access_code,
             "challenge": challenge,
         },
-    )
-        st.write("RESPONSE", response)
+    response_json = response.json()
+    token = response_json['token']
 
-        response_json = response.json()
-        token = response_json['token']
-        #-------
-        #-------
-        #Columns for inputs
-        #serverCol, tokenCol = st.columns([1,3])
-        #User Input boxes
-        #speckleServer = serverCol.text_input("Server URL", "speckle.xyz", help="Speckle server to connect.")
-        #speckleToken = tokenCol.text_input("Speckle token", access_code, help="If you don't know how to get your token, take a look at this [link](https://speckle.guide/dev/tokens.html)👈")
-        #-------
-
-
-    #-------
-    #Get account from Token
-
-        #CLIENT
-        client = SpeckleClient(host="speckle.xyz")
-        
-        #Authenticate
-        client.authenticate_with_token(token)
-
-        #-------
-
-        #-------
-        #Streams List👇
-        streams = client.stream.list()
-        #Get Stream Names
-        streamNames = [s.name for s in streams]
-        #Dropdown for stream selection
-        sName = st.selectbox(label="Select your stream", options=streamNames, help="Select your stream from the dropdown")
-        #SELECTED STREAM ✅
-        stream = client.stream.search(sName)[0]
-        #Stream Branches 🌴
-        branches = client.branch.list(stream.id)
-        #Stream Commits 🏹
-        commits = client.commit.list(stream.id, limit=100)
-        #-------
-    #--------------------------
-
-    #--------------------------
-    #DEFINITIONS
-    #create a definition to convert your list to markdown
-    def listToMarkdown(list, column):
-        list = ["- " + i + " \n" for i in list]
-        list = "".join(list)
-        return column.markdown(list)
-
-    #create a definition that creates iframe from commit id
-    def commit2viewer(stream, commit, height=400) -> str:
-        embed_src = "https://speckle.xyz/embed?stream="+stream.id+"&commit="+commit.id
-        return st.components.v1.iframe(src=embed_src, height=height)
-    #--------------------------
-
-    #--------------------------
-    #VIEWER👁‍🗨
-    #with viewer:
-        #st.subheader("Latest Commit👇")
-        #commit2viewer(stream, commits[0])
-    #--------------------------
+st.write('TOKEN: ', token)
+account = get_account_from_token("speckle.xyz", token)
+st.write("ACCOUNT", account)
