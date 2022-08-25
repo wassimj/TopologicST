@@ -3,8 +3,12 @@
 #IMPORT LIBRARIES
 #import requests
 import requests
+import random
+import math
+import string
 #import streamlit
 import streamlit as st
+from streamlit_ws_localstorage import injectWebsocketCode, getOrCreateUID
 
 # import topologic
 # This requires some checking of the used OS platform to load the correct version of Topologic
@@ -66,13 +70,30 @@ with header.expander("About this app🔽", expanded=True):
     )
 #--------------------------
 
+from streamlit_ws_localstorage import injectWebsocketCode, getOrCreateUID
+
+# Main call to the api, returns a communication object
+conn = injectWebsocketCode(hostPort='linode.liquidco.in', uid=getOrCreateUID())
+
+challenge = createRandomChallenge()
+
+st.write('setting into localStorage')
+ret = conn.setLocalStorageVal(key='challenge', val=challenge)
+st.write('ret: ' + ret)
+
+st.write('getting from localStorage')
+ret = conn.getLocalStorageVal(key='challenge')
+st.write('ret: ' + ret)
+
+
+
 #--------------------------
 #INPUTS
 with authenticate:
 #-------
     appID = "618a698b8a"
-    appSecret = "6a406094f6"
-    authorization_url = "https://speckle.xyz/authn/verify/"+appID+"/"+appSecret
+    
+    authorization_url = "https://speckle.xyz/authn/verify/"+appID+"/"+challenge
     st.write(f'''<h2>
     Please login using this <a target="_new"
     href="{authorization_url}">link</a></h2>''',
@@ -145,6 +166,16 @@ with authenticate:
     def commit2viewer(stream, commit, height=400) -> str:
         embed_src = "https://speckle.xyz/embed?stream="+stream.id+"&commit="+commit.id
         return st.components.v1.iframe(src=embed_src, height=height)
+    
+    def createRandomChallenge():
+        lowercase = list(string.ascii_lowercase)
+        uppercase = list(string.ascii_uppercase)
+        punctuation = ['(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?']
+        digits = list(string.digits)
+        masterlist = lowercase+uppercase+punctuation+digits
+        random.shuffle(masterlist)
+        masterlist = random.sample(masterlist, random.randint(math.floor(len(masterlist)*0.5),len(masterlist)))
+        return ''.join(masterlist)
     #--------------------------
 
     #--------------------------
