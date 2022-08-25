@@ -91,6 +91,7 @@ conn = injectWebsocketCode(hostPort='linode.liquidco.in', uid=getOrCreateUID())
 # Test if there is already a locally stored challenge
 try:
     challenge = conn.getLocalStorageVal(key='challenge')
+    st.write('Found challenge string stored locally: ', challenge)
 except:
     challenge = ''
 
