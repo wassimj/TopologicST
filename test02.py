@@ -97,11 +97,17 @@ except:
 # Get Access Code
 try:
     access_code = st.experimental_get_query_params()['access_code'][0]
+    st.write('Saving access code locally')
+    status = conn.setLocalStorageVal(key='access_code', val=access_code)
+    st.write('Status: ' + status)
 except:
-    access_code = ''
+    try:
+        access_code = conn.getLocalStorageVal(key='access_code')
+    except:
+        access_code = ''
 
 if not challenge or not access_code:
-    st.write('No challenge string is stored locally. Creating a new random challenge string')
+    st.write('No challenge string or no access code are stored locally. Creating a new random challenge string')
     challenge = createRandomChallenge()
 
     st.write('Saving challenge string locally')
@@ -119,8 +125,9 @@ else:
 
 #--------------------------
 if access_code:
+    st.write('Status: ' + status)
     tokens = requests.post(
-            url=f"https://speckle.xyz/authn/token",
+            url=f"https://speckle.xyz/auth/token",
             json={
                 "appSecret": appSecret,
                 "appId": appID,
