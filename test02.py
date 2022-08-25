@@ -122,7 +122,7 @@ if access_code:
             "appId": "618a698b8a",
             "accessCode": access_code,
             "challenge": challenge,
-        },
+        },)
     response_json = response.json()
     token = response_json['token']
 
