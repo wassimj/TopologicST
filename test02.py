@@ -26,17 +26,6 @@ sys.path.append(topologicPath)
 import topologic
 
 
-st.subheader("Testing Topologic")
-v1 = topologic.Vertex.ByCoordinates(0,0,0)
-st.write("V1: Created a Vertex at: X ", v1.X(), " Y ", v1.Y(), " Z ", v1.Z())
-v2 = topologic.Vertex.ByCoordinates(10,0,0)
-st.write("V2: Created a Vertex at: X ", v2.X(), " Y ", v2.Y(), " Z ", v2.Z())
-e1 = topologic.Edge.ByStartVertexEndVertex(v1, v2)
-l1 = round(topologic.EdgeUtility.Length(e1), 2)
-st.write("E1: Connected V1 and V2 with and Edge. The edge's length is: ", l1)
-c1 = e1.Centroid()
-st.write("C1: Created a Centroid of edge E1. Its coordinates are: X ", c1.X(), " Y ", c1.Y(), " Z ", c1.Z())
-
 #specklepy libraries
 from specklepy.api.client import SpeckleClient
 from specklepy.api.credentials import get_account_from_token
@@ -64,17 +53,29 @@ def getStreams(client):
 #--------------------------
 #PAGE CONFIG
 st.set_page_config(
-    page_title="Speckle Stream Activity",
+    page_title="Topologic Speckle Test Application",
     page_icon="📊"
 )
 #--------------------------
 
 #--------------------------
 #CONTAINERS
+topologicContainer = st.container
 header = st.container()
 authenticate = st.container()
 #--------------------------
 
+with topologicContainer:
+    st.subheader("Testing Topologic")
+    v1 = topologic.Vertex.ByCoordinates(0,0,0)
+    st.write("V1: Created a Vertex at: X ", v1.X(), " Y ", v1.Y(), " Z ", v1.Z())
+    v2 = topologic.Vertex.ByCoordinates(10,0,0)
+    st.write("V2: Created a Vertex at: X ", v2.X(), " Y ", v2.Y(), " Z ", v2.Z())
+    e1 = topologic.Edge.ByStartVertexEndVertex(v1, v2)
+    l1 = round(topologic.EdgeUtility.Length(e1), 2)
+    st.write("E1: Connected V1 and V2 with and Edge. The edge's length is: ", l1)
+    c1 = e1.Centroid()
+    st.write("C1: Created a Centroid of edge E1. Its coordinates are: X ", c1.X(), " Y ", c1.Y(), " Z ", c1.Z())
 
 
 #--------------------------
