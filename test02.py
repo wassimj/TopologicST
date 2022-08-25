@@ -109,15 +109,17 @@ except:
 token = ''
 if access_code:
     challenge = conn.getLocalStorageVal(key='challenge')
+    st.write("Local Storage Challenge: ", challenge)
     response = requests.post(
-        url=f"https://speckle.xyz/auth/token",
+        url=f"https://speckle.xyz/authn/token",
         json={
-            "appSecret": "6a406094f6",
-            "appId": "618a698b8a",
+            "appSecret": appID,
+            "appId": appSecret,
             "accessCode": access_code,
             "challenge": challenge,
         },)
     response_json = response.json()
+    st.write(response_json)
     token = response_json['token']
 
 st.write('TOKEN: ', token)
