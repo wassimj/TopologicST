@@ -94,18 +94,19 @@ appID = "618a698b8a"
 appSecret = "6a406094f6"
 st.write("Verifying the App with the Challenge")
 verify_url="https://speckle.xyz/authn/verify/"+appID+"/"+appSecret+"/?challenge="+challenge
-response = requests.post(url=verify_url)
-st.write("REGISTRATION RESPONSE: ", response)
-response = requests.post(url=verify_url)
+st.write("Click this to Verify:", verify_url)
+#response = requests.post(url=verify_url)
+#st.write("REGISTRATION RESPONSE: ", response)
+#response = requests.post(url=verify_url)
 
-st.write("RESPONSE: ", response)
+#st.write("RESPONSE: ", response)
 try:
     access_code = st.experimental_get_query_params()['access_code'][0]
     st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
 except:
     access_code = ''
 
-token = 'NONE'
+token = ''
 if access_code:
     challenge = conn.getLocalStorageVal(key='challenge')
     response = requests.post(
@@ -120,5 +121,8 @@ if access_code:
     token = response_json['token']
 
 st.write('TOKEN: ', token)
-account = get_account_from_token("speckle.xyz", token)
-st.write("ACCOUNT", account)
+if token:
+    account = get_account_from_token("speckle.xyz", token)
+    st.write("ACCOUNT", account)
+else:
+    st.write("Process Failed. Could not get account")
