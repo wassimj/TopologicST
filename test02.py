@@ -116,22 +116,28 @@ if not challenge or not access_code:
 
     # Verify the app with the challenge
     st.write("Verifying the App with the challenge string")
-    #verify_url="https://speckle.xyz/authn/verify/"+appID+"/"+appSecret+"/?challenge="+challenge
-    verify_url="https://speckle.xyz/authn/verify/"+appID+"/"+appSecret
-    st.write("Click this to Verify:", verify_url)
+    response = requests.post(
+    url=f"HTTP(s)://{{HOST_URL}}/auth/local/register?challenge={{CODE_CHALLENGE}}",
+    data=user,
+)
+    response="https://speckle.xyz/auth/"+appID+"/"+appSecret+"/register?challenge="+challenge
+    access_code = response.url.split("access_code=")[1]
+    st.write("ACCESS CODE:", access_code)
+    #st.write("Click this to Verify:", verify_url)
 else:
     st.write('Found challenge string stored locally: ', challenge)
     st.write('Found access code stored locally: ', access_code)
 
 #--------------------------
-if access_code:
-    st.write('Status: ' + status)
+if access_code and challenge:
+    st.write("Attempting to get token from access code and challenge")
     tokens = requests.post(
             url=f"https://speckle.xyz/auth/token",
             json={
                 "appSecret": appSecret,
                 "appId": appID,
                 "accessCode": access_code,
+                "challenge": challenge,
             },
         )
     st.write("TOKENS:", tokens)
