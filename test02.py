@@ -80,26 +80,35 @@ with header.expander("About this app🔽", expanded=True):
     )
 #--------------------------
 
+# This needs to be changed into text input from the user
+appID = "618a698b8a"
+appSecret = "6a406094f6"
 
-
+# This allows us to store variables locally through websockets
 # Main call to the api, returns a communication object
 conn = injectWebsocketCode(hostPort='linode.liquidco.in', uid=getOrCreateUID())
 
-challenge = createRandomChallenge()
+# Test if there is already a locally stored challenge
+try:
+    challenge = conn.getLocalStorageVal(key='challenge')
+except:
+    challenge = ''
 
-st.write('setting into localStorage')
-ret = conn.setLocalStorageVal(key='challenge', val=challenge)
-st.write('ret: ' + ret)
-appID = "618a698b8a"
-appSecret = "6a406094f6"
-st.write("Verifying the App with the Challenge")
-verify_url="https://speckle.xyz/authn/verify/"+appID+"/"+appSecret+"/?challenge="+challenge
-st.write("Click this to Verify:", verify_url)
-#response = requests.post(url=verify_url)
-#st.write("REGISTRATION RESPONSE: ", response)
-#response = requests.post(url=verify_url)
+st.write('First test if Challenge exists: ', challenge)
 
-#st.write("RESPONSE: ", response)
+# If there is no challenge string stored, create it
+if not challenge:
+    challenge = createRandomChallenge()
+
+    st.write('setting into localStorage')
+    ret = conn.setLocalStorageVal(key='challenge', val=challenge)
+    st.write('ret: ' + ret)
+
+    # Verify the app with the challenge
+    st.write("Verifying the App with the Challenge")
+    verify_url="https://speckle.xyz/authn/verify/"+appID+"/"+appSecret+"/?challenge="+challenge
+    st.write("Click this to Verify:", verify_url)
+
 try:
     access_code = st.experimental_get_query_params()['access_code'][0]
     st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
