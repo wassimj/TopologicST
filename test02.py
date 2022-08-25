@@ -60,7 +60,7 @@ st.set_page_config(
 
 #--------------------------
 #CONTAINERS
-topologicContainer = st.container
+topologicContainer = st.container()
 header = st.container()
 authenticate = st.container()
 #--------------------------
