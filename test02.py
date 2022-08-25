@@ -143,7 +143,7 @@ if access_code and challenge:
     if token:
         account = get_account_from_token("speckle.xyz", token)
         st.write("ACCOUNT", account)
-        client = SpeckleClient(host=hostString)
+        client = SpeckleClient(host="speckle.xyz")
         client.authenticate_with_token(token)
         streams = getStreams(client)
         stream_names = ["Select a stream"]
