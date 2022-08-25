@@ -110,7 +110,8 @@ if not challenge or not access_code:
 
     # Verify the app with the challenge
     st.write("Verifying the App with the challenge string")
-    verify_url="https://speckle.xyz/authn/verify/"+appID+"/"+appSecret+"/?challenge="+challenge
+    #verify_url="https://speckle.xyz/authn/verify/"+appID+"/"+appSecret+"/?challenge="+challenge
+    verify_url="https://speckle.xyz/authn/verify/"+appID+"/"+appSecret
     st.write("Click this to Verify:", verify_url)
 else:
     st.write('Found challenge string stored locally: ', challenge)
@@ -124,7 +125,6 @@ if access_code:
                 "appSecret": appSecret,
                 "appId": appID,
                 "accessCode": access_code,
-                "challenge": challenge,
             },
         )
     st.write("TOKENS:", tokens)
