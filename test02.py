@@ -116,7 +116,7 @@ if not challenge or not access_code:
 
     # Verify the app with the challenge
     st.write("Verifying the App with the challenge string")
-    verify_url="https://speckle.xyz/auth/"+appID+"/"+appSecret+"/register?challenge="+challenge
+    verify_url="https://speckle.xyz/auth/"+appID+"/"+challenge
     st.write("Click this to Verify:", verify_url)
 else:
     st.write('Found challenge string stored locally: ', challenge)
