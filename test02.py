@@ -117,6 +117,7 @@ if not challenge or not access_code:
     # Verify the app with the challenge
     st.write("Verifying the App with the challenge string")
     response=requests.post(url="https://speckle.xyz/auth/"+appID+"/"+appSecret+"/register?challenge="+challenge)
+    st.write("Response", response)
     access_code = response.url.split("access_code=")[1]
     st.write("ACCESS CODE:", access_code)
     #st.write("Click this to Verify:", verify_url)
