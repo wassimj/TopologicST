@@ -138,3 +138,7 @@ if token:
     st.write("ACCOUNT", account)
 else:
     st.write("Process Failed. Could not get account")
+
+st.write('Emptying localStorage')
+ret = conn.setLocalStorageVal(key='challenge', val='')
+st.write('ret: ' + ret)
