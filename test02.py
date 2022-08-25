@@ -143,6 +143,18 @@ if access_code and challenge:
     if token:
         account = get_account_from_token("speckle.xyz", token)
         st.write("ACCOUNT", account)
+        client = SpeckleClient(host=hostString)
+        client.authenticate_with_token(token)
+        streams = getStreams(client)
+        stream_names = ["Select a stream"]
+        for aStream in streams:
+            stream_names.append(aStream.name)
+        option = st.selectbox(
+            'Select A Stream',
+            (stream_names))
+        if option != "Select a stream":
+            stream = streams[stream_names.index(option)-1]
+        st.write(stream_names.index(option)-1)
     else:
         st.write("Process Failed. Could not get account")
 
