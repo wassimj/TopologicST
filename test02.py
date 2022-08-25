@@ -109,9 +109,11 @@ if not challenge:
 
 #--------------------------
 # Get Access Code
-token_url="https://speckle.xyz/authn/token/"+appID+"/"+appSecret+"/?challenge="+challenge
+token_url="https://speckle.xyz/authn/token/"+appID+"/"+appSecret
 response = requests.post(token_url)
-st.write("Response Received: ", response)
+st.write(response.json())
+access_code = response.json()['access_code']
+st.write("Response Received: ", access_code)
 try:
     response_json = response.json()
     st.write(response_json)
