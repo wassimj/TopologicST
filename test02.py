@@ -40,9 +40,9 @@ from streamlit_ws_localstorage import injectWebsocketCode, getOrCreateUID
 def createRandomChallenge():
         lowercase = list(string.ascii_lowercase)
         uppercase = list(string.ascii_uppercase)
-        punctuation = ['(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?']
+        punctuation = ['-', '.', '/', ':', ';', '<', '=', '>', '?']
         digits = list(string.digits)
-        masterlist = lowercase+uppercase+punctuation+digits
+        masterlist = lowercase+uppercase+digits
         random.shuffle(masterlist)
         masterlist = random.sample(masterlist, random.randint(math.floor(len(masterlist)*0.5),len(masterlist)))
         return ''.join(masterlist)
@@ -90,22 +90,15 @@ challenge = createRandomChallenge()
 st.write('setting into localStorage')
 ret = conn.setLocalStorageVal(key='challenge', val=challenge)
 st.write('ret: ' + ret)
-
-st.write("Registering the App with the Challenge")
-register_url="https://speckle.xyz/auth/local/register?challenge="+challenge
-response = requests.post(url=register_url)
-st.write("REGISTRATION RESPONSE: ", response)
-response = requests.post(url=authorization_url)
 appID = "618a698b8a"
 appSecret = "6a406094f6"
-authorization_url = "https://speckle.xyz/authn/verify/"+appID+"/"+challenge
-st.write(f'''<h2>
-    Please login using this <a target="_new"
-    href="{authorization_url}">link</a></h2>''',
-        unsafe_allow_html=True)
-response = requests.post(url=authorization_url)
+st.write("Verifying the App with the Challenge")
+verify_url="https://speckle.xyz/authn/verify/appID/appSecret/?challenge="+challenge
+response = requests.post(url=verify_url)
+st.write("REGISTRATION RESPONSE: ", response)
+response = requests.post(url=verify_url)
+
 st.write("RESPONSE: ", response)
-st.write(st.experimental_get_query_params())
 try:
     access_code = st.experimental_get_query_params()['access_code'][0]
     st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
