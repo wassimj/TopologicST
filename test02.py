@@ -54,6 +54,16 @@ report = st.container()
 graphs = st.container()
 #--------------------------
 
+def createRandomChallenge():
+        lowercase = list(string.ascii_lowercase)
+        uppercase = list(string.ascii_uppercase)
+        punctuation = ['(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?']
+        digits = list(string.digits)
+        masterlist = lowercase+uppercase+punctuation+digits
+        random.shuffle(masterlist)
+        masterlist = random.sample(masterlist, random.randint(math.floor(len(masterlist)*0.5),len(masterlist)))
+        return ''.join(masterlist)
+
 #--------------------------
 #HEADER
 #Page Header
@@ -166,16 +176,6 @@ with authenticate:
     def commit2viewer(stream, commit, height=400) -> str:
         embed_src = "https://speckle.xyz/embed?stream="+stream.id+"&commit="+commit.id
         return st.components.v1.iframe(src=embed_src, height=height)
-    
-    def createRandomChallenge():
-        lowercase = list(string.ascii_lowercase)
-        uppercase = list(string.ascii_uppercase)
-        punctuation = ['(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?']
-        digits = list(string.digits)
-        masterlist = lowercase+uppercase+punctuation+digits
-        random.shuffle(masterlist)
-        masterlist = random.sample(masterlist, random.randint(math.floor(len(masterlist)*0.5),len(masterlist)))
-        return ''.join(masterlist)
     #--------------------------
 
     #--------------------------
