@@ -127,6 +127,7 @@ if access_code:
             "accessCode": access_code,
             "challenge": challenge,
         },)
+    st.write("Response Received: ", response)
     response_json = response.json()
     st.write(response_json)
     token = response_json['token']
