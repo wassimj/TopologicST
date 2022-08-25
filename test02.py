@@ -140,6 +140,7 @@ if access_code and challenge:
         )
     st.write("TOKENS:", tokens)
     token = tokens.json()['token']
+    st.write("TOKENS JSON:", tokens.json())
     #st.write('Emptying localStorage')
     #status = conn.setLocalStorageVal(key='challenge', val='')
     #st.write('Status: ' + status)
