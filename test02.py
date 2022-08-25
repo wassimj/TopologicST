@@ -117,6 +117,7 @@ try:
 except:
     access_code = ''
 
+st.write("ACCESS CODE", access_code)
 if access_code:
     tokens = requests.post(
             url=f"https://speckle.xyz/auth/token",
@@ -124,7 +125,7 @@ if access_code:
                 "appSecret": appSecret,
                 "appId": appID,
                 "accessCode": access_code,
-                "challenge": "{{CODE_CHALLENGE}}",
+                "challenge": challenge,
             },
         )
 
