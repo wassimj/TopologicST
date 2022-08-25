@@ -93,7 +93,7 @@ st.write('ret: ' + ret)
 appID = "618a698b8a"
 appSecret = "6a406094f6"
 st.write("Verifying the App with the Challenge")
-verify_url="https://speckle.xyz/authn/verify/appID/appSecret/?challenge="+challenge
+verify_url="https://speckle.xyz/authn/verify/"+appID+"/"+appSecret+"/?challenge="+challenge
 response = requests.post(url=verify_url)
 st.write("REGISTRATION RESPONSE: ", response)
 response = requests.post(url=verify_url)
