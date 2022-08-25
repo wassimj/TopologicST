@@ -91,7 +91,7 @@ conn = injectWebsocketCode(hostPort='linode.liquidco.in', uid=getOrCreateUID())
 # Test if there is already a locally stored challenge
 try:
     challenge = conn.getLocalStorageVal(key='challenge')
-    st.write('Found challenge string stored locally: ', challenge)
+    
 except:
     challenge = ''
 
@@ -107,29 +107,35 @@ if not challenge:
     st.write("Verifying the App with the challenge string")
     verify_url="https://speckle.xyz/authn/verify/"+appID+"/"+appSecret+"/?challenge="+challenge
     st.write("Click this to Verify:", verify_url)
+else:
+    st.write('Found challenge string stored locally: ', challenge)
 
 #--------------------------
 # Get Access Code
-token_url="https://speckle.xyz/authn/token/"+appID+"/"+appSecret
-response = requests.post(token_url)
-st.write(response.json())
-access_code = response.json()['access_code']
-st.write("Response Received: ", access_code)
 try:
-    response_json = response.json()
-    st.write(response_json)
-    token = response_json['token']
+    access_code = st.experimental_get_query_params()['access_code'][0]
 except:
+    access_code = ''
+
+if access_code:
+    tokens = requests.post(
+            url=f"https://speckle.xyz/auth/token",
+            json={
+                "appSecret": appSecret,
+                "appId": appID,
+                "accessCode": access_code,
+                "challenge": "{{CODE_CHALLENGE}}",
+            },
+        )
+
+    token = tokens.json()['token']
     st.write('Emptying localStorage')
     status = conn.setLocalStorageVal(key='challenge', val='')
     st.write('Status: ' + status)
-    st.write("Received a BAD response. No token")
-    token = ''
-
-st.write('TOKEN: ', token)
-if token:
-    account = get_account_from_token("speckle.xyz", token)
-    st.write("ACCOUNT", account)
-else:
-    st.write("Process Failed. Could not get account")
+    st.write('TOKEN: ', token)
+    if token:
+        account = get_account_from_token("speckle.xyz", token)
+        st.write("ACCOUNT", account)
+    else:
+        st.write("Process Failed. Could not get account")
 
