@@ -91,9 +91,7 @@ st.write('setting into localStorage')
 ret = conn.setLocalStorageVal(key='challenge', val=challenge)
 st.write('ret: ' + ret)
 
-st.write('getting from localStorage')
-ret = conn.getLocalStorageVal(key='challenge')
-st.write('ret: ' + ret)
+
 
 
 
@@ -114,13 +112,16 @@ with authenticate:
     access_code = st.experimental_get_query_params()['access_code'][0]
     st.write("ACCESS CODE RECEIVED FROM SPECKLE: ", access_code)
     if access_code:
+        st.write('getting challenge from localStorage')
+        challenge = conn.getLocalStorageVal(key='challenge')
+        st.write('challenge: ' + challenge)
         response = requests.post(
         url=f"https://speckle.xyz/auth/token",
         json={
             "appSecret": "6a406094f6",
             "appId": "618a698b8a",
             "accessCode": access_code,
-            "challenge": "6a406094f6",
+            "challenge": challenge,
         },
     )
         st.write("RESPONSE", response)
