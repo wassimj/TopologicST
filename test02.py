@@ -126,31 +126,43 @@ else:
     st.write('Found challenge string stored locally: ', challenge)
     st.write('Found access code stored locally: ', access_code)
 
+
 #--------------------------
 if access_code and challenge:
     st.write("Attempting to get token from access code and challenge")
-    tokens = requests.post(
-            url=f"https://speckle.xyz/auth/token",
-            json={
-                "appSecret": appSecret,
-                "appId": appID,
-                "accessCode": access_code,
-                "challenge": challenge,
-            },
-        )
-    st.write("TOKENS:", tokens)
-    token = tokens.json()['token']
-    st.write("TOKENS JSON:", tokens.json())
-    #st.write('Emptying localStorage')
-    #status = conn.setLocalStorageVal(key='challenge', val='')
-    #st.write('Status: ' + status)
+    try:
+        token = conn.getLocalStorageVal(key='token')
+        refreshToken = conn.getLocalStorageVal(key='refreshToken')
+    except:
+        token = ''
+        refreshToken = ''
+    if not token or not refreshToken:
+        tokens = requests.post(
+                url=f"https://speckle.xyz/auth/token",
+                json={
+                    "appSecret": appSecret,
+                    "appId": appID,
+                    "accessCode": access_code,
+                    "challenge": challenge,
+                },
+            )
+        token = tokens.json()['token']
+        refreshToken = tokens.json()['refreshToken']
+        status = conn.setLocalStorageVal(key='token', val=token)
+        status = conn.setLocalStorageVal(key='refreshToken', val=refreshToken)
     st.write('TOKEN: ', token)
     if token:
         account = get_account_from_token("speckle.xyz", token)
         st.write("ACCOUNT", account)
         client = SpeckleClient(host="speckle.xyz")
         client.authenticate_with_token(token)
-        streams = getStreams(client)
+        try:
+            streams = getStreams(client)
+        except:
+            account = get_account_from_token("speckle.xyz", refreshToken)
+            st.write("ACCOUNT", account)
+            client = SpeckleClient(host="speckle.xyz")
+            client.authenticate_with_token(refreshToken)
         stream_names = ["Select a stream"]
         for aStream in streams:
             stream_names.append(aStream.name)
