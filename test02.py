@@ -117,7 +117,7 @@ try:
 except:
     access_code = ''
 
-st.write("ACCESS CODE", access_code)
+st.write("ACCESS CODE:", access_code)
 if access_code:
     tokens = requests.post(
             url=f"https://speckle.xyz/auth/token",
@@ -128,7 +128,7 @@ if access_code:
                 "challenge": challenge,
             },
         )
-
+    print("TOKENS:", tokens)
     token = tokens.json()['token']
     st.write('Emptying localStorage')
     status = conn.setLocalStorageVal(key='challenge', val='')
