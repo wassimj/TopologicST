@@ -120,7 +120,7 @@ except:
 st.write("ACCESS CODE:", access_code)
 if access_code:
     tokens = requests.post(
-            url=f"https://speckle.xyz/auth/token",
+            url=f"https://speckle.xyz/authn/token",
             json={
                 "appSecret": appSecret,
                 "appId": appID,
