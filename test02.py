@@ -94,9 +94,8 @@ with header.expander("About this app🔽", expanded=True):
     )
 #--------------------------
 
-# WARNING: This needs to be changed into text input from the user
-appID = "618a698b8a"
-appSecret = "6a406094f6"
+appID = st.secrets["appID"]
+appSecret = st.secrets["appSecret"]
 
 # This allows us to store variables locally through websockets
 # Main call to the api, returns a communication object
