@@ -182,6 +182,8 @@ if access_code and challenge:
         if option != "Select a stream":
             stream = streams[stream_names.index(option)-1]
             st.write(option)
+            st.subheader("Preview Image")
+            st.components.v1.iframe(src="https://speckle.xyz/preview/"+stream.id, width=250,height=250)
             st.components.v1.iframe(src="https://speckle.xyz/embed?stream="+stream.id+"&transparent=false", width=400,height=600)
     else:
         st.write("Process Failed. Could not get account")
