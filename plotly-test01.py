@@ -145,7 +145,7 @@ with input_column:
     vSides = st.slider("V Sides", min_value=1, max_value=10, value=1, step=1)
     wSides = st.slider("W Sides", min_value=1, max_value=10, value=1, step=1)
     opacity = st.slider("Opacity", min_value=0.0, max_value=1.0, value=0.5, step=0.1)
-    colors = ["black", "white","grey","red","green","blue","magenta","cyan", "yellow"]
+    colors = ["black", "white","grey","red","green","blue","purple","cyan", "yellow"]
     face_color = st.selectbox("Face Color", colors, index=5)
     line_color = st.selectbox("Line Color", colors, index=1)
     dirX = 0
