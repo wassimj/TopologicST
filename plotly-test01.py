@@ -18,7 +18,7 @@ topologicPath = os.path.join(sitePackagesFolderName, topologicFolderName)
 sys.path.append(topologicPath)
 import topologic
 
-from ./topologicpy import CellPrism, TopologyTriangulate
+from topologicpy import CellPrism, TopologyTriangulate
 #--------------------------
 #--------------------------
 # PAGE CONFIGURATION
