@@ -1,3 +1,5 @@
+#--------------------------
+# IMPORT LIBRARIES
 import streamlit as st
 import plotly.graph_objects as go
 
@@ -16,8 +18,18 @@ topologicPath = os.path.join(sitePackagesFolderName, topologicFolderName)
 sys.path.append(topologicPath)
 import topologic
 
-from topologicpy import CellPrism, TopologyTriangulate
-
+from ./topologicpy import CellPrism, TopologyTriangulate
+#--------------------------
+#--------------------------
+# PAGE CONFIGURATION
+st.set_page_config(
+    page_title="Topologic Speckle Test Application",
+    page_icon="📊",
+    layout="wide"
+)
+#--------------------------
+#--------------------------
+# DEFINITIONS
 def plotyDataByTopology(topology, opacity, face_color="blue", line_color="white"):
     faces = []
     _ = topology.Faces(None, faces)
@@ -111,11 +123,18 @@ def plotyDataByTopology(topology, opacity, face_color="blue", line_color="white"
     st.plotly_chart(fig, use_container_width=True)
 
 
-st.set_page_config(layout="wide")
-
-# ---------------
-
+#--------------------------
+# PAGE LAYOUT
+#--------------------------
+# TITLE
+icon_column, title_column = st.columns([1,10], gap="small")
+with icon_column:
+    st.image("https://topologic.app/wp-content/uploads/2018/10/Topologic-Logo-250x250.png",width=100)
+with title_column:
+    st.title("Topologic Test App")
 input_column, viewer_column = st.columns([1,3],gap="small")
+#--------------------------
+# INPUT
 with input_column:
     st.subheader("Inputs")
     origin = topologic.Vertex.ByCoordinates(0,0,0)
@@ -134,8 +153,8 @@ with input_column:
     dirZ = 0
     placement = "LowerLeft"
 
-# ------------
-# Create Topology
+#--------------------------
+# CONTENT CREATION
 c = CellPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
 plotlyData = plotyDataByTopology(c, opacity, face_color, line_color)
 fig = go.Figure(data=plotlyData)
@@ -148,6 +167,8 @@ fig.update_layout(
         zaxis =dict(visible=False),
         )
     )
+#--------------------------
+# 3D VIEWER
 with viewer_column:
     st.subheader("3D View")
-    st.plotly_chart(fig, height=800)
+    st.plotly_chart(fig, width=800,height=800)
