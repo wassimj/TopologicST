@@ -153,10 +153,11 @@ with input_column:
      # To convert to a string based IO:
         stringio = StringIO(brep_file.getvalue().decode("utf-8"))
         lines = stringio.readlines()
-        st.write(lines[1])
+        lines[1] = "CASCADE Topology V1, (c) Matra-Datavision" # hack to make it compatible with Linux version
+        string_data = '\n'.join(lines)
 
      # To read file as string:
-        string_data = stringio.read()
+        #string_data = stringio.read()
 #--------------------------
 # CONTENT CREATION
 #c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
