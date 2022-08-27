@@ -1,5 +1,4 @@
 import topologic
-from topologic import Vertex, Edge, Wire, Face, Shell, Cell, CellComplex, Cluster, Topology
 import json
 
 def relevantSelector(topology, tol):
@@ -306,7 +305,8 @@ def assignDictionary(item):
 
 def processItem(item):
 	topology = None
-	file = open(item)
+	#file = open(item)
+	file = item
 	if file:
 		topologies = []
 		jsondata = json.load(file)
