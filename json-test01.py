@@ -143,15 +143,12 @@ with input_column:
     if brep_file is not None:
      # To read file as bytes:
      bytes_data = brep_file.getvalue()
-     st.write(bytes_data)
 
      # To convert to a string based IO:
      stringio = StringIO(brep_file.getvalue().decode("utf-8"))
-     st.write(stringio)
 
      # To read file as string:
      string_data = stringio.read()
-     st.write(string_data)
 #--------------------------
 # CONTENT CREATION
 #c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
