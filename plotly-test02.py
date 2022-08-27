@@ -163,7 +163,7 @@ cells = []
 _ = cluster.Cells(None, cells)
 dataList = []
 for cell in cells:
-    plotlyData = plotyDataByTopology(cluster, opacity, face_color, line_color)
+    plotlyData = plotyDataByTopology(cell, opacity, face_color, line_color)
     dataList = dataList + plotlyData
 
 fig = go.Figure(data=dataList)
