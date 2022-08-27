@@ -133,6 +133,7 @@ with icon_column:
 with title_column:
     st.title("Topologic Test App")
 input_column, viewer_column = st.columns([1,3],gap="small")
+string_data = None
 #--------------------------
 # INPUT
 with input_column:
