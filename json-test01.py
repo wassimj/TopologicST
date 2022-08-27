@@ -146,10 +146,11 @@ with input_column:
     st.subheader("Inputs")
     json_file = st.file_uploader("Upload JSON MK1 File", type="json", accept_multiple_files=False)
     topologies = TopologyByImportedJSONMK1.processItem(json_file)
-
+    st.write(topologies)
 #--------------------------
 # CONTENT CREATION
 #c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
+'''
 c = topologic.Cluster.ByTopologies(topologies)
 
 if c:
@@ -181,3 +182,4 @@ if c:
     with viewer_column:
         st.subheader("3D View")
         st.plotly_chart(fig, width=800,height=800)
+'''
