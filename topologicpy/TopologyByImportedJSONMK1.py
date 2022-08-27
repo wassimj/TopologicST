@@ -278,7 +278,9 @@ def processApertures(subTopologies, apertures, exclusive, tolerance):
 def getApertures(apertureList):
 	returnApertures = []
 	for item in apertureList:
-		aperture = topologic.Topology.ByString(item['brep'])
+		brep = item['brep']
+		brep = brep.replace("CASCADE Topology V3, (c) Open Cascade", "CASCADE Topology V1, (c) Matra-Datavision")
+		aperture = topologic.Topology.ByString(brep)
 		dictionary = item['dictionary']
 		keys = list(dictionary.keys())
 		values = []
