@@ -19,7 +19,7 @@ topologicPath = os.path.join(sitePackagesFolderName, topologicFolderName)
 sys.path.append(topologicPath)
 import topologic
 
-from topologicpy import TopologyByImportedJSONMK1, TopologyApertures, TopologyTriangulate, DictionaryValueAtKey
+from topologicpy import TopologyByImportedJSONMK1, TopologyApertures, TopologyTriangulate, DictionaryValueAtKey, DictionaryKeys
 #--------------------------
 #--------------------------
 # PAGE CONFIGURATION
@@ -190,6 +190,9 @@ with input_column:
             volume = round(topologic.CellUtility.Volume(cell), 2)
             with st.expander("Element ID: "+str(elementId)):
                 st.write("Volume: ", str(volume))
+                keys = DictionaryKeys.processItem(d)
+                for key in keys:
+                    st.write(key,":", DictionaryValueAtKey.processItem([d,key]))
 #--------------------------
 # 3D VIEWER
 with viewer_column:
