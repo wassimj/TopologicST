@@ -68,7 +68,7 @@ def plotlyDataByTopology(topology, opacity, face_color="blue", line_color="white
         width=1
     )
     )
-    if topology.GetType() = topologic.Cluster.Type():
+    if topology.GetType() == topologic.Cluster.Type():
         cells = []
         _ topology.Cells(None, cells)
         triangulated_cells = []
