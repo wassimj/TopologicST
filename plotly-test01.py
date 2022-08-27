@@ -156,6 +156,7 @@ with input_column:
 #--------------------------
 # CONTENT CREATION
 c = CellPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
+st.write(c.String())
 plotlyData = plotyDataByTopology(c, opacity, face_color, line_color)
 fig = go.Figure(data=plotlyData)
 fig.update_layout(

@@ -154,7 +154,7 @@ with input_column:
 #c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
 c = None
 if string_data:
-    c = topologic.Topology.DeepCopy(topologic.Topology.ByString(string_data))
+    c = topologic.Topology.ByString(string_data)
 st.write(c)
 
 if c:

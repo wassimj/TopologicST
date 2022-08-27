@@ -305,6 +305,7 @@ def assignDictionary(item):
 	return v
 
 def processItem(item):
+	topologies = []
 	jsondata = item
 	for jsonItem in jsondata:
 		brep = jsonItem['brep']
