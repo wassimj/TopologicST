@@ -1,6 +1,7 @@
 
 import topologic
 import json
+import streamlit as st
 
 def relevantSelector(topology, tol):
 	returnVertex = None
@@ -311,6 +312,7 @@ def processItem(item):
 	for jsonItem in jsondata:
 		brep = jsonItem['brep']
 		brep = brep.replace("CASCADE Topology V3, (c) Open Cascade", "CASCADE Topology V1, (c) Matra-Datavision")
+		st.write(brep)
 		topology = topologic.Topology.ByString(brep)
 		dictionary = jsonItem['dictionary']
 		topDictionary = dictionaryByPythonDictionary(dictionary)
