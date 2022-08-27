@@ -147,8 +147,10 @@ with input_column:
     brep_file = st.file_uploader("Upload BREP File", type="brep", accept_multiple_files=False)
     brep_data = None
     if brep_file is not None:
+        lines = brep_file.readlines()
+        st.write(lines[0])
      # To read file as bytes:
-     bytes_data = brep_file.getvalue()
+        bytes_data = brep_file.getvalue()
 
      # To convert to a string based IO:
      stringio = StringIO(brep_file.getvalue().decode("utf-8"))
