@@ -180,19 +180,20 @@ if c:
             zaxis =dict(visible=False),
             )
         )
-    #--------------------------
-    # 3D VIEWER
-    with viewer_column:
-        st.subheader("3D View")
-        st.plotly_chart(fig, width=800,height=800)
+    cells = []
+    _ = c.Cells(None, cells)
+    for cell in cells:
+        d = cell.GetDictionary()
+        elementId = DictionaryValueAtKey.processItem([d,"elementId"])
+        if not elementId:
+            elmentId = "Unknown ID"
+        volume = round(topologic.CellUtility.Volume(cell), 2)
+        with st.expander("Element ID: "+str(elementId)):
+            st.write("Volume: ", str(volume))
+#--------------------------
+# 3D VIEWER
+with viewer_column:
+    st.subheader("3D View")
+    st.plotly_chart(fig, width=800,height=800)
 
-cells = []
-_ = c.Cells(None, cells)
-for cell in cells:
-    d = cell.GetDictionary()
-    elementId = DictionaryValueAtKey.processItem([d,"elementId"])
-    if not elementId:
-        elmentId = "Unknown ID"
-    volume = round(topologic.CellUtility.Volume(cell), 2)
-    with st.expander("Element ID: "+str(elementId)):
-        st.write("Volume: ", str(volume))
+
