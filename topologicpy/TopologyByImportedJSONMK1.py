@@ -1,5 +1,6 @@
 import topologic
 import json
+import streamlit as st
 
 def relevantSelector(topology, tol):
 	returnVertex = None
@@ -307,6 +308,7 @@ def processItem(item):
 	jsondata = item
 	for jsonItem in jsondata:
 		brep = jsonItem['brep']
+		st.write("BREP", brep)
 		topology = topologic.Topology.ByString(brep)
 		dictionary = jsonItem['dictionary']
 		topDictionary = dictionaryByPythonDictionary(dictionary)
