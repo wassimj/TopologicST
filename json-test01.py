@@ -162,7 +162,7 @@ if string_data:
 st.write(c)
 
 if c:
-    dataList = plotlyDataByTopology(c, 0.75, "grey", "black")
+    dataList = plotlyDataByTopology(c, 0.5, "blue", "white")
     faces = []
     _ = c.Faces(None, faces)
     apertureTopologies = []
