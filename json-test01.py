@@ -187,7 +187,7 @@ if c:
         st.plotly_chart(fig, width=800,height=800)
 
 cells = []
-_ = c.Cells(None, Cells)
+_ = c.Cells(None, cells)
 for cell in cells:
     d = cell.GetDictionary()
     elementId = d.ValueAtKey("elemntId")
