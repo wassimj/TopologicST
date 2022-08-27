@@ -157,7 +157,7 @@ with input_column:
 # CONTENT CREATION
 c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
 centroid = c.Centroid()
-cluster = TopologyExplode.processItem(c, centroid, scale, "Cell")
+cluster = TopologyExplode.processItem([c, centroid, scale, "Cell"])
 
 cells = []
 _ = cluster.Cells(None, cells)
