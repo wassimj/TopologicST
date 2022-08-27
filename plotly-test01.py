@@ -174,4 +174,4 @@ with viewer_column:
     st.subheader("3D View")
     st.plotly_chart(fig, width=800,height=800)
 
-st.download_button('Download BREP', c.String(), 'text/brep')
+st.download_button('Download BREP', c.String(), 'text/brep', file_name='cube.brep')
