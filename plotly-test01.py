@@ -156,7 +156,7 @@ with input_column:
 #--------------------------
 # CONTENT CREATION
 c = CellPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
-st.write(c.String())
+
 plotlyData = plotyDataByTopology(c, opacity, face_color, line_color)
 fig = go.Figure(data=plotlyData)
 fig.update_layout(
@@ -173,3 +173,5 @@ fig.update_layout(
 with viewer_column:
     st.subheader("3D View")
     st.plotly_chart(fig, width=800,height=800)
+
+st.write(c.String())
