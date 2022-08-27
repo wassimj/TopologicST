@@ -154,42 +154,42 @@ with input_column:
 # CONTENT CREATION
 #c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
 
-c = topologies[0]
+    c = topologies[0]
 
-if c:
-    dataList = plotlyDataByTopology(c, 0.5, "grey", "black")
-    faces = []
-    _ = c.Faces(None, faces)
-    apertureTopologies = []
-    for face in faces:
-        apertures, apertureTopology = TopologyApertures.processItem(face)
-        if not isinstance(apertureTopology, list):
-            apertureTopology = [apertureTopology]
-        apertureTopologies = apertureTopologies+apertureTopology
-    for at in apertureTopologies:
-        apertureData = plotlyDataByTopology(at, 0.5, "blue", "black")
-        dataList = dataList + apertureData
+    if c:
+        dataList = plotlyDataByTopology(c, 0.5, "grey", "black")
+        faces = []
+        _ = c.Faces(None, faces)
+        apertureTopologies = []
+        for face in faces:
+            apertures, apertureTopology = TopologyApertures.processItem(face)
+            if not isinstance(apertureTopology, list):
+                apertureTopology = [apertureTopology]
+            apertureTopologies = apertureTopologies+apertureTopology
+        for at in apertureTopologies:
+            apertureData = plotlyDataByTopology(at, 0.5, "blue", "black")
+            dataList = dataList + apertureData
 
-    fig = go.Figure(data=dataList)
-    fig.update_layout(
-        width=800,
-        height=800,
-        scene = dict(
-            xaxis = dict(visible=False),
-            yaxis = dict(visible=False),
-            zaxis =dict(visible=False),
+        fig = go.Figure(data=dataList)
+        fig.update_layout(
+            width=800,
+            height=800,
+            scene = dict(
+                xaxis = dict(visible=False),
+                yaxis = dict(visible=False),
+                zaxis =dict(visible=False),
+                )
             )
-        )
-    cells = []
-    _ = c.Cells(None, cells)
-    for cell in cells:
-        d = cell.GetDictionary()
-        elementId = DictionaryValueAtKey.processItem([d,"elementId"])
-        if not elementId:
-            elmentId = "Unknown ID"
-        volume = round(topologic.CellUtility.Volume(cell), 2)
-        with st.expander("Element ID: "+str(elementId)):
-            st.write("Volume: ", str(volume))
+        cells = []
+        _ = c.Cells(None, cells)
+        for cell in cells:
+            d = cell.GetDictionary()
+            elementId = DictionaryValueAtKey.processItem([d,"elementId"])
+            if not elementId:
+                elmentId = "Unknown ID"
+            volume = round(topologic.CellUtility.Volume(cell), 2)
+            with st.expander("Element ID: "+str(elementId)):
+                st.write("Volume: ", str(volume))
 #--------------------------
 # 3D VIEWER
 with viewer_column:
