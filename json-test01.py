@@ -3,6 +3,7 @@
 import streamlit as st
 import plotly.graph_objects as go
 import json
+from io import StringIO
 # import topologic
 # This requires some checking of the used OS platform to load the correct version of Topologic
 import sys
@@ -136,17 +137,27 @@ input_column, viewer_column = st.columns([1,3],gap="small")
 # INPUT
 with input_column:
     st.subheader("Inputs")
-    json_file = st.file_uploader("Upload JSON File", type="json", accept_multiple_files=False)
-    json_data = None
-    if json_file:
-        json_data = json.load(json_file)
+    brep_file = st.file_uploader("Upload BREP File", type="brep", accept_multiple_files=False)
+    brep_data = None
+    if brep_file is not None:
+     # To read file as bytes:
+     bytes_data = uploaded_file.getvalue()
+     st.write(bytes_data)
 
+     # To convert to a string based IO:
+     stringio = StringIO(brep_file.getvalue().decode("utf-8"))
+     st.write(stringio)
+
+     # To read file as string:
+     string_data = stringio.read()
+     st.write(string_data)
 #--------------------------
 # CONTENT CREATION
 #c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
 c = None
-if json_data:
-    c = TopologyByImportedJSONMK1.processItem(json_data)
+if string_data:
+    c = topologic.Topology.ByString(string_data)
+st.write(c)
 
 if c:
     plotlyData = plotlyDataByTopology(c, 0.75, "grey", "black")
