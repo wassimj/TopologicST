@@ -174,7 +174,4 @@ with viewer_column:
     st.subheader("3D View")
     st.plotly_chart(fig, width=800,height=800)
 
-# ---- Testing
-st.write("Testing")
-d = topologic.Topology.ByString(c.String())
-st.write(d)
+st.download_button('Download BREP', c.String(), 'text/brep')
