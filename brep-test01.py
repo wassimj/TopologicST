@@ -2,7 +2,8 @@
 # IMPORT LIBRARIES
 import streamlit as st
 import plotly.graph_objects as go
-
+import json
+from io import StringIO
 # import topologic
 # This requires some checking of the used OS platform to load the correct version of Topologic
 import sys
@@ -18,7 +19,7 @@ topologicPath = os.path.join(sitePackagesFolderName, topologicFolderName)
 sys.path.append(topologicPath)
 import topologic
 
-from topologicpy import CellPrism, TopologyTriangulate
+from topologicpy import TopologyByImportedJSONMK1, TopologyApertures, TopologyTriangulate
 #--------------------------
 #--------------------------
 # PAGE CONFIGURATION
@@ -30,7 +31,7 @@ st.set_page_config(
 #--------------------------
 #--------------------------
 # DEFINITIONS
-def plotyDataByTopology(topology, opacity, face_color="blue", line_color="white"):
+def plotlyDataByTopology(topology, opacity, face_color="blue", line_color="white"):
     faces = []
     _ = topology.Faces(None, faces)
     fx = []
@@ -67,9 +68,15 @@ def plotyDataByTopology(topology, opacity, face_color="blue", line_color="white"
         width=1
     )
     )
-
-    topology = TopologyTriangulate.processItem(topology, 0.0001)
-
+    if topology.GetTypeAsString() == "Cluster":
+        cells = []
+        _ = topology.Cells(None, cells)
+        triangulated_cells = []
+        for cell in cells:
+            triangulated_cells.append(TopologyTriangulate.processItem(cell, 0.0001))
+        topology = topologic.Cluster.ByTopologies(triangulated_cells)
+    else:
+        topology = TopologyTriangulate.processItem(topology, 0.0001)
     tp_vertices = []
     _ = topology.Vertices(None, tp_vertices)
     x = []
@@ -120,7 +127,6 @@ def plotyDataByTopology(topology, opacity, face_color="blue", line_color="white"
 
     
     return ([faceData, lineData])
-    st.plotly_chart(fig, use_container_width=True)
 
 
 #--------------------------
@@ -133,44 +139,61 @@ with icon_column:
 with title_column:
     st.title("Topologic Test App")
 input_column, viewer_column = st.columns([1,3],gap="small")
+string_data = None
 #--------------------------
 # INPUT
 with input_column:
     st.subheader("Inputs")
-    origin = topologic.Vertex.ByCoordinates(0,0,0)
-    width = st.slider("Width", min_value=0., max_value=100., value=10., step=0.1)
-    length = st.slider("Length", min_value=0., max_value=100., value=10., step=0.1)
-    height = st.slider("Height", min_value=0., max_value=100., value=10., step=0.1)
-    uSides = st.slider("U Sides", min_value=1, max_value=10, value=1, step=1)
-    vSides = st.slider("V Sides", min_value=1, max_value=10, value=1, step=1)
-    wSides = st.slider("W Sides", min_value=1, max_value=10, value=1, step=1)
-    opacity = st.slider("Opacity", min_value=0.0, max_value=1.0, value=0.5, step=0.1)
-    colors = ["black", "white","grey","red","green","blue","purple","cyan", "yellow"]
-    face_color = st.selectbox("Face Color", colors, index=5)
-    line_color = st.selectbox("Line Color", colors, index=1)
-    dirX = 0
-    dirY = 0
-    dirZ = 0
-    placement = "LowerLeft"
+    brep_file = st.file_uploader("Upload BREP File", type="brep", accept_multiple_files=False)
+    brep_data = None
+    if brep_file is not None:
+     # To read file as bytes:
+        bytes_data = brep_file.getvalue()
 
+     # To convert to a string based IO:
+        stringio = StringIO(brep_file.getvalue().decode("utf-8"))
+        #lines = stringio.readlines()
+        #lines[1] = "CASCADE Topology V1, (c) Matra-Datavision" # hack to make it compatible with Linux version
+        #string_data = '\n'.join(lines)
+
+     # To read file as string:
+        string_data = stringio.read()
+        string_data = string_data.replace("CASCADE Topology V3, (c) Open Cascade", "CASCADE Topology V1, (c) Matra-Datavision")
+        st.write(string_data)
 #--------------------------
 # CONTENT CREATION
-c = CellPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
+#c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
+c = None
+if string_data:
+    c = topologic.Topology.ByString(string_data)
+st.write(c)
 
-plotlyData = plotyDataByTopology(c, opacity, face_color, line_color)
-fig = go.Figure(data=plotlyData)
-fig.update_layout(
-    width=800,
-    height=800,
-    scene = dict(
-        xaxis = dict(visible=False),
-        yaxis = dict(visible=False),
-        zaxis =dict(visible=False),
+if c:
+    dataList = plotlyDataByTopology(c, 0.5, "blue", "white")
+    faces = []
+    _ = c.Faces(None, faces)
+    apertureTopologies = []
+    for face in faces:
+        apertures, apertureTopology = TopologyApertures.processItem(face)
+        if not isinstance(apertureTopology, list):
+            apertureTopology = [apertureTopology]
+        apertureTopologies = apertureTopologies+apertureTopology
+    for at in apertureTopologies:
+        apertureData = plotlyDataByTopology(at, 0.5, "blue", "black")
+        dataList = dataList + apertureData
+
+    fig = go.Figure(data=dataList)
+    fig.update_layout(
+        width=800,
+        height=800,
+        scene = dict(
+            xaxis = dict(visible=False),
+            yaxis = dict(visible=False),
+            zaxis =dict(visible=False),
+            )
         )
-    )
-#--------------------------
-# 3D VIEWER
-with viewer_column:
-    st.subheader("3D View")
-    st.plotly_chart(fig, width=800,height=800)
-    st.download_button(label='Download BREP', data=c.String(), mime='text/brep', file_name='cube.brep')
+    #--------------------------
+    # 3D VIEWER
+    with viewer_column:
+        st.subheader("3D View")
+        st.plotly_chart(fig, width=800,height=800)

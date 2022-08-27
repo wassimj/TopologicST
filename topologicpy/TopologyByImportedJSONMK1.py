@@ -1,6 +1,21 @@
+import bpy
+from bpy.props import IntProperty, FloatProperty, StringProperty
+from sverchok.node_tree import SverchCustomTreeNode
+from sverchok.data_structure import updateNode
+
 import topologic
+from topologic import Vertex, Edge, Wire, Face, Shell, Cell, CellComplex, Cluster, Topology
 import json
-import streamlit as st
+
+# From https://stackabuse.com/python-how-to-flatten-list-of-lists/
+def flatten(element):
+	returnList = []
+	if isinstance(element, list) == True:
+		for anItem in element:
+			returnList = returnList + flatten(anItem)
+	else:
+		returnList = [element]
+	return returnList
 
 def relevantSelector(topology, tol):
 	returnVertex = None
@@ -305,69 +320,95 @@ def assignDictionary(item):
 	return v
 
 def processItem(item):
-	topologies = []
-	jsondata = item
-	for jsonItem in jsondata:
-		brep = jsonItem['brep']
-		topology = None
-		if brep:
+	topology = None
+	file = open(item)
+	if file:
+		topologies = []
+		jsondata = json.load(file)
+		for jsonItem in jsondata:
+			brep = jsonItem['brep']
+			brep = brep.replace("CASCADE Topology V3, (c) Open Cascade", "CASCADE Topology V1, (c) Matra-Datavision")
 			topology = topologic.Topology.ByString(brep)
-			st.write(topology)
-		if not topology:
-			st.write("Could not create topology. Skipping")
-			continue
-		dictionary = jsonItem['dictionary']
-		topDictionary = dictionaryByPythonDictionary(dictionary)
-		_ = topology.SetDictionary(topDictionary)
-		cellApertures = getApertures(jsonItem['cellApertures'])
-		cells = []
-		try:
-			_ = topology.Cells(None, cells)
-		except:
-			pass
-		processApertures(cells, cellApertures, False, 0.001)
-		faceApertures = getApertures(jsonItem['faceApertures'])
-		faces = []
-		try:
-			_ = topology.Faces(None, faces)
-		except:
-			pass
-		processApertures(faces, faceApertures, False, 0.001)
-		edgeApertures = getApertures(jsonItem['edgeApertures'])
-		edges = []
-		try:
-			_ = topology.Edges(None, edges)
-		except:
-			pass
-		processApertures(edges, edgeApertures, False, 0.001)
-		vertexApertures = getApertures(jsonItem['vertexApertures'])
-		vertices = []
-		try:
-			_ = topology.Vertices(None, vertices)
-		except:
-			pass
-		processApertures(vertices, vertexApertures, False, 0.001)
-		cellDataList = jsonItem['cellDictionaries']
-		cellSelectors = []
-		for cellDataItem in cellDataList:
-			cellSelectors.append(assignDictionary(cellDataItem))
-		processSelectors(cellSelectors, topology, False, False, False, True, 0.001)
-		faceDataList = jsonItem['faceDictionaries']
-		faceSelectors = []
-		for faceDataItem in faceDataList:
-			faceSelectors.append(assignDictionary(faceDataItem))
-		processSelectors(faceSelectors, topology, False, False, True, False, 0.001)
-		edgeDataList = jsonItem['edgeDictionaries']
-		edgeSelectors = []
-		for edgeDataItem in edgeDataList:
-			edgeSelectors.append(assignDictionary(edgeDataItem))
-		processSelectors(edgeSelectors, topology, False, True, False, False, 0.001)
-		vertexDataList = jsonItem['vertexDictionaries']
-		vertexSelectors = []
-		for vertexDataItem in vertexDataList:
-			vertexSelectors.append(assignDictionary(vertexDataItem))
-		processSelectors(vertexSelectors, topology, True, False, False, False, 0.001)
-		topologies.append(topology)
-	return topologies
+			dictionary = jsonItem['dictionary']
+			topDictionary = dictionaryByPythonDictionary(dictionary)
+			_ = topology.SetDictionary(topDictionary)
+			cellApertures = getApertures(jsonItem['cellApertures'])
+			cells = []
+			try:
+				_ = topology.Cells(None, cells)
+			except:
+				pass
+			processApertures(cells, cellApertures, False, 0.001)
+			faceApertures = getApertures(jsonItem['faceApertures'])
+			faces = []
+			try:
+				_ = topology.Faces(None, faces)
+			except:
+				pass
+			processApertures(faces, faceApertures, False, 0.001)
+			edgeApertures = getApertures(jsonItem['edgeApertures'])
+			edges = []
+			try:
+				_ = topology.Edges(None, edges)
+			except:
+				pass
+			processApertures(edges, edgeApertures, False, 0.001)
+			vertexApertures = getApertures(jsonItem['vertexApertures'])
+			vertices = []
+			try:
+				_ = topology.Vertices(None, vertices)
+			except:
+				pass
+			processApertures(vertices, vertexApertures, False, 0.001)
+			cellDataList = jsonItem['cellDictionaries']
+			cellSelectors = []
+			for cellDataItem in cellDataList:
+				cellSelectors.append(assignDictionary(cellDataItem))
+			processSelectors(cellSelectors, topology, False, False, False, True, 0.001)
+			faceDataList = jsonItem['faceDictionaries']
+			faceSelectors = []
+			for faceDataItem in faceDataList:
+				faceSelectors.append(assignDictionary(faceDataItem))
+			processSelectors(faceSelectors, topology, False, False, True, False, 0.001)
+			edgeDataList = jsonItem['edgeDictionaries']
+			edgeSelectors = []
+			for edgeDataItem in edgeDataList:
+				edgeSelectors.append(assignDictionary(edgeDataItem))
+			processSelectors(edgeSelectors, topology, False, True, False, False, 0.001)
+			vertexDataList = jsonItem['vertexDictionaries']
+			vertexSelectors = []
+			for vertexDataItem in vertexDataList:
+				vertexSelectors.append(assignDictionary(vertexDataItem))
+			processSelectors(vertexSelectors, topology, True, False, False, False, 0.001)
+			topologies.append(topology)
+		return topologies
+	return None
+		
+class SvTopologyByImportedJSONMK1(bpy.types.Node, SverchCustomTreeNode):
+	"""
+	Triggers: Topologic
+	Tooltip: Creates a Topology from the input BREP file
+	"""
+	bl_idname = 'SvTopologyByImportedJSONMK1'
+	bl_label = 'Topology.ByImportedJSON MK1'
+	FilePath: StringProperty(name="file", default="", subtype="FILE_PATH")
 
+	def sv_init(self, context):
+		self.inputs.new('SvStringsSocket', 'File Path').prop_name='FilePath'
+		self.outputs.new('SvStringsSocket', 'Topology')
 
+	def process(self):
+		if not any(socket.is_linked for socket in self.outputs):
+			return
+		inputs = self.inputs['File Path'].sv_get(deepcopy=False)
+		inputs = flatten(inputs)
+		outputs = []
+		for anInput in inputs:
+			outputs.append(processItem(anInput))
+		self.outputs['Topology'].sv_set(outputs)
+
+def register():
+	bpy.utils.register_class(SvTopologyByImportedJSONMK1)
+
+def unregister():
+	bpy.utils.unregister_class(SvTopologyByImportedJSONMK1)

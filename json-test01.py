@@ -144,29 +144,13 @@ string_data = None
 # INPUT
 with input_column:
     st.subheader("Inputs")
-    brep_file = st.file_uploader("Upload BREP File", type="brep", accept_multiple_files=False)
-    brep_data = None
-    if brep_file is not None:
-     # To read file as bytes:
-        bytes_data = brep_file.getvalue()
+    json_file = st.file_uploader("Upload JSON MK1 File", type="json", accept_multiple_files=False)
+    topologies = TopologyByImportedJSONMK1(json_file)
 
-     # To convert to a string based IO:
-        stringio = StringIO(brep_file.getvalue().decode("utf-8"))
-        #lines = stringio.readlines()
-        #lines[1] = "CASCADE Topology V1, (c) Matra-Datavision" # hack to make it compatible with Linux version
-        #string_data = '\n'.join(lines)
-
-     # To read file as string:
-        string_data = stringio.read()
-        string_data = string_data.replace("CASCADE Topology V3, (c) Open Cascade", "CASCADE Topology V1, (c) Matra-Datavision")
-        st.write(string_data)
 #--------------------------
 # CONTENT CREATION
 #c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
-c = None
-if string_data:
-    c = topologic.Topology.ByString(string_data)
-st.write(c)
+c = topologic.Cluster.ByTopologies(topologies)
 
 if c:
     dataList = plotlyDataByTopology(c, 0.5, "blue", "white")
