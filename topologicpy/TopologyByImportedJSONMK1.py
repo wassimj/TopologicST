@@ -308,8 +308,12 @@ def processItem(item):
 	jsondata = item
 	for jsonItem in jsondata:
 		brep = jsonItem['brep']
-		topology = topologic.Topology.DeepCopy(topologic.Topology.ByString(brep))
-		st.write(topology)
+		if brep:
+			topology = topologic.Topology.ByString(brep)
+			st.write(topology)
+		else:
+			st.write("Encountered empty or corrupted brep")
+			continue
 		dictionary = jsonItem['dictionary']
 		topDictionary = dictionaryByPythonDictionary(dictionary)
 		_ = topology.SetDictionary(topDictionary)
