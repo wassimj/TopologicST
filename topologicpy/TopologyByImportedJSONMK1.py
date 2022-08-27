@@ -312,8 +312,8 @@ def processItem(item):
 	for jsonItem in jsondata:
 		brep = jsonItem['brep']
 		brep = brep.replace("CASCADE Topology V3, (c) Open Cascade", "CASCADE Topology V1, (c) Matra-Datavision")
-		st.write(brep)
 		topology = topologic.Topology.ByString(brep)
+		st.write(topology)
 		dictionary = jsonItem['dictionary']
 		topDictionary = dictionaryByPythonDictionary(dictionary)
 		_ = topology.SetDictionary(topDictionary)
