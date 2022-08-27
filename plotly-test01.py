@@ -174,4 +174,7 @@ with viewer_column:
     st.subheader("3D View")
     st.plotly_chart(fig, width=800,height=800)
 
-st.write(c.String())
+# ---- Testing
+st.write("Testing")
+d = topologic.Topology.ByString(c.String())
+st.write(d)
