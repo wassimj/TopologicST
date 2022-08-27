@@ -141,9 +141,9 @@ with input_column:
     width = st.slider("Width", min_value=0., max_value=100., value=10., step=0.1)
     length = st.slider("Length", min_value=0., max_value=100., value=10., step=0.1)
     height = st.slider("Height", min_value=0., max_value=100., value=10., step=0.1)
-    uSides = st.slider("U Sides", min_value=2, max_value=10, value=1, step=1)
-    vSides = st.slider("V Sides", min_value=2, max_value=10, value=1, step=1)
-    wSides = st.slider("W Sides", min_value=2, max_value=10, value=1, step=1)
+    uSides = st.slider("U Sides", min_value=2, max_value=10, value=3, step=1)
+    vSides = st.slider("V Sides", min_value=2, max_value=10, value=3, step=1)
+    wSides = st.slider("W Sides", min_value=2, max_value=10, value=3, step=1)
     opacity = st.slider("Opacity", min_value=0.0, max_value=1.0, value=0.5, step=0.1)
     colors = ["black", "white","grey","red","green","blue","purple","cyan", "yellow"]
     face_color = st.selectbox("Face Color", colors, index=5)
