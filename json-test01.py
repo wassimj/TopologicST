@@ -154,11 +154,11 @@ with input_column:
 #c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
 c = None
 if string_data:
-    c = topologic.Topology.ByString(string_data)
+    c = topologic.Topology.DeepCopy(topologic.Topology.ByString(string_data))
 st.write(c)
 
 if c:
-    plotlyData = plotlyDataByTopology(c, 0.75, "grey", "black")
+    dataList = plotlyDataByTopology(c, 0.75, "grey", "black")
     faces = []
     _ = c.Faces(None, faces)
     apertureTopologies = []
