@@ -144,6 +144,7 @@ with input_column:
 #--------------------------
 # CONTENT CREATION
 #c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
+c = None
 if json_data:
     c = TopologyByImportedJSONMK1.processItem(json_data)
 
