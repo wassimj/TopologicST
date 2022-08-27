@@ -193,7 +193,6 @@ for cell in cells:
     elementId = DictionaryValueAtKey.processItem([d,"elementId"])
     if not elementId:
         elmentId = "Unknown ID"
-    st.write(elementId)
     volume = round(topologic.CellUtility.Volume(cell), 2)
-    with st.expander(str(elementId)):
+    with st.expander("Element ID: "+str(elementId)):
         st.write("Volume: ", str(volume))
