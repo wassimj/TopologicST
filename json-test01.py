@@ -69,8 +69,6 @@ def plotlyDataByTopology(topology, opacity, face_color="blue", line_color="white
     )
     )
 
-    topology = TopologyTriangulate.processItem(topology, 0.0001)
-
     tp_vertices = []
     _ = topology.Vertices(None, tp_vertices)
     x = []
@@ -88,6 +86,7 @@ def plotlyDataByTopology(topology, opacity, face_color="blue", line_color="white
     tp_faces = []
     _ = topology.Faces(None, tp_faces)
     for tp_f in tp_faces:
+        tp_f = TopologyTriangulate.processItem(tp_f, 0.0001)
         f_vertices = []
         _ = tp_f.Vertices(None, f_vertices)
         f = []
