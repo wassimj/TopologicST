@@ -191,7 +191,7 @@ _ = c.Cells(None, cells)
 for cell in cells:
     d = cell.GetDictionary()
     st.write(d)
-    elementId = DictionaryValueAtKey(d,"elementId")
+    elementId = DictionaryValueAtKey.processItem(d,"elementId")
     if not elementId:
         elmentId = "Unknown ID"
     st.write(elementId)
