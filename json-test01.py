@@ -33,7 +33,10 @@ st.set_page_config(
 # DEFINITIONS
 def plotlyDataByTopology(topology, opacity, face_color="blue", line_color="white"):
     faces = []
-    _ = topology.Faces(None, faces)
+    if topology.Type() > topologic.Face.Type():
+        _ = topology.Faces(None, faces)
+    else:
+        faces = [topology]
     fx = []
     fy = []
     fz = []
