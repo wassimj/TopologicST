@@ -137,16 +137,16 @@ input_column, viewer_column = st.columns([1,3],gap="small")
 with input_column:
     st.subheader("Inputs")
     json_file = st.file_uploader("Upload JSON File", type="json", accept_multiple_files=False)
-    st.write(json_file)
-    jsondata = json.load(json_file)
-    st.write(jsondata)
+    json_data = None
+    if json_file:
+        json_data = json.load(json_file)
 
 #--------------------------
 # CONTENT CREATION
 #c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
-c = TopologyByImportedJSONMK1.processItem(json_file)
+if json_data:
+    c = TopologyByImportedJSONMK1.processItem(json_data)
 
-c = None
 if c:
     plotlyData = plotlyDataByTopology(c, 0.75, "grey", "black")
     faces = []
