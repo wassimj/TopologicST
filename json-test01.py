@@ -157,7 +157,7 @@ with input_column:
 c = topologies[0]
 
 if c:
-    dataList = plotlyDataByTopology(c, 0.5, "blue", "white")
+    dataList = plotlyDataByTopology(c, 0.5, "grey", "black")
     faces = []
     _ = c.Faces(None, faces)
     apertureTopologies = []
