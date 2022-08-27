@@ -181,3 +181,4 @@ fig.update_layout(
 with viewer_column:
     st.subheader("3D View")
     st.plotly_chart(fig, width=800,height=800)
+    st.download_button(label='Download BREP', data=cluster.String(), mime='text/brep', file_name='ExplodedCellComplex.brep')
