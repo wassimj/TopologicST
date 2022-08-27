@@ -142,7 +142,7 @@ with input_column:
     brep_data = None
     if brep_file is not None:
      # To read file as bytes:
-     bytes_data = uploaded_file.getvalue()
+     bytes_data = brep_file.getvalue()
      st.write(bytes_data)
 
      # To convert to a string based IO:
