@@ -190,12 +190,10 @@ cells = []
 _ = c.Cells(None, cells)
 for cell in cells:
     d = cell.GetDictionary()
-    st.write(d)
     elementId = DictionaryValueAtKey.processItem([d,"elementId"])
     if not elementId:
         elmentId = "Unknown ID"
     st.write(elementId)
     volume = round(topologic.CellUtility.Volume(cell), 2)
-    st.write(volume)
-    with st.expander("Volume"):
+    with st.expander(str(elementId)):
         st.write("Volume: ", str(volume))
