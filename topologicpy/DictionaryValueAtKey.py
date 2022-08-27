@@ -1,11 +1,5 @@
-import bpy
-from bpy.props import IntProperty, FloatProperty, StringProperty
-from sverchok.node_tree import SverchCustomTreeNode
-from sverchok.data_structure import updateNode
-
-#from topologic import Dictionary, Attribute, AttributeManager, IntAttribute, DoubleAttribute, StringAttribute
 from topologic import Dictionary, IntAttribute, DoubleAttribute, StringAttribute, ListAttribute
-from . import Replication
+
 
 def listAttributeValues(listAttribute):
 	listAttributes = listAttribute.ListValue()
@@ -46,35 +40,3 @@ def processItem(item):
 		return attr
 	else:
 		return None
-
-class SvDictionaryValueAtKey(bpy.types.Node, SverchCustomTreeNode):
-	"""
-	Triggers: Topologic
-	Tooltip: outputs the value from the input Dictionary associated with the input key   
-	"""
-	bl_idname = 'SvDictionaryValueAtKey'
-	bl_label = 'Dictionary.ValueAtKey'
-	Key: StringProperty(name="Key", update=updateNode)
-	def sv_init(self, context):
-		self.inputs.new('SvStringsSocket', 'Dictionary')
-		self.inputs.new('SvStringsSocket', 'Key').prop_name='Key'
-		self.outputs.new('SvStringsSocket', 'Value')
-
-	def process(self):
-		if not any(socket.is_linked for socket in self.outputs):
-			return
-		if not any(socket.is_linked for socket in self.inputs):
-			return
-		
-		DictionaryList = Replication.flatten(self.inputs['Dictionary'].sv_get(deepcopy=True))
-		key = Replication.flatten(self.inputs['Key'].sv_get(deepcopy=True))[0]
-		outputs = []
-		for aDict in DictionaryList:
-			outputs.append(processItem([aDict, key]))
-		self.outputs['Value'].sv_set(outputs)
-
-def register():
-	bpy.utils.register_class(SvDictionaryValueAtKey)
-
-def unregister():
-	bpy.utils.unregister_class(SvDictionaryValueAtKey)

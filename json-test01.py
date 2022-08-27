@@ -19,7 +19,7 @@ topologicPath = os.path.join(sitePackagesFolderName, topologicFolderName)
 sys.path.append(topologicPath)
 import topologic
 
-from topologicpy import TopologyByImportedJSONMK1, TopologyApertures, TopologyTriangulate
+from topologicpy import TopologyByImportedJSONMK1, TopologyApertures, TopologyTriangulate, DictionaryValueAtKey
 #--------------------------
 #--------------------------
 # PAGE CONFIGURATION
@@ -189,12 +189,13 @@ if c:
 cells = []
 _ = c.Cells(None, cells)
 for cell in cells:
-    elementId = "Untitled"
     d = cell.GetDictionary()
     st.write(d)
-    elementId = d.ValueAtKey("elementId")
+    elementId = DictionaryValueAtKey(d,"elementId")
+    if not elementId:
+        elmentId = "Unknown ID"
     st.write(elementId)
     volume = round(topologic.CellUtility.Volume(cell), 2)
     st.write(volume)
     with st.expander("Volume"):
-        st.write("Volume: ", volume)
+        st.write("Volume: ", str(volume))
