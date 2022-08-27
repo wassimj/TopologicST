@@ -158,7 +158,8 @@ with input_column:
 
      # To read file as string:
         string_data = stringio.read()
-        string_data.replace("CASCADE Topology V3, (c) Open Cascade", "CASCADE Topology V1, (c) Matra-Datavision")
+        string_data = string_data.replace("CASCADE Topology V3, (c) Open Cascade", "CASCADE Topology V1, (c) Matra-Datavision")
+        st.write(string_data)
 #--------------------------
 # CONTENT CREATION
 #c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
