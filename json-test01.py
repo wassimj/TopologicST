@@ -185,3 +185,12 @@ if c:
     with viewer_column:
         st.subheader("3D View")
         st.plotly_chart(fig, width=800,height=800)
+
+cells = []
+_ = c.Cells(None, Cells)
+for cell in cells:
+    d = cell.GetDictionary()
+    elementId = d.ValueAtKey("elemntId")
+    volume = round(topologic.CellUtility.Volume(cell), 2)
+    with st.expander(elementId):
+        st.write("Volume: "+str(volume))
