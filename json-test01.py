@@ -137,37 +137,38 @@ input_column, viewer_column = st.columns([1,3],gap="small")
 with input_column:
     st.subheader("Inputs")
     json_file = st.file_uploader("Upload JSON File", type="json", accept_multiple_files=False)
-
+    st.write(json_file)
 #--------------------------
 # CONTENT CREATION
 #c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
 c = TopologyByImportedJSONMK1.processItem(json_file)
 
-plotlyData = plotlyDataByTopology(c, 0.75, "grey", "black")
-faces = []
-_ = c.Faces(None, faces)
-apertureTopologies = []
-for face in faces:
-    apertures, apertureTopology = TopologyApertures.processItem(face)
-    if not isinstance(apertureTopology, list):
-        apertureTopology = [apertureTopology]
-    apertureTopologies = apertureTopologies+apertureTopology
-for at in apertureTopologies:
-    apertureData = plotlyDataByTopology(at, 0.5, "blue", "black")
-    dataList = dataList + apertureData
+if c:
+    plotlyData = plotlyDataByTopology(c, 0.75, "grey", "black")
+    faces = []
+    _ = c.Faces(None, faces)
+    apertureTopologies = []
+    for face in faces:
+        apertures, apertureTopology = TopologyApertures.processItem(face)
+        if not isinstance(apertureTopology, list):
+            apertureTopology = [apertureTopology]
+        apertureTopologies = apertureTopologies+apertureTopology
+    for at in apertureTopologies:
+        apertureData = plotlyDataByTopology(at, 0.5, "blue", "black")
+        dataList = dataList + apertureData
 
-fig = go.Figure(data=dataList)
-fig.update_layout(
-    width=800,
-    height=800,
-    scene = dict(
-        xaxis = dict(visible=False),
-        yaxis = dict(visible=False),
-        zaxis =dict(visible=False),
+    fig = go.Figure(data=dataList)
+    fig.update_layout(
+        width=800,
+        height=800,
+        scene = dict(
+            xaxis = dict(visible=False),
+            yaxis = dict(visible=False),
+            zaxis =dict(visible=False),
+            )
         )
-    )
-#--------------------------
-# 3D VIEWER
-with viewer_column:
-    st.subheader("3D View")
-    st.plotly_chart(fig, width=800,height=800)
+    #--------------------------
+    # 3D VIEWER
+    with viewer_column:
+        st.subheader("3D View")
+        st.plotly_chart(fig, width=800,height=800)
