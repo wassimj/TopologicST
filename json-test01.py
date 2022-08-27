@@ -189,8 +189,9 @@ if c:
 cells = []
 _ = c.Cells(None, cells)
 for cell in cells:
+    elementId = "Untitled"
     d = cell.GetDictionary()
-    elementId = d.ValueAtKey("elemntId")
+    elementId = d.ValueAtKey("elementId")
     volume = round(topologic.CellUtility.Volume(cell), 2)
     with st.expander(elementId):
         st.write("Volume: "+str(volume))
