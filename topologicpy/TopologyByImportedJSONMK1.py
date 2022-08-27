@@ -308,8 +308,8 @@ def processItem(item):
 	jsondata = item
 	for jsonItem in jsondata:
 		brep = jsonItem['brep']
-		st.write("BREP", brep)
 		topology = topologic.Topology.ByString(brep)
+		st.write(topology)
 		dictionary = jsonItem['dictionary']
 		topDictionary = dictionaryByPythonDictionary(dictionary)
 		_ = topology.SetDictionary(topDictionary)
