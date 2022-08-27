@@ -75,6 +75,8 @@ def plotlyDataByTopology(topology, opacity, face_color="blue", line_color="white
         for cell in cells:
             triangulated_cells.append(TopologyTriangulate.processItem(cell, 0.0001))
         topology = topologic.Cluster.ByTopologies(triangulated_cells)
+    else:
+        topology = TopologyTriangulate.processItem(topology, 0.0001)
     tp_vertices = []
     _ = topology.Vertices(None, tp_vertices)
     x = []
