@@ -15,7 +15,7 @@ def processItem(topology, tolerance):
 	t = topology.Type()
 	if (t == 1) or (t == 2) or (t == 4) or (t == 128):
 		return topology
-	if t = topologic.Face.Type():
+	if t == topologic.Face.Type():
 		topologyFaces = [topology]
 	else:
 		topologyFaces = []
