@@ -138,7 +138,6 @@ with input_column:
     st.subheader("Inputs")
     origin = topologic.Vertex.ByCoordinates(0,0,0)
     scale = st.slider("Explode Scale", min_value=1.0, max_value=5.0, value=1.0, step=0.1)
-    filter_type = st.selectbox("Type", filter_types, index=0)
     width = st.slider("Width", min_value=0., max_value=100., value=10., step=0.1)
     length = st.slider("Length", min_value=0., max_value=100., value=10., step=0.1)
     height = st.slider("Height", min_value=0., max_value=100., value=10., step=0.1)
