@@ -185,8 +185,9 @@ with input_column:
             _ = c.Cells(None, cells)
             st.write("Number of Spaces: ", str(len(cells)))
             report = []
-            cell_info = ''
+            
             for cell_i, cell in enumerate(cells):
+                cell_info = ''
                 d = cell.GetDictionary()
                 elementId = str(DictionaryValueAtKey.processItem([d,"elementId"]))
                 if not elementId:
