@@ -303,47 +303,47 @@ with input_column:
                     sw_aperture_area = sw_aperture_area + aperture_area
 
             if n_wall_area > 0:
-                n_ap_or = n_aperture_area / n_wall_area * 100
+                n_ap_or = str(round(n_aperture_area / n_wall_area * 100,2))+" %"
             else:
-                n_ap_or = 0
+                n_ap_or = "0 %"
             if s_wall_area > 0:
-                s_ap_or = s_aperture_area / s_wall_area * 100
+                s_ap_or = str(round(s_aperture_area / s_wall_area * 100,2))+" %"
             else:
-                s_ap_or = 0
+                s_ap_or = "0 %"
             if e_wall_area > 0:
-                e_ap_or = e_aperture_area / e_wall_area * 100
+                e_ap_or = str(round(e_aperture_area / e_wall_area * 100,2))+" %"
             else:
-                e_ap_or = 0
+                e_ap_or = "0 %"
             if w_wall_area > 0:
-                w_ap_or = w_aperture_area / w_wall_area * 100
+                w_ap_or = str(round(w_aperture_area / w_wall_area * 100,2))+" %"
             else:
-                w_ap_or = 0
+                w_ap_or = "0 %"
             if ne_wall_area > 0:
-                ne_ap_or = ne_aperture_area / ne_wall_area * 100
+                ne_ap_or = str(round(ne_aperture_area / ne_wall_area * 100,2))+" %"
             else:
-                ne_ap_or = 0
+                ne_ap_or = "0 %"
             if nw_wall_area > 0:
-                nw_ap_or = nw_aperture_area / nw_wall_area * 100
+                nw_ap_or = str(round(nw_aperture_area / nw_wall_area * 100,2))+" %"
             else:
-                nw_ap_or = 0
+                nw_ap_or = "0 %"
             if se_wall_area > 0:
-                se_ap_or = se_aperture_area / se_wall_area * 100
+                se_ap_or = str(round(se_aperture_area / se_wall_area * 100,2))+" %"
             else:
-                se_ap_or = 0
+                se_ap_or = "0 %"
             if sw_wall_area > 0:
-                sw_ap_or = sw_aperture_area / sw_wall_area * 100
+                sw_ap_or = str(round(sw_aperture_area / sw_wall_area * 100,2))+" %"
             else:
-                sw_ap_or = 0
+                sw_ap_or = "0 %"
 
             total_project_wall_area = s_wall_area + n_wall_area + ne_wall_area + nw_wall_area + sw_wall_area + se_wall_area
-            n_ap_proj = n_aperture_area / total_project_wall_area * 100
-            s_ap_proj = s_aperture_area / total_project_wall_area * 100
-            e_ap_proj = e_aperture_area / total_project_wall_area * 100
-            w_ap_proj = w_aperture_area / total_project_wall_area * 100
-            ne_ap_proj = ne_aperture_area / total_project_wall_area * 100
-            nw_ap_proj = nw_aperture_area / total_project_wall_area * 100
-            se_ap_proj = se_aperture_area / total_project_wall_area * 100
-            sw_ap_proj = sw_aperture_area / total_project_wall_area * 100
+            n_ap_proj = str(round(n_aperture_area / total_project_wall_area * 100,2))+" %"
+            s_ap_proj = str(round(s_aperture_area / total_project_wall_area * 100,2))+" %"
+            e_ap_proj = str(round(e_aperture_area / total_project_wall_area * 100,2))+" %"
+            w_ap_proj = str(round(w_aperture_area / total_project_wall_area * 100,2))+" %"
+            ne_ap_proj = str(round(ne_aperture_area / total_project_wall_area * 100,2))+" %"
+            nw_ap_proj = str(round(nw_aperture_area / total_project_wall_area * 100,2))+" %"
+            se_ap_proj = str(round(se_aperture_area / total_project_wall_area * 100,2))+" %"
+            sw_ap_proj = str(round(sw_aperture_area / total_project_wall_area * 100,2))+" %"
             
             
             col_labels = ["Orientation", "Window Area", "Wall Area", "WWR By Orientation", "WWR By Project"]
