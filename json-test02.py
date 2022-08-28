@@ -79,7 +79,7 @@ def faceAngleFromNorth(f, north):
 
 def faceAperturesAndArea(f):
     aperture_area = 0
-    ap, apertures = TopologyApertures.processItem(cell_face)
+    ap, apertures = TopologyApertures.processItem(f)
     for aperture in apertures:
         aperture_area = aperture_area + topologic.FaceUtility.Area(aperture)
     return [apertures, aperture_area]
