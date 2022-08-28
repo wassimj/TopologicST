@@ -222,7 +222,6 @@ with input_column:
                     ap, apertures = TopologyApertures.processItem(cell_face)
                     if len(apertures) > 0: #This face has a window so must be a wall, count it.
                         dirA = FaceNormalAtParameters.processItem([cell_face, 0.5, 0.5], "XYZ", 3)
-                        st.write(str(dirA))
                         ang = round((angle_between(dirA, north) * 180 / pi), 2)
                         if 22.5 < ang <= 67.5:
                             ang_str = "NW"
