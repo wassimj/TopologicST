@@ -303,54 +303,73 @@ with input_column:
                     sw_aperture_area = sw_aperture_area + aperture_area
 
             if n_wall_area > 0:
-                n_ap_or = str(round(n_aperture_area / n_wall_area * 100,2))+" %"
+                n_ap_or = n_aperture_area / n_wall_area * 100
             else:
-                n_ap_or = "0 %"
+                n_ap_or = 0
             if s_wall_area > 0:
-                s_ap_or = str(round(s_aperture_area / s_wall_area * 100,2))+" %"
+                s_ap_or = s_aperture_area / s_wall_area * 100
             else:
-                s_ap_or = "0 %"
+                s_ap_or = 0
             if e_wall_area > 0:
-                e_ap_or = str(round(e_aperture_area / e_wall_area * 100,2))+" %"
+                e_ap_or = e_aperture_area / e_wall_area * 100
             else:
-                e_ap_or = "0 %"
+                e_ap_or = 0
             if w_wall_area > 0:
-                w_ap_or = str(round(w_aperture_area / w_wall_area * 100,2))+" %"
+                w_ap_or = w_aperture_area / w_wall_area * 100
             else:
-                w_ap_or = "0 %"
+                w_ap_or = 0
             if ne_wall_area > 0:
-                ne_ap_or = str(round(ne_aperture_area / ne_wall_area * 100,2))+" %"
+                ne_ap_or = ne_aperture_area / ne_wall_area * 100
             else:
-                ne_ap_or = "0 %"
+                ne_ap_or = 0
             if nw_wall_area > 0:
-                nw_ap_or = str(round(nw_aperture_area / nw_wall_area * 100,2))+" %"
+                nw_ap_or = nw_aperture_area / nw_wall_area * 100
             else:
-                nw_ap_or = "0 %"
+                nw_ap_or = 0
             if se_wall_area > 0:
-                se_ap_or = str(round(se_aperture_area / se_wall_area * 100,2))+" %"
+                se_ap_or = se_aperture_area / se_wall_area * 100
             else:
-                se_ap_or = "0 %"
+                se_ap_or = 0
             if sw_wall_area > 0:
-                sw_ap_or = str(round(sw_aperture_area / sw_wall_area * 100,2))+" %"
+                sw_ap_or = sw_aperture_area / sw_wall_area * 100
             else:
-                sw_ap_or = "0 %"
+                sw_ap_or = 0
 
+            total_ap_or_percent = n_ap_or+s_ap_or+e_ap_or+w_ap_or+ne_ap_or+nw_ap_or+se_ap_or+sw_ap_or
             total_project_wall_area = s_wall_area + n_wall_area + ne_wall_area + nw_wall_area + sw_wall_area + se_wall_area
-            n_ap_proj = str(round(n_aperture_area / total_project_wall_area * 100,2))+" %"
-            s_ap_proj = str(round(s_aperture_area / total_project_wall_area * 100,2))+" %"
-            e_ap_proj = str(round(e_aperture_area / total_project_wall_area * 100,2))+" %"
-            w_ap_proj = str(round(w_aperture_area / total_project_wall_area * 100,2))+" %"
-            ne_ap_proj = str(round(ne_aperture_area / total_project_wall_area * 100,2))+" %"
-            nw_ap_proj = str(round(nw_aperture_area / total_project_wall_area * 100,2))+" %"
-            se_ap_proj = str(round(se_aperture_area / total_project_wall_area * 100,2))+" %"
-            sw_ap_proj = str(round(sw_aperture_area / total_project_wall_area * 100,2))+" %"
+            total_project_aperture_area = n_aperture_area + s_aperture_area + e_aperture_area + w_aperture_area + ne_aperture_area + nw_aperture_area + se_aperture_area + sw_aperture_area
             
+            n_ap_proj = n_aperture_area / total_project_wall_area * 100
+            s_ap_proj = s_aperture_area / total_project_wall_area * 100
+            e_ap_proj = e_aperture_area / total_project_wall_area * 100
+            w_ap_proj = w_aperture_area / total_project_wall_area * 100
+            ne_ap_proj = ne_aperture_area / total_project_wall_area * 100
+            nw_ap_proj = nw_aperture_area / total_project_wall_area * 100
+            se_ap_proj = se_aperture_area / total_project_wall_area * 100
+            sw_ap_proj = sw_aperture_area / total_project_wall_area * 100
             
+            total_ap_proj_percent = n_ap_proj+s_ap_proj+e_ap_proj+w_ap_proj+ne_ap_proj+nw_ap_proj+se_ap_proj+sw_ap_proj
             col_labels = ["Orientation", "Window Area", "Wall Area", "WWR By Orientation", "WWR By Project"]
-            d = {"Orientation": ["N", "S", "E", "W", "NE", "NW", "SE", "SW"],
-                'Window Area': [n_aperture_area, s_aperture_area, e_aperture_area, w_aperture_area, ne_aperture_area, nw_aperture_area, se_aperture_area, sw_aperture_area],
-                'Wall Area': [n_wall_area, s_wall_area, e_wall_area, w_wall_area, ne_wall_area, nw_wall_area, se_wall_area, sw_wall_area],
-                'WWR By Orientation': [n_ap_or, s_ap_or, e_ap_or, w_ap_or, ne_ap_or, nw_ap_or, se_ap_or, sw_ap_or],
-                'WWR By Project': [n_ap_proj, s_ap_proj, e_ap_proj, w_ap_proj, ne_ap_proj, nw_ap_proj, se_ap_proj, sw_ap_proj]}
+            d = {"Orientation": ["N", "S", "E", "W", "NE", "NW", "SE", "SW", "Total"],
+                'Window Area': [n_aperture_area,
+                                s_aperture_area,
+                                e_aperture_area,
+                                w_aperture_area,
+                                ne_aperture_area,
+                                nw_aperture_area,
+                                se_aperture_area,
+                                sw_aperture_area,
+                                total_project_aperture_area],
+                'Wall Area': [n_wall_area,
+                              s_wall_area,
+                              e_wall_area,
+                              w_wall_area,
+                              ne_wall_area,
+                              nw_wall_area,
+                              se_wall_area,
+                              sw_wall_area,
+                              total_project_wall_area],
+                'WWR By Orientation': [n_ap_or, s_ap_or, e_ap_or, w_ap_or, ne_ap_or, nw_ap_or, se_ap_or, sw_ap_or, total_ap_or_percent],
+                'WWR By Project': [n_ap_proj, s_ap_proj, e_ap_proj, w_ap_proj, ne_ap_proj, nw_ap_proj, se_ap_proj, sw_ap_proj, total_ap_proj_percent]}
             df = pd.DataFrame(data=d)
             st.table(df)
