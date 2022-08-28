@@ -148,7 +148,8 @@ string_data = None
 with input_column:
     st.subheader("Inputs")
     json_file = st.file_uploader("Upload JSON MK1 File", type="json", accept_multiple_files=False)
-    topologies = TopologyByImportedJSONMK1.processItem(json_file)
+    if json_file:
+        topologies = TopologyByImportedJSONMK1.processItem(json_file)
     
 #--------------------------
 # CONTENT CREATION
