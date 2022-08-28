@@ -226,10 +226,13 @@ with input_column:
                         dirA = FaceNormalAtParameters.processItem([cell_face, 0.5, 0.5], "XYZ", 3)
                         north = [0,1,0]
                         ang = round((angle_between(dirA, north) * 180 / pi), 2)
-                        cell_info.append("Window Angle from North: "+str(ang))
+                        window_angle = "Window Angle from North: "+str(ang)
+                    else:
+                        window_angle = "Window Angle from North: N/A"
                 if wall_area > 0:
                     wwr = round((window_area / wall_area),2)
                 cell_info.append("Num Windows: "+str(num_windows))
+                cell.info.append(window_angle)
                 cell_info.append("WWR: "+str(wwr))
                 report.append(cell_info)
             st.write(report)
