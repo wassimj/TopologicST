@@ -201,7 +201,6 @@ with input_column:
                 wwr = 0
                 for cell_face in cell_faces:
                     ap, apertures = TopologyApertures.processItem(cell_face)
-                    st.write(" Debug apertures", apertures)
                     if len(apertures) > 0: #This face has a window so must be a wall, count it.
                         num_windows = num_windows + len(apertures)
                         wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
