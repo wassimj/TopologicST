@@ -4,7 +4,7 @@ import streamlit as st
 import plotly.graph_objects as go
 import json
 from io import StringIO
-from numpy import arctan, pi, signbit
+from numpy import arctan, pi, signbit, arctan2, rad2deg
 from numpy.linalg import norm
 import pandas as pd
 
@@ -36,9 +36,9 @@ st.set_page_config(
 #--------------------------
 # DEFINITIONS
 def compass_angle(p1, p2):
-    ang1 = numpy.arctan2(*p1[::-1])
-    ang2 = numpy.arctan2(*p2[::-1])
-    return numpy.rad2deg((ang1 - ang2) % (2 * np.pi))
+    ang1 = arctan2(*p1[::-1])
+    ang2 = arctan2(*p2[::-1])
+    return rad2deg((ang1 - ang2) % (2 * np.pi))
 
 def angle_between(v1, v2):
 	u1 = v1 / norm(v1)
