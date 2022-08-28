@@ -289,7 +289,7 @@ with input_column:
                     se_wall_area = se_wall_area + wall_area
                     se_apertures = se_apertures + apertures
                     se_aperture_area = se_aperture_area + aperture_area
-                 elif ang_str == "SW":
+                elif ang_str == "SW":
                     sw_walls.append(f)
                     sw_wall_area = sw_wall_area + wall_area
                     sw_apertures = sw_apertures + apertures
@@ -344,6 +344,6 @@ with input_column:
                 'Window Area': [n_aperture_area, s_aperture_area, e_aperture_area, w_aperture_area, ne_aperture_area, nw_aperture_area, se_aperture_area, sw_aperture_area],
                 'Wall Area': [n_wall_area, s_wall_area, e_wall_area, w_wall_area, ne_wall_area, nw_wall_area, se_wall_area, sw_wall_area],
                 'WWR By Orientation': [n_ap_or, s_ap_or, e_ap_or, w_ap_or, ne_ap_or, nw_ap_or, se_ap_or, sw_ap_or],
-                'WWR By Project': [n_ap_proj, s_ap_proj, e_ap_proj, w_ap_proj, ne_ap_proj, nw_ap_pro, se_ap_pro, sw_ap_pro]}
-            df = pd.DataFrame(np.random.randn(10, 5),
+                'WWR By Project': [n_ap_proj, s_ap_proj, e_ap_proj, w_ap_proj, ne_ap_proj, nw_ap_proj, se_ap_proj, sw_ap_proj]}
+            df = pd.DataFrame(data=d)
             st.table(df)
