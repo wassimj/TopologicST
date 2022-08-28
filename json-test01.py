@@ -238,6 +238,7 @@ with input_column:
                             color_str = "white"
                         cell_info["Window Angle from North"] = ang
                         cell_info["Window Direction"] = ang_str
+                        cell_info["Window Color"] = color_str
                         num_windows = num_windows + len(apertures)
                         wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
                         for aperture in apertures:
