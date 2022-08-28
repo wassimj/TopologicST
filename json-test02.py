@@ -58,13 +58,13 @@ def faceAngleFromNorth(f, north):
     ang = compass_angle((dirA[0],dirA[1]), (north[0], north[1]))
     #ang = round((angle_between(dirA, north) * 180 / pi), 2)
     if 22.5 < ang <= 67.5:
-        ang_str = "NW"
+        ang_str = "NE"
         color_str = "yellowgreen"
     elif 67.5 < ang <= 112.5:
-        ang_str = "W"
+        ang_str = "E"
         color_str = "chocolate"
     elif 112.5 < ang <= 157.5:
-        ang_str = "SW"
+        ang_str = "SE"
         color_str = "mediumseagreen"
     elif 157.5 < ang <= 202.5:
         ang_str = "S"
@@ -73,10 +73,10 @@ def faceAngleFromNorth(f, north):
         ang_str = "SW"
         color_str = "khaki"
     elif 247.5 < ang <= 292.5:
-        ang_str = "E"
+        ang_str = "W"
         color_str = "yellow"
     elif 292.5 < ang <= 337.5:
-        ang_str = "NE"
+        ang_str = "NW"
         color_str = "mediumslateblue"
     else:
         ang_str = "N"
