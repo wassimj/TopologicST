@@ -200,15 +200,16 @@ with input_column:
             _ = c.Cells(None, cells)
             st.write("Number of Spaces: ", str(len(cells)))
             report = []
+            north = [0,1,0]
             for cell_i, cell in enumerate(cells):
-                cell_info = []
+                cell_info = {}
                 d = cell.GetDictionary()
                 elementId = str(DictionaryValueAtKey.processItem([d,"elementId"]))
                 if not elementId:
                     elmentId = "Unknown ID"
-                cell_info.append("Element ID: "+ elementId)
+                cell_info["Element ID"]=elementId
                 cell_volume = str(round(topologic.CellUtility.Volume(cell), 2))
-                cell_info.append("Cell Volume: "+cell_volume)
+                cell_info["Cell Volume"] = cell_volume
                 cell_faces = []
                 _ = cell.Faces(None, cell_faces)
                 wall_area = 0
@@ -220,38 +221,32 @@ with input_column:
                 for cell_face_i, cell_face in enumerate(cell_faces):
                     ap, apertures = TopologyApertures.processItem(cell_face)
                     if len(apertures) > 0: #This face has a window so must be a wall, count it.
+                        dirA = FaceNormalAtParameters.processItem([cell_face, 0.5, 0.5], "XYZ", 3)
+                        st.write(str(dirA))
+                        ang = round((angle_between(dirA, north) * 180 / pi), 2)
+                        if 22 < ang < 67:
+                            ang_str = "NE"
+                        elif 66 < ang < 113:
+                            ang_str = "E"
+                        elif 112 < ang < 157:
+                            ang_str = "S"
+                        elif 156 < ang < 247:
+                            ang_str = "SW"
+                        elif 246 < ang < 293:
+                            ang_str = "W"
+                        elif 292 < ang < 337:
+                            ang_str = "NW"
+                        else:
+                            ang_str = "N"
+                        cell_info["Window Angle from North"] = ang
+                        cell_info["Window Direction"] = ang_str
                         num_windows = num_windows + len(apertures)
                         wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
                         for aperture in apertures:
                             window_area = window_area + topologic.FaceUtility.Area(aperture)
-                cell_info.append("Num Windows: "+str(num_windows))
-                ang_str = ""
-                if wall_area > 0: # This means that a wall contains windows and has been counted
-                    wwr = round((window_area / wall_area),2)
-                    dirA = FaceNormalAtParameters.processItem([cell_face, 0.5, 0.5], "XYZ", 3)
-                    st.write(str(dirA))
-                    north = [0,1,0]
-                    ang = round((angle_between(dirA, north) * 180 / pi), 2)
-                    if 22 < ang < 67:
-                        ang_str = "NE"
-                    elif 66 < ang < 113:
-                        ang_str = "E"
-                    elif 112 < ang < 157:
-                        ang_str = "S"
-                    elif 156 < ang < 247:
-                        ang_str = "SW"
-                    elif 246 < ang < 293:
-                        ang_str = "W"
-                    elif 292 < ang < 337:
-                        ang_str = "NW"
-                    else:
-                        ang_str = "N"
-
-                    cell_info.append("Window Angle from North: "+str(ang)+" ("+ang_str+")")
-                else:
-                    cell_info.append("Window Angle from North: N/A")
-                    wwr = 0
-                cell_info.append("WWR: "+str(wwr))
+                cell_info["Num Windows"] = num_windows
+                wwr = round((window_area / wall_area),2)
+                cell_info["WWR"]=wwr
                 report.append(cell_info)
             st.write(report)
                 #keys = DictionaryKeys.processItem(d)
