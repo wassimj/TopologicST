@@ -387,9 +387,8 @@ with input_column:
                                    round(sw_ap_proj,2),
                                    round(total_ap_proj_percent,2)]}
             df = pd.DataFrame(data=d)
-            st.write(df.style)
             df.style.format(precision=2, na_rep='MISSING', thousands=",",
                 formatter={
                            ('WWR By Orientation', 'WWR By Project'): lambda x: "{:,.1f} %".format(x)
                           })
-            st.table(df, df.style)
+            st.table(df.style)
