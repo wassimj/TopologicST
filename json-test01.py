@@ -245,7 +245,10 @@ with input_column:
                         for aperture in apertures:
                             window_area = window_area + topologic.FaceUtility.Area(aperture)
                 cell_info["Num Windows"] = num_windows
-                wwr = round((window_area / wall_area),2)
+                if wall_area > 0:
+                    wwr = round((window_area / wall_area),2)
+                else:
+                    wwr = 0
                 cell_info["WWR"]=wwr
                 report.append(cell_info)
             st.write(report)
