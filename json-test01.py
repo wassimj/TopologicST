@@ -183,12 +183,16 @@ with input_column:
                 )
             cells = []
             _ = c.Cells(None, cells)
+            report = []
+            cell_info = []
             for cell in cells:
                 d = cell.GetDictionary()
-                elementId = DictionaryValueAtKey.processItem([d,"elementId"])
+                elementId = str(DictionaryValueAtKey.processItem([d,"elementId"]))
                 if not elementId:
                     elmentId = "Unknown ID"
-                volume = round(topologic.CellUtility.Volume(cell), 2)
+                cell_info.append("Element ID: "+ elementId)
+                cell_volume = str(round(topologic.CellUtility.Volume(cell), 2))
+                cell_info.append("Cell Volume: "+cell_volume)
                 cell_faces = []
                 _ = c.Faces(None, cell_faces)
                 wall_area = 0
@@ -202,13 +206,12 @@ with input_column:
                         wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
                         for aperture in apertures:
                             window_area = window_area + topologic.FaceUtility.Area(aperture)
-                    st.write("Debug: Num Windows", str(num_windows))
                 if wall_area > 0:
                     wwr = round((window_area / wall_area),2)
-                st.write("Element ID: "+str(elementId))
-                st.write("Volume: ", str(volume))
-                st.write("Number of Windows: ", str(num_windows))
-                st.write("Window to Wall Ratio: ", str(wwr))
+                cell_info.append("Num Windows: "+str(num_windows))
+                cell_info.append("WWR: "+str(wwr))
+                report.append(cell_info)
+            st.write(report)
                 #keys = DictionaryKeys.processItem(d)
                 #for key in keys:
                     #st.write(key,":", DictionaryValueAtKey.processItem([d,key]))
