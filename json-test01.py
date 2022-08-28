@@ -202,15 +202,16 @@ with input_column:
                         wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
                         for aperture in apertures:
                             window_area = window_area + topologic.FaceUtility.Area(aperture)
+                    st.write("Debug: Num Windows", str(num_windows))
                 if wall_area > 0:
                     wwr = round((window_area / wall_area),2)
                 st.write("Element ID: "+str(elementId))
                 st.write("Volume: ", str(volume))
                 st.write("Number of Windows: ", str(num_windows))
                 st.write("Window to Wall Ratio: ", str(wwr))
-                keys = DictionaryKeys.processItem(d)
-                for key in keys:
-                    st.write(key,":", DictionaryValueAtKey.processItem([d,key]))
+                #keys = DictionaryKeys.processItem(d)
+                #for key in keys:
+                    #st.write(key,":", DictionaryValueAtKey.processItem([d,key]))
 
         #--------------------------
         # 3D VIEWER
