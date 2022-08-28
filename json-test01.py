@@ -204,13 +204,13 @@ with input_column:
                             window_area = window_area + topologic.FaceUtility.Area(aperture)
                 if wall_area > 0:
                     wwr = round((window_area / wall_area),2)
-                with st.expander("Element ID: "+str(elementId)):
-                    st.write("Volume: ", str(volume))
-                    st.write("Number of Windows: ", str(num_windows))
-                    st.write("Window to Wall Ratio: ", str(wwr))
-                    keys = DictionaryKeys.processItem(d)
-                    for key in keys:
-                        st.write(key,":", DictionaryValueAtKey.processItem([d,key]))
+                st.write("Element ID: "+str(elementId))
+                st.write("Volume: ", str(volume))
+                st.write("Number of Windows: ", str(num_windows))
+                st.write("Window to Wall Ratio: ", str(wwr))
+                keys = DictionaryKeys.processItem(d)
+                for key in keys:
+                    st.write(key,":", DictionaryValueAtKey.processItem([d,key]))
 
         #--------------------------
         # 3D VIEWER
