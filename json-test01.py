@@ -229,6 +229,7 @@ with input_column:
                 if wall_area > 0: # This means that a wall contains windows and has been counted
                     wwr = round((window_area / wall_area),2)
                     dirA = FaceNormalAtParameters.processItem([cell_face, 0.5, 0.5], "XYZ", 3)
+                    st.write(str(dirA)
                     north = [0,1,0]
                     ang = round((angle_between(dirA, north) * 180 / pi), 2)
                     if 22 < ang < 67:
