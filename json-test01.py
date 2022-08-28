@@ -242,9 +242,8 @@ with input_column:
                         wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
                         for aperture in apertures:
                             window_area = window_area + topologic.FaceUtility.Area(aperture)
-                            for at in apertureTopologies:
-                                apertureData = plotlyDataByTopology(at, 0.5, color_str, "black")
-                                dataList = dataList + apertureData
+                            apertureData = plotlyDataByTopology(aperture, 0.5, color_str, "black")
+                            dataList = dataList + apertureData
                 cell_info["Num Windows"] = num_windows
                 if wall_area > 0:
                     wwr = round((window_area / wall_area),2)
