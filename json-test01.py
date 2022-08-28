@@ -235,7 +235,7 @@ with input_column:
                         ang_str = "NE"
                     elif 66 < ang < 113:
                         ang_str = "E"
-                    elif 112 < str < 157:
+                    elif 112 < ang < 157:
                         ang_str = "S"
                     elif 156 < ang < 247:
                         ang_str = "SW"
