@@ -188,8 +188,8 @@ with input_column:
 
             fig = go.Figure(data=dataList)
             fig.update_layout(
-                width=500,
-                height=500,
+                width=600,
+                height=600,
                 scene = dict(
                     xaxis = dict(visible=False),
                     yaxis = dict(visible=False),
@@ -241,6 +241,6 @@ with input_column:
         # 3D VIEWER
         with viewer_column:
             st.subheader("3D View")
-            st.plotly_chart(fig, width=500,height=500)
+            st.plotly_chart(fig, width=600,height=600)
 
 
