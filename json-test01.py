@@ -4,6 +4,8 @@ import streamlit as st
 import plotly.graph_objects as go
 import json
 from io import StringIO
+from numpy import arctan, pi, signbit
+from numpy.linalg import norm
 # import topologic
 # This requires some checking of the used OS platform to load the correct version of Topologic
 import sys
@@ -19,7 +21,7 @@ topologicPath = os.path.join(sitePackagesFolderName, topologicFolderName)
 sys.path.append(topologicPath)
 import topologic
 
-from topologicpy import TopologyByImportedJSONMK1, TopologyApertures, TopologyTriangulate, DictionaryValueAtKey, DictionaryKeys
+from topologicpy import TopologyByImportedJSONMK1, TopologyApertures, TopologyTriangulate, DictionaryValueAtKey, DictionaryKeys, FaceNormalAtParameters
 #--------------------------
 #--------------------------
 # PAGE CONFIGURATION
@@ -31,6 +33,19 @@ st.set_page_config(
 #--------------------------
 #--------------------------
 # DEFINITIONS
+def angle_between(v1, v2):
+	u1 = v1 / norm(v1)
+	u2 = v2 / norm(v2)
+	y = u1 - u2
+	x = u1 + u2
+	a0 = 2 * arctan(norm(y) / norm(x))
+	if (not signbit(a0)) or signbit(pi - a0):
+		return a0
+	elif signbit(a0):
+		return 0
+	else:
+		return pi
+
 def plotlyDataByTopology(topology, opacity, face_color="blue", line_color="white"):
     faces = []
     if topology.Type() > topologic.Face.Type():
@@ -201,16 +216,18 @@ with input_column:
                 num_windows = 0
                 window_area = 0
                 wwr = 0
+                window_direction = None
                 for cell_face_i, cell_face in enumerate(cell_faces):
-                    st.write(cell_i," ",cell_face_i," Debug Wall Area: "+str(topologic.FaceUtility.Area(cell_face)))
                     ap, apertures = TopologyApertures.processItem(cell_face)
                     if len(apertures) > 0: #This face has a window so must be a wall, count it.
                         num_windows = num_windows + len(apertures)
                         wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
                         for aperture in apertures:
                             window_area = window_area + topologic.FaceUtility.Area(aperture)
-                st.write(cell_i," ",cell_face_i," Debug Wall Area 2: "+str(wall_area))
-                st.write(cell_i," ",cell_face_i," Debug Window Area: "+str(window_area))
+                        dirA = FaceNormalAtParameters.processItem([cell_face, 0.5, 0.5], "XYZ", 3)
+                        north = [0,1,0]
+                        ang = round((angle_between(dirA, dirB) * 180 / pi), 2)
+                        cell_info += "Window Angle from North: "+str(ang)+"\n"
                 if wall_area > 0:
                     wwr = round((window_area / wall_area),2)
                 cell_info += "Num Windows: "+str(num_windows)+"\n"
