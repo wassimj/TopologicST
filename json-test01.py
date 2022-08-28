@@ -216,6 +216,7 @@ with input_column:
                 window_area = 0
                 wwr = 0
                 window_direction = None
+                windows_exist = False
                 for cell_face_i, cell_face in enumerate(cell_faces):
                     ap, apertures = TopologyApertures.processItem(cell_face)
                     if len(apertures) > 0: #This face has a window so must be a wall, count it.
@@ -223,16 +224,20 @@ with input_column:
                         wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
                         for aperture in apertures:
                             window_area = window_area + topologic.FaceUtility.Area(aperture)
-                        dirA = FaceNormalAtParameters.processItem([cell_face, 0.5, 0.5], "XYZ", 3)
-                        north = [0,1,0]
-                        ang = round((angle_between(dirA, north) * 180 / pi), 2)
-                        window_angle = "Window Angle from North: "+str(ang)
+                        
                     else:
-                        window_angle = "Window Angle from North: N/A"
+                        window_angle = 
+                
+                cell_info.append("Num Windows: "+str(num_windows))
                 if wall_area > 0:
                     wwr = round((window_area / wall_area),2)
-                cell_info.append("Num Windows: "+str(num_windows))
-                cell_info.append(window_angle)
+                    dirA = FaceNormalAtParameters.processItem([cell_face, 0.5, 0.5], "XYZ", 3)
+                    north = [0,1,0]
+                    ang = round((angle_between(dirA, north) * 180 / pi), 2)
+                    cell_info.append("Window Angle from North: "+str(ang))
+                else:
+                    cell_info.append("Window Angle from North: N/A")
+                    wwr = 0
                 cell_info.append("WWR: "+str(wwr))
                 report.append(cell_info)
             st.write(report)
