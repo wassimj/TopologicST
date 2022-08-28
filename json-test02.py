@@ -55,7 +55,7 @@ def angle_between(v1, v2):
 
 def faceAngleFromNorth(f, north):
     dirA = FaceNormalAtParameters.processItem([f, 0.5, 0.5], "XYZ", 3)
-    ang = compass_angle((-dirA[0],dirA[1]), (north[0], north[1]))
+    ang = compass_angle((dirA[0],dirA[1]), (north[0], north[1]))
     #ang = round((angle_between(dirA, north) * 180 / pi), 2)
     if 22.5 < ang <= 67.5:
         ang_str = "NW"
