@@ -319,7 +319,7 @@ with input_column:
                 nw_ap_or = nw_aperture_area / nw_wall_area * 100
             else:
                 nw_ap_or = 0
-            if se_wall_area = 0:
+            if se_wall_area > 0:
                 se_ap_or = se_aperture_area / se_wall_area * 100
             else:
                 se_ap_or = 0
