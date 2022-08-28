@@ -348,7 +348,7 @@ with input_column:
             sw_ap_proj = sw_aperture_area / total_project_wall_area * 100
             
             total_ap_proj_percent = n_ap_proj+s_ap_proj+e_ap_proj+w_ap_proj+ne_ap_proj+nw_ap_proj+se_ap_proj+sw_ap_proj
-            col_labels = ["Orientation", "Window Area (SF)", "Wall Area (SF)", "WWR By Orientation", "WWR By Project"]
+            col_labels = ["Orientation", "Window Area", "Wall Area", "WWR By Orientation", "WWR By Project"]
             d = {"Orientation": ["N", "S", "E", "W", "NE", "NW", "SE", "SW", "Total"],
                 'Window Area': [round(n_aperture_area,2),
                                 round(s_aperture_area,2),
@@ -386,7 +386,5 @@ with input_column:
                                    round(se_ap_proj,2),
                                    round(sw_ap_proj,2),
                                    round(total_ap_proj_percent,2)]}
-            df = pd.DataFrame(data=d, formatter={
-                           ('WWR By Orientation', 'WWR By Project'): lambda x: "{:,.1f} %".format(x)
-                          })
+            df = pd.DataFrame(data=d)
             st.table(df)
