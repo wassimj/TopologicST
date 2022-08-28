@@ -391,4 +391,4 @@ with input_column:
                 formatter={
                            ('WWR By Orientation', 'WWR By Project'): lambda x: "{:,.1f} %".format(x)
                           })
-            st.table(df)
+            st.table(df, df.style)
