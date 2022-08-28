@@ -177,25 +177,14 @@ with input_column:
             faces = []
             _ = c.Faces(None, faces)
             apertureTopologies = []
-            for face in faces:
-                apertures, apertureTopology = TopologyApertures.processItem(face)
-                if not isinstance(apertureTopology, list):
-                    apertureTopology = [apertureTopology]
-                apertureTopologies = apertureTopologies+apertureTopology
-            for at in apertureTopologies:
-                apertureData = plotlyDataByTopology(at, 0.5, "blue", "black")
-                dataList = dataList + apertureData
-
-            fig = go.Figure(data=dataList)
-            fig.update_layout(
-                width=600,
-                height=600,
-                scene = dict(
-                    xaxis = dict(visible=False),
-                    yaxis = dict(visible=False),
-                    zaxis =dict(visible=False),
-                    )
-                )
+            #for face in faces:
+                #apertures, apertureTopology = TopologyApertures.processItem(face)
+                #if not isinstance(apertureTopology, list):
+                    #apertureTopology = [apertureTopology]
+                #apertureTopologies = apertureTopologies+apertureTopology
+            #or at in apertureTopologies:
+                ##apertureData = plotlyDataByTopology(at, 0.5, "blue", "black")
+                #dataList = dataList + apertureData
             cells = []
             _ = c.Cells(None, cells)
             st.write("Number of Spaces: ", str(len(cells)))
@@ -225,26 +214,37 @@ with input_column:
                         ang = round((angle_between(dirA, north) * 180 / pi), 2)
                         if 22.5 < ang <= 67.5:
                             ang_str = "NW"
+                            color_str = "red"
                         elif 67.5 < ang <= 112.5:
                             ang_str = "W"
+                            color_str = "green"
                         elif 112.5 < ang <= 157.5:
                             ang_str = "SW"
+                            color_str = "blue"
                         elif 157.5 < ang <= 202.5:
                             ang_str = "S"
+                            color_str = "yellow"
                         elif 202.5 < ang <= 247.5:
                             ang_str = "SE"
+                            color_str = "purple"
                         elif 247.5 < ang <= 292.5:
                             ang_str = "E"
+                            color_str = "cyan"
                         elif 292.5 < ang <= 337.5:
                             ang_str = "NE"
+                            color_str = "brown"
                         else:
                             ang_str = "N"
+                            color_str = "white"
                         cell_info["Window Angle from North"] = ang
                         cell_info["Window Direction"] = ang_str
                         num_windows = num_windows + len(apertures)
                         wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
                         for aperture in apertures:
                             window_area = window_area + topologic.FaceUtility.Area(aperture)
+                            for at in apertureTopologies:
+                                apertureData = plotlyDataByTopology(at, 0.5, color_str, "black")
+                                dataList = dataList + apertureData
                 cell_info["Num Windows"] = num_windows
                 if wall_area > 0:
                     wwr = round((window_area / wall_area),2)
@@ -261,6 +261,16 @@ with input_column:
         # 3D VIEWER
         with viewer_column:
             st.subheader("3D View")
+            fig = go.Figure(data=dataList)
+            fig.update_layout(
+                width=600,
+                height=600,
+                scene = dict(
+                    xaxis = dict(visible=False),
+                    yaxis = dict(visible=False),
+                    zaxis =dict(visible=False),
+                    )
+                )
             st.plotly_chart(fig, width=600,height=600)
 
 
