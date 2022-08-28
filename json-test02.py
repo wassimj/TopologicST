@@ -193,7 +193,7 @@ with icon_column:
     st.image("https://topologic.app/wp-content/uploads/2018/10/Topologic-Logo-250x250.png",width=100)
 with title_column:
     st.title("Topologic JSON Test App")
-input_column, viewer_column = st.columns([1,2],gap="small")
+input_column, viewer_column = st.columns([1,1],gap="small")
 string_data = None
 #--------------------------
 # INPUT
