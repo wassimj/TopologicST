@@ -151,71 +151,71 @@ with input_column:
     if json_file:
         topologies = TopologyByImportedJSONMK1.processItem(json_file)
     
-#--------------------------
-# CONTENT CREATION
-#c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
+    #--------------------------
+    # CONTENT CREATION
+    #c = CellComplexPrism.processItem([origin, width, length, height, uSides, vSides, wSides, dirX, dirY, dirZ, placement])
 
-    c = topologies[0]
+        c = topologies[0]
 
-    if c:
-        dataList = plotlyDataByTopology(c, 0.5, "grey", "black")
-        faces = []
-        _ = c.Faces(None, faces)
-        apertureTopologies = []
-        for face in faces:
-            apertures, apertureTopology = TopologyApertures.processItem(face)
-            if not isinstance(apertureTopology, list):
-                apertureTopology = [apertureTopology]
-            apertureTopologies = apertureTopologies+apertureTopology
-        for at in apertureTopologies:
-            apertureData = plotlyDataByTopology(at, 0.5, "blue", "black")
-            dataList = dataList + apertureData
+        if c:
+            dataList = plotlyDataByTopology(c, 0.5, "grey", "black")
+            faces = []
+            _ = c.Faces(None, faces)
+            apertureTopologies = []
+            for face in faces:
+                apertures, apertureTopology = TopologyApertures.processItem(face)
+                if not isinstance(apertureTopology, list):
+                    apertureTopology = [apertureTopology]
+                apertureTopologies = apertureTopologies+apertureTopology
+            for at in apertureTopologies:
+                apertureData = plotlyDataByTopology(at, 0.5, "blue", "black")
+                dataList = dataList + apertureData
 
-        fig = go.Figure(data=dataList)
-        fig.update_layout(
-            width=800,
-            height=800,
-            scene = dict(
-                xaxis = dict(visible=False),
-                yaxis = dict(visible=False),
-                zaxis =dict(visible=False),
+            fig = go.Figure(data=dataList)
+            fig.update_layout(
+                width=800,
+                height=800,
+                scene = dict(
+                    xaxis = dict(visible=False),
+                    yaxis = dict(visible=False),
+                    zaxis =dict(visible=False),
+                    )
                 )
-            )
-        cells = []
-        _ = c.Cells(None, cells)
-        for cell in cells:
-            d = cell.GetDictionary()
-            elementId = DictionaryValueAtKey.processItem([d,"elementId"])
-            if not elementId:
-                elmentId = "Unknown ID"
-            volume = round(topologic.CellUtility.Volume(cell), 2)
-            for cell_face in cell_faces:
-                wwr = 0
-                ap, apertures = TopologyApertures.processItem(cell_face)
-                if len(apertures) > 0: #This face has a window so must be a wall, count it.
-                    wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
-                    for aperture in apertures:
-                        window_area = window_area + topologic.FaceUtility.Area(aperture)
-                if wall_area > 0:
-                    wwr = window_area / wall_area
-            with st.expander("Element ID: "+str(elementId)):
-                st.write("Volume: ", str(volume))
-                st.write("Window to Wall Ratio: ", str(wwr))
-                keys = DictionaryKeys.processItem(d)
-                for key in keys:
-                    st.write(key,":", DictionaryValueAtKey.processItem([d,key]))
-            cell_faces = []
-            _ = c.Faces(None, cell_faces)
-            wall_area = 0
-            num_windows = 0
-            window_area = 0
+            cells = []
+            _ = c.Cells(None, cells)
+            for cell in cells:
+                d = cell.GetDictionary()
+                elementId = DictionaryValueAtKey.processItem([d,"elementId"])
+                if not elementId:
+                    elmentId = "Unknown ID"
+                volume = round(topologic.CellUtility.Volume(cell), 2)
+                for cell_face in cell_faces:
+                    wwr = 0
+                    ap, apertures = TopologyApertures.processItem(cell_face)
+                    if len(apertures) > 0: #This face has a window so must be a wall, count it.
+                        wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
+                        for aperture in apertures:
+                            window_area = window_area + topologic.FaceUtility.Area(aperture)
+                    if wall_area > 0:
+                        wwr = window_area / wall_area
+                with st.expander("Element ID: "+str(elementId)):
+                    st.write("Volume: ", str(volume))
+                    st.write("Window to Wall Ratio: ", str(wwr))
+                    keys = DictionaryKeys.processItem(d)
+                    for key in keys:
+                        st.write(key,":", DictionaryValueAtKey.processItem([d,key]))
+                cell_faces = []
+                _ = c.Faces(None, cell_faces)
+                wall_area = 0
+                num_windows = 0
+                window_area = 0
 
                     
                 
-#--------------------------
-# 3D VIEWER
-with viewer_column:
-    st.subheader("3D View")
-    st.plotly_chart(fig, width=800,height=800)
+        #--------------------------
+        # 3D VIEWER
+        with viewer_column:
+            st.subheader("3D View")
+            st.plotly_chart(fig, width=800,height=800)
 
 
