@@ -209,7 +209,7 @@ with input_column:
                 if wall_area > 0:
                     wwr = round((window_area / wall_area),2)
                 st.write("Debug Window Area", window_area)
-                st.write("Debug Window Area", wall_area)
+                st.write("Debug Wall Area", wall_area)
                 st.write("Debug WWR", wwr)
                 cell_info.append("Num Windows: "+str(num_windows))
                 cell_info.append("WWR: "+str(wwr))
