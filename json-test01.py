@@ -224,17 +224,19 @@ with input_column:
                         dirA = FaceNormalAtParameters.processItem([cell_face, 0.5, 0.5], "XYZ", 3)
                         st.write(str(dirA))
                         ang = round((angle_between(dirA, north) * 180 / pi), 2)
-                        if 22 < ang < 67:
+                        if 22.5 < ang <= 67.5:
                             ang_str = "NE"
-                        elif 66 < ang < 113:
+                        elif 67.5 < ang <= 112.5:
                             ang_str = "E"
-                        elif 112 < ang < 157:
+                        elif 112.5 < ang <= 157.5:
                             ang_str = "S"
-                        elif 156 < ang < 247:
+                        elif 157.5 < ang <= 202.5:
+                            ang_str = "S"
+                        elif 202.5 < ang <= 247.5:
                             ang_str = "SW"
-                        elif 246 < ang < 293:
+                        elif 247.5 < ang <= 292.5:
                             ang_str = "W"
-                        elif 292 < ang < 337:
+                        elif 292.5 < ang <= 337.5:
                             ang_str = "NW"
                         else:
                             ang_str = "N"
