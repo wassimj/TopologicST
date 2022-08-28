@@ -225,19 +225,19 @@ with input_column:
                         st.write(str(dirA))
                         ang = round((angle_between(dirA, north) * 180 / pi), 2)
                         if 22.5 < ang <= 67.5:
-                            ang_str = "NE"
+                            ang_str = "NW"
                         elif 67.5 < ang <= 112.5:
-                            ang_str = "E"
+                            ang_str = "W"
                         elif 112.5 < ang <= 157.5:
-                            ang_str = "S"
+                            ang_str = "SW"
                         elif 157.5 < ang <= 202.5:
                             ang_str = "S"
                         elif 202.5 < ang <= 247.5:
-                            ang_str = "SW"
+                            ang_str = "SE"
                         elif 247.5 < ang <= 292.5:
-                            ang_str = "W"
+                            ang_str = "E"
                         elif 292.5 < ang <= 337.5:
-                            ang_str = "NW"
+                            ang_str = "NE"
                         else:
                             ang_str = "N"
                         cell_info["Window Angle from North"] = ang
