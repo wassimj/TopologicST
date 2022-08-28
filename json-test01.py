@@ -189,6 +189,11 @@ with input_column:
                 if not elementId:
                     elmentId = "Unknown ID"
                 volume = round(topologic.CellUtility.Volume(cell), 2)
+                cell_faces = []
+                _ = c.Faces(None, cell_faces)
+                wall_area = 0
+                num_windows = 0
+                window_area = 0
                 for cell_face in cell_faces:
                     wwr = 0
                     ap, apertures = TopologyApertures.processItem(cell_face)
@@ -204,14 +209,7 @@ with input_column:
                     keys = DictionaryKeys.processItem(d)
                     for key in keys:
                         st.write(key,":", DictionaryValueAtKey.processItem([d,key]))
-                cell_faces = []
-                _ = c.Faces(None, cell_faces)
-                wall_area = 0
-                num_windows = 0
-                window_area = 0
 
-                    
-                
         #--------------------------
         # 3D VIEWER
         with viewer_column:
