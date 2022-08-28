@@ -201,12 +201,12 @@ with input_column:
                 num_windows = 0
                 window_area = 0
                 wwr = 0
-                for cell_face in cell_faces:
+                for cell_face_i, cell_face in enumerate(cell_faces):
                     ap, apertures = TopologyApertures.processItem(cell_face)
                     if len(apertures) > 0: #This face has a window so must be a wall, count it.
                         num_windows = num_windows + len(apertures)
                         wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
-                        st.write("Debug Wall Area: "+str(wall_area))
+                        st.write(cell_i," ",cell_face_i," Debug Wall Area: "+str(wall_area))
                         for aperture in apertures:
                             window_area = window_area + topologic.FaceUtility.Area(aperture)
                 if wall_area > 0:
