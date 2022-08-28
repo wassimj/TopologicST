@@ -24,7 +24,7 @@ from topologicpy import TopologyByImportedJSONMK1, TopologyApertures, TopologyTr
 #--------------------------
 # PAGE CONFIGURATION
 st.set_page_config(
-    page_title="Topologic Speckle Test Application",
+    page_title="Topologic JSON Test Application",
     page_icon="📊",
     layout="wide"
 )
@@ -188,11 +188,29 @@ with input_column:
             if not elementId:
                 elmentId = "Unknown ID"
             volume = round(topologic.CellUtility.Volume(cell), 2)
+            for cell_face in cell_faces:
+                wwr = 0
+                ap, apertures = TopologyApertures.processItem(cell_face)
+                if len(apertures) > 0: #This face has a window so must be a wall, count it.
+                    wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
+                    for aperture in apertures:
+                        window_area = window_area + topologic.FaceUtility.Area(aperture)
+                if wall_area > 0:
+                    wwr = window_area / wall_area
             with st.expander("Element ID: "+str(elementId)):
                 st.write("Volume: ", str(volume))
+                st.write("Window to Wall Ratio: ", str(wwr))
                 keys = DictionaryKeys.processItem(d)
                 for key in keys:
                     st.write(key,":", DictionaryValueAtKey.processItem([d,key]))
+            cell_faces = []
+            _ = c.Faces(None, cell_faces)
+            wall_area = 0
+            num_windows = 0
+            window_area = 0
+
+                    
+                
 #--------------------------
 # 3D VIEWER
 with viewer_column:
