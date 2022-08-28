@@ -185,7 +185,7 @@ with input_column:
             _ = c.Cells(None, cells)
             report = []
             cell_info = []
-            for cell in cells:
+            for cell_i, cell in enumerate(cells):
                 d = cell.GetDictionary()
                 elementId = str(DictionaryValueAtKey.processItem([d,"elementId"]))
                 if not elementId:
@@ -194,14 +194,14 @@ with input_column:
                 cell_volume = str(round(topologic.CellUtility.Volume(cell), 2))
                 cell_info.append("Cell Volume: "+cell_volume)
                 cell_faces = []
-                _ = c.Faces(None, cell_faces)
+                _ = cell.Faces(None, cell_faces)
                 wall_area = 0
                 num_windows = 0
                 window_area = 0
                 wwr = 0
                 for cell_face in cell_faces:
                     ap, apertures = TopologyApertures.processItem(cell_face)
-                    st.write("Debug apertures", apertures)
+                    st.write(" Debug apertures", apertures)
                     if len(apertures) > 0: #This face has a window so must be a wall, count it.
                         num_windows = num_windows + len(apertures)
                         wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
@@ -209,13 +209,10 @@ with input_column:
                             window_area = window_area + topologic.FaceUtility.Area(aperture)
                 if wall_area > 0:
                     wwr = round((window_area / wall_area),2)
-                #st.write("Debug Window Area", window_area)
-                #st.write("Debug Wall Area", wall_area)
-                #st.write("Debug WWR", wwr)
                 cell_info.append("Num Windows: "+str(num_windows))
                 cell_info.append("WWR: "+str(wwr))
                 report.append(cell_info)
-            #st.write(report)
+            st.write(report)
                 #keys = DictionaryKeys.processItem(d)
                 #for key in keys:
                     #st.write(key,":", DictionaryValueAtKey.processItem([d,key]))
