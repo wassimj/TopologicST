@@ -232,7 +232,7 @@ with input_column:
                 if wall_area > 0:
                     wwr = round((window_area / wall_area),2)
                 cell_info.append("Num Windows: "+str(num_windows))
-                cell.info.append(window_angle)
+                cell_info.append(window_angle)
                 cell_info.append("WWR: "+str(wwr))
                 report.append(cell_info)
             st.write(report)
