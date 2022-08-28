@@ -1,5 +1,6 @@
 #--------------------------
 # IMPORT LIBRARIES
+from tkinter import N
 import streamlit as st
 import plotly.graph_objects as go
 import json
@@ -224,17 +225,29 @@ with input_column:
                         wall_area = wall_area + topologic.FaceUtility.Area(cell_face)
                         for aperture in apertures:
                             window_area = window_area + topologic.FaceUtility.Area(aperture)
-                        
-                    else:
-                        window_angle = 
-                
                 cell_info.append("Num Windows: "+str(num_windows))
-                if wall_area > 0:
+                ang_str = ""
+                if wall_area > 0: # This means that a wall contains windows and has been counted
                     wwr = round((window_area / wall_area),2)
                     dirA = FaceNormalAtParameters.processItem([cell_face, 0.5, 0.5], "XYZ", 3)
                     north = [0,1,0]
                     ang = round((angle_between(dirA, north) * 180 / pi), 2)
-                    cell_info.append("Window Angle from North: "+str(ang))
+                    if 22 < ang < 67:
+                        ang_str = "NE"
+                    elif 66 < ang < 113:
+                        ang_str = "E"
+                    elif 112 < str < 157:
+                        ang_str = "S"
+                    elif 156 < ang < 247:
+                        ang_str = "SW"
+                    elif 246 < ang < 293:
+                        ang_str = "W"
+                    elif 292 < ang < 337:
+                        ang_str = "NW"
+                    else:
+                        ang_str = "N"
+
+                    cell_info.append("Window Angle from North: "+str(ang)+" ("+ang_str+")")
                 else:
                     cell_info.append("Window Angle from North: N/A")
                     wwr = 0
