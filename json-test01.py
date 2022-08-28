@@ -140,14 +140,14 @@ icon_column, title_column = st.columns([1,10], gap="small")
 with icon_column:
     st.image("https://topologic.app/wp-content/uploads/2018/10/Topologic-Logo-250x250.png",width=100)
 with title_column:
-    st.title("Topologic Test App")
+    st.title("Topologic JSON Test App")
 input_column, viewer_column = st.columns([1,3],gap="small")
 string_data = None
 #--------------------------
 # INPUT
 with input_column:
-    st.subheader("Inputs")
-    json_file = st.file_uploader("Upload JSON MK1 File", type="json", accept_multiple_files=False)
+    st.subheader("Upload JSON MK1 File")
+    json_file = st.file_uploader("", type="json", accept_multiple_files=False)
     if json_file:
         topologies = TopologyByImportedJSONMK1.processItem(json_file)
     
