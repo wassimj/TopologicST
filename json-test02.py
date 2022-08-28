@@ -38,7 +38,7 @@ st.set_page_config(
 def compass_angle(p1, p2):
     ang1 = arctan2(*p1[::-1])
     ang2 = arctan2(*p2[::-1])
-    return rad2deg((ang1 - ang2) % (2 * np.pi))
+    return rad2deg((ang1 - ang2) % (2 * pi))
 
 def angle_between(v1, v2):
 	u1 = v1 / norm(v1)
