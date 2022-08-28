@@ -252,6 +252,7 @@ with input_column:
 
             for f in evf:
                 ang, ang_str, color_str = faceAngleFromNorth(f, north)
+                st.write(ang_str)
                 wall_area = topologic.FaceUtility.Area(f)
                 apertures, aperture_area = faceAperturesAndArea(f)
                 if ang_str == "N":
