@@ -388,7 +388,7 @@ with input_column:
                                    round(total_ap_proj_percent,2)]}
             df = pd.DataFrame(data=d)
             df.style.format(precision=2, na_rep='MISSING', thousands=",",
-                formatter={('Decision Tree', 'Tumour'): "{:.2f}",
+                formatter={
                            ('WWR By Orientation', 'WWR By Project'): lambda x: "{:,.1f} %".format(x)
                           })
             st.table(df)
