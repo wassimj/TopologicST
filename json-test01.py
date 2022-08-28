@@ -183,16 +183,17 @@ with input_column:
                 )
             cells = []
             _ = c.Cells(None, cells)
+            st.write("Number of Spaces: ", str(len(cells)))
             report = []
-            cell_info = []
+            cell_info = ''
             for cell_i, cell in enumerate(cells):
                 d = cell.GetDictionary()
                 elementId = str(DictionaryValueAtKey.processItem([d,"elementId"]))
                 if not elementId:
                     elmentId = "Unknown ID"
-                cell_info.append("Element ID: "+ elementId)
+                cell_info += "Element ID: "+ elementId+"\n"
                 cell_volume = str(round(topologic.CellUtility.Volume(cell), 2))
-                cell_info.append("Cell Volume: "+cell_volume)
+                cell_info += "Cell Volume: "+cell_volume+"\n"
                 cell_faces = []
                 _ = cell.Faces(None, cell_faces)
                 wall_area = 0
@@ -208,8 +209,8 @@ with input_column:
                             window_area = window_area + topologic.FaceUtility.Area(aperture)
                 if wall_area > 0:
                     wwr = round((window_area / wall_area),2)
-                cell_info.append("Num Windows: "+str(num_windows))
-                cell_info.append("WWR: "+str(wwr))
+                cell_info += "Num Windows: "+str(num_windows)+"\n"
+                cell_info += "WWR: "+str(wwr)
                 report.append(cell_info)
             st.write(report)
                 #keys = DictionaryKeys.processItem(d)
