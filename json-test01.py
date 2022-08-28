@@ -226,7 +226,7 @@ with input_column:
                             window_area = window_area + topologic.FaceUtility.Area(aperture)
                         dirA = FaceNormalAtParameters.processItem([cell_face, 0.5, 0.5], "XYZ", 3)
                         north = [0,1,0]
-                        ang = round((angle_between(dirA, dirB) * 180 / pi), 2)
+                        ang = round((angle_between(dirA, north) * 180 / pi), 2)
                         cell_info += "Window Angle from North: "+str(ang)+"\n"
                 if wall_area > 0:
                     wwr = round((window_area / wall_area),2)
