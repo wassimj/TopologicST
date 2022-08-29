@@ -6,6 +6,7 @@ import json
 from io import StringIO
 from numpy import arctan, pi, signbit
 from numpy.linalg import norm
+import numpy as np
 # import topologic
 # This requires some checking of the used OS platform to load the correct version of Topologic
 import sys
@@ -271,6 +272,48 @@ with input_column:
                     zaxis =dict(visible=False),
                     )
                 )
+            x_eye = -1.25
+            y_eye = 2
+            z_eye = 0.5
+
+            fig.update_layout(
+                    title='Animation Test',
+                    width=600,
+                    height=600,
+                    scene_camera_eye=dict(x=x_eye, y=y_eye, z=z_eye),
+                    updatemenus=[dict(type='buttons',
+                            showactive=False,
+                            y=1,
+                            x=0.8,
+                            xanchor='left',
+                            yanchor='bottom',
+                            pad=dict(t=45, r=10),
+                            buttons=[dict(label='Play',
+                                            method='animate',
+                                            args=[None, dict(frame=dict(duration=10, redraw=True), 
+                                                                        transition=dict(duration=0),
+                                                                        fromcurrent=True,
+                                                                        mode='immediate'
+                                                                        )]
+                                                        )
+                                                ]
+                                        )
+                                    ]
+            )
+
+
+            def rotate_z(x, y, z, theta):
+                w = x+1j*y
+                return np.real(np.exp(1j*theta)*w), np.imag(np.exp(1j*theta)*w), z
+
+            frames=[]
+            for t in np.arange(0, 6.26, 0.1):
+                xe, ye, ze = rotate_z(x_eye, y_eye, z_eye, -t)
+                frames.append(go.Frame(layout=dict(scene_camera_eye=dict(x=xe, y=ye, z=ze))))
+            fig.frames=frames
+
+            #fig.show()
             st.plotly_chart(fig, width=600,height=600)
+                        st.plotly_chart(fig, width=600,height=600)
 
 
