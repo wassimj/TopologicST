@@ -91,7 +91,7 @@ def faceAperturesAndArea(f):
         aperture_area = aperture_area + topologic.FaceUtility.Area(aperture)
     return [apertures, aperture_area]
 
-def plotlyDataByTopology(topology=None, opacity=0.5, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=False, draw_wire=True):
+def plotlyDataByTopology(topology=None, mesh_opacity=0.5, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=False, draw_wire=True):
     mesh_data = []
     wire_data = []
     faces = []
