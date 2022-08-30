@@ -388,20 +388,15 @@ with input_column:
                                    round(total_ap_proj_percent,2)]}
             df = pd.DataFrame(data=d)
             st.table(df)
-            d = {"Orientation": ["N", "NE", "E", "SE", "S", "SW", "W", "NW"],
-                'Window Area': [round(n_aperture_area,2),
+            d = {"Orientation": ["E", "NE", "N", "NW", "W", "SW", "S", "SE"],
+                'Window Area': [round(e_aperture_area,2),
                                 round(ne_aperture_area,2),
-                                round(e_aperture_area,2),
-                                round(se_aperture_area,2),
-                                round(s_aperture_area,2),
-                                round(sw_aperture_area,2),
+                                round(n_aperture_area,2),
+                                round(nw_aperture_area,2),
                                 round(w_aperture_area,2),
-                                round(nw_aperture_area,2)]}
-            df = px.data.wind()
-            st.write(df)
-            fig = px.scatter_polar(df, r="frequency", theta="direction")
-            st.plotly_chart(fig, width=600,height=600)
-            df = pd.DataFrame(data=d)
-            st.write(df)
+                                round(sw_aperture_area,2),
+                                round(s_aperture_area,2),
+                                round(se_aperture_area,2)]}
+            st.subheader("Window Area")
             fig = go.Figure(go.Barpolar(r=d["Window Area"], theta=d["Orientation"]))
             st.plotly_chart(fig, width=600,height=600)
