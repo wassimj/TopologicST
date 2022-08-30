@@ -229,7 +229,6 @@ if json_file:
         _ = c.Faces(None, faces)
         north = [0,1,0]
         evf, ivf, thf, bhf, ihf, eva, iva, tha, bha, iha = CellComplexDecompose.processItem(c)
-        st.write(evf, ivf, thf, bhf, )
         if evf_f:
             for f in evf:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
@@ -262,8 +261,11 @@ if json_file:
                 dirA = FaceNormalAtParameters.processItem([face, 0.5, 0.5], "XYZ", 3)
                 ang, ang_str, color_str = faceAngleFromNorth(face, north)
                 for aperture in apertures:
-                    apertureData = plotlyDataByTopology(aperture, mesh_opacity=0.5, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
-                    dataList = dataList + apertureData
+                    mesh_data, wire_data = plotlyDataByTopology(aperture, mesh_opacity=0.5, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                    dataList += mesh_data
+                    dataList += wire_data
+
+        st.write(dataList)
         fig = go.Figure(data=dataList)
         fig.update_layout(
             width=600,
