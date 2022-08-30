@@ -90,106 +90,109 @@ def faceAperturesAndArea(f):
     for aperture in apertures:
         aperture_area = aperture_area + topologic.FaceUtility.Area(aperture)
     return [apertures, aperture_area]
-def plotlyDataByTopology(topology, opacity, face_color="blue", line_color="white"):
+
+def plotlyDataByTopology(topology=None, opacity=0.5, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=False, draw_wire=True):
+    mesh_data = []
+    wire_data = []
     faces = []
-    if topology.Type() > topologic.Face.Type():
-        _ = topology.Faces(None, faces)
-    else:
-        faces = [topology]
-    fx = []
-    fy = []
-    fz = []
-    for face in faces:
-        wires = []
-        eb = face.ExternalBoundary()
-        ib = []
-        _ = face.InternalBoundaries(ib)
-        wires = [eb]+ib
-        for w in wires:
+    if topology:
+        if topology.Type() > topologic.Face.Type():
+            _ = topology.Faces(None, faces)
+        else:
+            faces = [topology]
+        if draw_wire:
+            fx = []
+            fy = []
+            fz = []
+            for face in faces:
+                wires = []
+                eb = face.ExternalBoundary()
+                ib = []
+                _ = face.InternalBoundaries(ib)
+                wires = [eb]+ib
+                for w in wires:
+                    vertices = []
+                    _ = w.Vertices(None, vertices)
+                    for v in vertices:
+                        fx.append(v.X())
+                        fy.append(v.Y())
+                        fz.append(v.Z())
+                    fx.append(vertices[0].X())
+                    fy.append(vertices[0].Y())
+                    fz.append(vertices[0].Z())
+                    fx.append(None)
+                    fy.append(None)
+                    fz.append(None)
+
+            wire_data = go.Scatter3d(
+            x=fx,
+            y=fy,
+            z=fz,
+            showlegend=False,
+            marker_size=0,
+            mode="lines",
+            line=dict(
+                color=wire_color,
+                width=wire_width
+            ))
+        if draw_mesh:
+            if topology.GetTypeAsString() == "Cluster":
+                cells = []
+                _ = topology.Cells(None, cells)
+                triangulated_cells = []
+                for cell in cells:
+                    triangulated_cells.append(TopologyTriangulate.processItem(cell, 0.0001))
+                topology = topologic.Cluster.ByTopologies(triangulated_cells)
+            else:
+                topology = TopologyTriangulate.processItem(topology, 0.0001)
+            tp_vertices = []
+            _ = topology.Vertices(None, tp_vertices)
+            x = []
+            y = []
+            z = []
             vertices = []
-            _ = w.Vertices(None, vertices)
-            for v in vertices:
-                fx.append(v.X())
-                fy.append(v.Y())
-                fz.append(v.Z())
-            fx.append(vertices[0].X())
-            fy.append(vertices[0].Y())
-            fz.append(vertices[0].Z())
-            fx.append(None)
-            fy.append(None)
-            fz.append(None)
+            intensities = []
+            for tp_v in tp_vertices:
+                vertices.append([tp_v.X(), tp_v.Y(), tp_v.Z()])
+                x.append(tp_v.X())
+                y.append(tp_v.Y())
+                z.append(tp_v.Z())
+                intensities.append(0)
+            faces = []
+            tp_faces = []
+            _ = topology.Faces(None, tp_faces)
+            for tp_f in tp_faces:
+                f_vertices = []
+                _ = tp_f.Vertices(None, f_vertices)
+                f = []
+                for f_v in f_vertices:
+                    f.append(vertices.index([f_v.X(), f_v.Y(), f_v.Z()]))
+                faces.append(f)
 
-    lineData = go.Scatter3d(
-    x=fx,
-    y=fy,
-    z=fz,
-    showlegend=False,
-    marker_size=0,
-    mode="lines",
-    line=dict(
-        color=line_color,
-        width=1
-    )
-    )
-    if topology.GetTypeAsString() == "Cluster":
-        cells = []
-        _ = topology.Cells(None, cells)
-        triangulated_cells = []
-        for cell in cells:
-            triangulated_cells.append(TopologyTriangulate.processItem(cell, 0.0001))
-        topology = topologic.Cluster.ByTopologies(triangulated_cells)
-    else:
-        topology = TopologyTriangulate.processItem(topology, 0.0001)
-    tp_vertices = []
-    _ = topology.Vertices(None, tp_vertices)
-    x = []
-    y = []
-    z = []
-    vertices = []
-    intensities = []
-    for tp_v in tp_vertices:
-        vertices.append([tp_v.X(), tp_v.Y(), tp_v.Z()])
-        x.append(tp_v.X())
-        y.append(tp_v.Y())
-        z.append(tp_v.Z())
-        intensities.append(0)
-    faces = []
-    tp_faces = []
-    _ = topology.Faces(None, tp_faces)
-    for tp_f in tp_faces:
-        f_vertices = []
-        _ = tp_f.Vertices(None, f_vertices)
-        f = []
-        for f_v in f_vertices:
-            f.append(vertices.index([f_v.X(), f_v.Y(), f_v.Z()]))
-        faces.append(f)
+            i = []
+            j = []
+            k = []
+            for f in faces:
+                i.append(f[0])
+                j.append(f[1])
+                k.append(f[2])
 
-    i = []
-    j = []
-    k = []
-    for f in faces:
-        i.append(f[0])
-        j.append(f[1])
-        k.append(f[2])
-
-    faceData = go.Mesh3d(
-            x=x,
-            y=y,
-            z=z,
-            # i, j and k give the vertices of triangles
-            # here we represent the 4 triangles of the tetrahedron surface
-            i=i,
-            j=j,
-            k=k,
-            name='y',
-            showscale=False,
-            showlegend = False,
-            color = face_color,
-            opacity = opacity
-        )
-
-    
-    return ([faceData, lineData])
+            mesh_data = go.Mesh3d(
+                    x=x,
+                    y=y,
+                    z=z,
+                    # i, j and k give the vertices of triangles
+                    # here we represent the 4 triangles of the tetrahedron surface
+                    i=i,
+                    j=j,
+                    k=k,
+                    name='y',
+                    showscale=False,
+                    showlegend = False,
+                    color = mesh_color,
+                    opacity = opacity
+                )
+        return ([mesh_data, wire_data])
 
 
 #--------------------------
@@ -209,17 +212,40 @@ st.subheader("Upload JSON MK1 File")
 json_file = st.file_uploader("", type="json", accept_multiple_files=False)
 if json_file:
     topologies = TopologyByImportedJSONMK1.processItem(json_file)
+    evf_f = st.checkbox("External Vertical Faces", value=True)
+    ivf_f = st.checkbox("Internal Vertical Faces", value=True)
+    thf_f = st.checkbox("Top Horizontal Faces", value=True)
+    bhf_f = st.checkbox("Bottom Horizontal Faces", value=True)
+    ihf_f = st.checkbox("Internal Horizontal Faces", value=True)
+
 
 #--------------------------
 # CONTENT CREATION
 
     c = topologies[0]
     if c:
-        dataList = plotlyDataByTopology(c, 0.5, "lightgrey", "black")
+        dataList = plotlyDataByTopology(topology=c, mesh_opacity=0.5, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=False, draw_wire=True)
         faces = []
         _ = c.Faces(None, faces)
         north = [0,1,0]
         evf, ivf, thf, bhf, ihf, eva, iva, tha, bha, iha = CellComplexDecompose.processItem(c)
+        if evf_f:
+            for f in evf:
+                dataList = dataList + plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+        if ivf_f:
+            for f in ivf:
+                dataList = dataList + plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="green", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+        if thf_f:
+            for f in thf:
+                dataList = dataList + plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="blue", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+        if bhf_f:
+            for f in bhf:
+                dataList = dataList + plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="cyan", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+        if ihf_f:
+            for f in ihf:
+                dataList = dataList + plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="purple", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+
+        # Draw color-coded apertures
         for face in evf:
             ap, apertures = TopologyApertures.processItem(face)
             if len(apertures) > 0: #This face has a window so must be a wall, count it.
