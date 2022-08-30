@@ -334,7 +334,6 @@ with input_column:
             else:
                 sw_ap_or = 0
 
-            total_ap_or_percent = 0
             total_project_wall_area = s_wall_area + n_wall_area + ne_wall_area + nw_wall_area + sw_wall_area + se_wall_area
             total_project_aperture_area = n_aperture_area + s_aperture_area + e_aperture_area + w_aperture_area + ne_aperture_area + nw_aperture_area + se_aperture_area + sw_aperture_area
             
@@ -376,7 +375,7 @@ with input_column:
                                        round(nw_ap_or,2),
                                        round(se_ap_or,2),
                                        round(sw_ap_or,2),
-                                       "--"],
+                                       0],
                 'WWR By Project': [round(n_ap_proj,2),
                                    round(s_ap_proj,2),
                                    round(e_ap_proj,2),
