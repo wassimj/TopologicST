@@ -396,59 +396,59 @@ if json_file:
                             round(sw_wall_area,2),
                             round(s_wall_area,2),
                             round(se_wall_area,2)]}
-col1, col2, col3, col4 = st.columns([1,1,1,1], gap="small")
-with col1:
-    d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
-        'Window Area': [round(e_aperture_area,2),
-                        round(ne_aperture_area,2),
-                        round(n_aperture_area,2),
-                        round(nw_aperture_area,2),
-                        round(w_aperture_area,2),
-                        round(sw_aperture_area,2),
-                        round(s_aperture_area,2),
-                        round(se_aperture_area,2)]}
-    st.subheader("Window Area")
-    fig = go.Figure(go.Barpolar(r=d["Window Area"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
-    st.plotly_chart(fig, width=400,height=400)
+    col1, col2, col3, col4 = st.columns([1,1,1,1], gap="small")
+    with col1:
+        d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
+            'Window Area': [round(e_aperture_area,2),
+                            round(ne_aperture_area,2),
+                            round(n_aperture_area,2),
+                            round(nw_aperture_area,2),
+                            round(w_aperture_area,2),
+                            round(sw_aperture_area,2),
+                            round(s_aperture_area,2),
+                            round(se_aperture_area,2)]}
+        st.subheader("Window Area")
+        fig = go.Figure(go.Barpolar(r=d["Window Area"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
+        st.plotly_chart(fig, width=400,height=400)
 
-with col2:
-    d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
-        'Wall Area': [round(e_wall_area,2),
-                        round(ne_wall_area,2),
-                        round(n_wall_area,2),
-                        round(nw_wall_area,2),
-                        round(w_wall_area,2),
-                        round(sw_wall_area,2),
-                        round(s_wall_area,2),
-                        round(se_wall_area,2)]}
-    st.subheader("Wall Area")
-    fig = go.Figure(go.Barpolar(r=d["Wall Area"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
-    st.plotly_chart(fig, width=400,height=400)
+    with col2:
+        d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
+            'Wall Area': [round(e_wall_area,2),
+                            round(ne_wall_area,2),
+                            round(n_wall_area,2),
+                            round(nw_wall_area,2),
+                            round(w_wall_area,2),
+                            round(sw_wall_area,2),
+                            round(s_wall_area,2),
+                            round(se_wall_area,2)]}
+        st.subheader("Wall Area")
+        fig = go.Figure(go.Barpolar(r=d["Wall Area"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
+        st.plotly_chart(fig, width=400,height=400)
 
-with col3:
-    d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
-        'WWR By Orient': [round(e_ap_or,2),
-                        round(ne_ap_or,2),
-                        round(n_ap_or,2),
-                        round(nw_ap_or,2),
-                        round(w_ap_or,2),
-                        round(sw_ap_or,2),
-                        round(s_ap_or,2),
-                        round(se_ap_or,2)]}
-    st.subheader("WWR By Orient.")
-    fig = go.Figure(go.Barpolar(r=d["WWR By Orient"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
-    st.plotly_chart(fig, width=400,height=400)
+    with col3:
+        d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
+            'WWR By Orient': [round(e_ap_or,2),
+                            round(ne_ap_or,2),
+                            round(n_ap_or,2),
+                            round(nw_ap_or,2),
+                            round(w_ap_or,2),
+                            round(sw_ap_or,2),
+                            round(s_ap_or,2),
+                            round(se_ap_or,2)]}
+        st.subheader("WWR By Orient.")
+        fig = go.Figure(go.Barpolar(r=d["WWR By Orient"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
+        st.plotly_chart(fig, width=400,height=400)
 
-with col4:
-    d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
-        'WWR By Project': [round(e_ap_proj,2),
-                        round(ne_ap_proj,2),
-                        round(n_ap_proj,2),
-                        round(nw_ap_proj,2),
-                        round(w_ap_proj,2),
-                        round(sw_ap_proj,2),
-                        round(s_ap_proj,2),
-                        round(se_ap_proj,2)]}
-    st.subheader("Window Area Percent By Orientation")
-    fig = go.Figure(go.Barpolar(r=d["WWR By Project"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
-    st.plotly_chart(fig, width=400,height=400)
+    with col4:
+        d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
+            'WWR By Project': [round(e_ap_proj,2),
+                            round(ne_ap_proj,2),
+                            round(n_ap_proj,2),
+                            round(nw_ap_proj,2),
+                            round(w_ap_proj,2),
+                            round(sw_ap_proj,2),
+                            round(s_ap_proj,2),
+                            round(se_ap_proj,2)]}
+        st.subheader("Window Area Percent By Orientation")
+        fig = go.Figure(go.Barpolar(r=d["WWR By Project"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
+        st.plotly_chart(fig, width=400,height=400)
