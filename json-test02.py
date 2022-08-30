@@ -398,5 +398,5 @@ with input_column:
                                 round(s_aperture_area,2),
                                 round(se_aperture_area,2)]}
             st.subheader("Window Area")
-            fig = go.Figure(go.Barpolar(r=d["Window Area"], theta=d["Orientation"]))
+            fig = go.Figure(go.Barpolar(r=d["Window Area"], theta=d["Orientation"], marker_color=["#E4FF87", '#709BFF', '#709BFF', '#FFAA70', '#FFAA70', '#FFDF70', '#B6FFB4', '#B2FFC5']))
             st.plotly_chart(fig, width=600,height=600)
