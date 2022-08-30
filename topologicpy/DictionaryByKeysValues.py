@@ -1,11 +1,4 @@
-import bpy
-from bpy.props import IntProperty, FloatProperty, StringProperty, EnumProperty
-from sverchok.node_tree import SverchCustomTreeNode
-from sverchok.data_structure import updateNode
-
 import topologic
-from topologic import Dictionary, IntAttribute, DoubleAttribute, StringAttribute, ListAttribute
-from . import Replication
 
 def processKeysValues(keys, values):
 	if len(keys) != len(values):
@@ -57,58 +50,3 @@ def processItem(item):
 	if isinstance(values, list) == False:
 		values = [values]
 	return processKeysValues(keys, values)
-
-replication = [("Default", "Default", "", 1),("Trim", "Trim", "", 2),("Iterate", "Iterate", "", 3),("Repeat", "Repeat", "", 4),("Interlace", "Interlace", "", 5)]
-
-class SvDictionaryByKeysValues(bpy.types.Node, SverchCustomTreeNode):
-	"""
-	Triggers: Topologic
-	Tooltip: Creates a Dictionary from a list of keys and values   
-	"""
-	bl_idname = 'SvDictionaryByKeysValues'
-	bl_label = 'Dictionary.ByKeysValues'
-	Keys: StringProperty(name="Keys", update=updateNode)
-	Values: StringProperty(name="Values", update=updateNode)
-	Replication: EnumProperty(name="Replication", description="Replication", default="Default", items=replication, update=updateNode)
-
-	def sv_init(self, context):
-		self.inputs.new('SvStringsSocket', 'Keys').prop_name='Keys'
-		self.inputs.new('SvStringsSocket', 'Values').prop_name='Values'
-		self.outputs.new('SvStringsSocket', 'Dictionary')
-
-	def draw_buttons(self, context, layout):
-		layout.prop(self, "Replication",text="")
-
-	def process(self):
-		if not any(socket.is_linked for socket in self.outputs):
-			return
-		keyList = self.inputs['Keys'].sv_get(deepcopy=True)
-		valueList = self.inputs['Values'].sv_get(deepcopy=True)
-		if len(keyList) == 1:
-			keyList = Replication.flatten(keyList)
-		inputs = [keyList, valueList]
-		outputs = []
-		if ((self.Replication) == "Default"):
-			outputs.append(processKeysValues(keyList, valueList))
-			self.outputs['Dictionary'].sv_set(outputs)
-			return
-		elif ((self.Replication) == "Trim"):
-			inputs = Replication.trim(inputs)
-			inputs = Replication.transposeList(inputs)
-		elif ((self.Replication) == "Iterate"):
-			inputs = Replication.iterate(inputs)
-			inputs = Replication.transposeList(inputs)
-		elif ((self.Replication) == "Repeat"):
-			inputs = Replication.repeat(inputs)
-			inputs = Replication.transposeList(inputs)
-		elif ((self.Replication) == "Interlace"):
-			inputs = list(Replication.interlace(inputs))
-		for anInput in inputs:
-			outputs.append(processItem(anInput))
-		self.outputs['Dictionary'].sv_set(outputs)
-
-def register():
-	bpy.utils.register_class(SvDictionaryByKeysValues)
-
-def unregister():
-	bpy.utils.unregister_class(SvDictionaryByKeysValues)
