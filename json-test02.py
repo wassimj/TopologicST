@@ -410,7 +410,7 @@ with col1:
                         round(se_aperture_area,2)]}
     st.subheader("Window Area")
     fig = go.Figure(go.Barpolar(r=d["Window Area"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
-    st.plotly_chart(fig, width=600,height=600)
+    st.plotly_chart(fig, width=400,height=400)
 
 with col2:
     d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
@@ -424,11 +424,11 @@ with col2:
                         round(se_wall_area,2)]}
     st.subheader("Wall Area")
     fig = go.Figure(go.Barpolar(r=d["Wall Area"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
-    st.plotly_chart(fig, width=600,height=600)
+    st.plotly_chart(fig, width=400,height=400)
 
 with col3:
     d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
-        'WWR By Orientation': [round(e_ap_or,2),
+        'WWR By Orient': [round(e_ap_or,2),
                         round(ne_ap_or,2),
                         round(n_ap_or,2),
                         round(nw_ap_or,2),
@@ -436,13 +436,13 @@ with col3:
                         round(sw_ap_or,2),
                         round(s_ap_or,2),
                         round(se_ap_or,2)]}
-    st.subheader("Window Area Percent By Orientation")
-    fig = go.Figure(go.Barpolar(r=d["WWR By Orientation"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
-    st.plotly_chart(fig, width=600,height=600)
+    st.subheader("WWR By Orient.")
+    fig = go.Figure(go.Barpolar(r=d["WWR By Orient"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
+    st.plotly_chart(fig, width=400,height=400)
 
 with col4:
     d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
-        'WWR By Orientation': [round(e_ap_proj,2),
+        'WWR By Project': [round(e_ap_proj,2),
                         round(ne_ap_proj,2),
                         round(n_ap_proj,2),
                         round(nw_ap_proj,2),
@@ -451,5 +451,5 @@ with col4:
                         round(s_ap_proj,2),
                         round(se_ap_proj,2)]}
     st.subheader("Window Area Percent By Orientation")
-    fig = go.Figure(go.Barpolar(r=d["WWR By Orientation"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
-    st.plotly_chart(fig, width=600,height=600)
+    fig = go.Figure(go.Barpolar(r=d["WWR By Project"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
+    st.plotly_chart(fig, width=400,height=400)
