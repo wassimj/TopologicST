@@ -123,6 +123,7 @@ def plotlyDataByTopology(topology, opacity, face_color="blue", line_color="white
     x=fx,
     y=fy,
     z=fz,
+    showlegend=False,
     marker_size=0,
     mode="lines",
     line=dict(
