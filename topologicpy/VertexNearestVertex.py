@@ -1,30 +1,7 @@
-import bpy
-from bpy.props import IntProperty, FloatProperty, StringProperty, EnumProperty, BoolProperty
-from sverchok.node_tree import SverchCustomTreeNode
-from sverchok.data_structure import updateNode
-
 import topologic
-import time
-from . import Replication
-
-def matchLengths(list):
-	maxLength = len(list[0])
-	for aSubList in list:
-		newLength = len(aSubList)
-		if newLength > maxLength:
-			maxLength = newLength
-	for anItem in list:
-		if (len(anItem) > 0):
-			itemToAppend = anItem[-1]
-		else:
-			itemToAppend = None
-		for i in range(len(anItem), maxLength):
-			anItem.append(itemToAppend)
-	return list
 
 # Adapted From https://johnlekberg.com/blog/2020-04-17-kd-tree.html
 import collections
-import operator
 def SED(a, b):
 	"""Compute the squared Euclidean distance between X and Y."""
 	p1 = (a.X(), a.Y(), a.Z())
@@ -79,7 +56,6 @@ def kdtree(topology):
 	def build(*, vertices, depth):
 		if len(vertices) == 0:
 			return None
-		#points.sort(key=operator.itemgetter(depth % k))
 		vertices = sortList(vertices, (depth % k))
 
 		middle = len(vertices) // 2
@@ -149,71 +125,3 @@ def processItem(input):
 			indices.append(i)
 		sorted_indices = [x for _, x in sorted(zip(distances, indices))]
 	return vertices[sorted_indices[0]]
-
-replication = [("Default", "Default", "", 1),("Trim", "Trim", "", 2),("Iterate", "Iterate", "", 3),("Repeat", "Repeat", "", 4),("Interlace", "Interlace", "", 5)]
-
-class SvVertexNearestVertex(bpy.types.Node, SverchCustomTreeNode):
-	"""
-	Triggers: Topologic
-	Tooltip: Outputs the nearest Vertex to the input Vertex from the list of input Vertices
-	"""
-	bl_idname = 'SvVertexNearestVertex'
-	bl_label = 'Vertex.NearestVertex'
-	bl_icon = 'SELECT_DIFFERENCE'
-	UseKDTree: BoolProperty(name="UseKDTree", default=False, update=updateNode)
-	Replication: EnumProperty(name="Replication", description="Replication", default="Default", items=replication, update=updateNode)
-
-	def sv_init(self, context):
-		self.inputs.new('SvStringsSocket', 'Vertex')
-		self.inputs.new('SvStringsSocket', 'Topology')
-		self.inputs.new('SvStringsSocket', 'Use k-d Tree').prop_name = 'UseKDTree'
-		self.outputs.new('SvStringsSocket', 'Vertex')
-		self.width = 175
-		for socket in self.inputs:
-			if socket.prop_name != '':
-				socket.custom_draw = "draw_sockets"
-
-	def draw_sockets(self, socket, context, layout):
-		row = layout.row()
-		split = row.split(factor=0.5)
-		split.row().label(text=(socket.name or "Untitled") + f". {socket.objects_number or ''}")
-		split.row().prop(self, socket.prop_name, text="")
-
-	def draw_buttons(self, context, layout):
-		row = layout.row()
-		split = row.split(factor=0.5)
-		split.row().label(text="Replication")
-		split.row().prop(self, "Replication",text="")
-
-	def process(self):
-		if not any(socket.is_linked for socket in self.outputs):
-			return
-		inputs_nested = []
-		inputs_flat = []
-		for anInput in self.inputs:
-			inp = anInput.sv_get(deepcopy=True)
-			inputs_nested.append(inp)
-			inputs_flat.append(Replication.flatten(inp))
-		inputs_replicated = Replication.replicateInputs(inputs_flat, self.Replication)
-		outputs = []
-		for anInput in inputs_replicated:
-			outputs.append(processItem(anInput))
-		inputs_flat = []
-		for anInput in self.inputs:
-			inp = anInput.sv_get(deepcopy=True)
-			inputs_flat.append(Replication.flatten(inp))
-		if self.Replication == "Interlace":
-			outputs = Replication.re_interlace(outputs, inputs_flat)
-		else:
-			match_list = Replication.best_match(inputs_nested, inputs_flat, self.Replication)
-			outputs = Replication.unflatten(outputs, match_list)
-		if len(outputs) == 1:
-			if isinstance(outputs[0], list):
-				outputs = outputs[0]
-		self.outputs['Vertex'].sv_set(outputs)
-
-def register():
-	bpy.utils.register_class(SvVertexNearestVertex)
-
-def unregister():
-	bpy.utils.unregister_class(SvVertexNearestVertex)
