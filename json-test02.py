@@ -214,9 +214,9 @@ if json_file:
 
     c = topologies[0]
     if c:
-        dataList = plotlyDataByTopology(c, 0.5, "grey", "black")
-            faces = []
-            _ = c.Faces(None, faces)
+        dataList = plotlyDataByTopology(c, 0.5, "lightgrey", "black")
+        faces = []
+        _ = c.Faces(None, faces)
         north = [0,1,0]
         evf, ivf, thf, bhf, ihf, eva, iva, tha, bha, iha = CellComplexDecompose.processItem(c)
         for face in evf:
