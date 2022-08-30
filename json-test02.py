@@ -395,7 +395,7 @@ with input_column:
                                 round(s_aperture_area,2),
                                 round(sw_aperture_area,2),
                                 round(w_aperture_area,2),
-                                round(nw_aperture_area,2)]
+                                round(nw_aperture_area,2)]}
             df = pd.DataFrame(data=d)
             fig = go.Figure(go.Barpolar(df, r="Window Area", theta="Orientation")
             st.plotly_chart(fig, width=600,height=600)
