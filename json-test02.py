@@ -408,13 +408,13 @@ if json_file:
                             round(sw_aperture_area,2),
                             round(s_aperture_area,2),
                             round(se_aperture_area,2)]}
-        fig = go.Figure(go.Barpolar(title = "Window Area",
-                                    r=d["Window Area"],
+        fig = go.Figure(go.Barpolar(r=d["Window Area"],
                                     theta=d["Orientation"],
                                     marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple'],
                                     marker_line_color="black",
                                     marker_line_width=1,
                                     opacity=0.8))
+        fig.update_layout(title="Window Area")
         st.plotly_chart(fig, width=200, use_container_width=True)
 
     with col2:
@@ -427,13 +427,13 @@ if json_file:
                             round(sw_wall_area,2),
                             round(s_wall_area,2),
                             round(se_wall_area,2)]}
-        fig = go.Figure(go.Barpolar(title = "Wall Area",
-                                    r=d["Wall Area"],
+        fig = go.Figure(go.Barpolar(r=d["Wall Area"],
                                     theta=d["Orientation"],
                                     marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple'],
                                     marker_line_color="black",
                                     marker_line_width=1,
                                     opacity=0.8))
+        fig.update_layout(title="Wall Area")
         st.plotly_chart(fig, width=200, use_container_width=True)
 
     with col3:
@@ -446,13 +446,13 @@ if json_file:
                             round(sw_ap_or,2),
                             round(s_ap_or,2),
                             round(se_ap_or,2)]}
-        fig = go.Figure(go.Barpolar(title = "WWR By Orient.",
-                                    r=d["WWR By Orient"],
+        fig = go.Figure(go.Barpolar(r=d["WWR By Orient"],
                                     theta=d["Orientation"],
                                     marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple'],
                                     marker_line_color="black",
                                     marker_line_width=1,
                                     opacity=0.8))
+        fig.update_layout(title="WWR By Orientation")
         
         st.plotly_chart(fig, width=200, use_container_width=True)
 
@@ -466,12 +466,11 @@ if json_file:
                             round(sw_ap_proj,2),
                             round(s_ap_proj,2),
                             round(se_ap_proj,2)]}
-        fig = go.Figure(go.Barpolar(title="WWR By Project",
-                                    r=d["WWR By Project"],
+        fig = go.Figure(go.Barpolar(r=d["WWR By Project"],
                                     theta=d["Orientation"],
                                     marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple'],
                                     marker_line_color="black",
                                     marker_line_width=1,
                                     opacity=0.8))
-        
+        fig.update_layout(title="WWR By Project")
         st.plotly_chart(fig, width=200, use_container_width=True)
