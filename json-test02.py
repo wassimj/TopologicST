@@ -190,7 +190,7 @@ def plotlyDataByTopology(topology=None, mesh_opacity=0.5, mesh_color="lightgrey"
                     showscale=False,
                     showlegend = False,
                     color = mesh_color,
-                    opacity = opacity
+                    opacity = mesh_opacity
                 )
         return ([mesh_data, wire_data])
 
