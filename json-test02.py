@@ -229,22 +229,32 @@ if json_file:
         _ = c.Faces(None, faces)
         north = [0,1,0]
         evf, ivf, thf, bhf, ihf, eva, iva, tha, bha, iha = CellComplexDecompose.processItem(c)
+        st.write(evf, ivf, thf, bhf, )
         if evf_f:
             for f in evf:
-                dataList = dataList + plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                dataList += mesh_data
+                dataList += wire_data
         if ivf_f:
             for f in ivf:
-                dataList = dataList + plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="green", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                dataList += mesh_data
+                dataList += wire_data
         if thf_f:
             for f in thf:
-                dataList = dataList + plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="blue", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                dataList += mesh_data
+                dataList += wire_data
         if bhf_f:
             for f in bhf:
-                dataList = dataList + plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="cyan", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                dataList += mesh_data
+                dataList += wire_data
         if ihf_f:
             for f in ihf:
-                dataList = dataList + plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="purple", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
-
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                dataList += mesh_data
+                dataList += wire_data
         # Draw color-coded apertures
         for face in evf:
             ap, apertures = TopologyApertures.processItem(face)
