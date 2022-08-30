@@ -229,6 +229,7 @@ if json_file:
                     dataList = dataList + apertureData
         fig = go.Figure(data=dataList)
         fig.update_layout(
+            bgolor = "black"
             width=600,
             height=600,
             scene = dict(
@@ -237,7 +238,7 @@ if json_file:
                 zaxis =dict(visible=False),
                 )
             )
-        st.plotly_chart(fig, width=600,height=600)
+        st.plotly_chart(fig)
         n_walls = []
         s_walls = []
         e_walls = []
