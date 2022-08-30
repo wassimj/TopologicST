@@ -416,7 +416,7 @@ if json_file:
                                     opacity=0.8))
         fig.update_layout(title="Window Area", polar = dict(
         radialaxis = dict(showticklabels=False, ticks='')))
-        st.plotly_chart(fig, width=200, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
     with col2:
         d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
@@ -434,8 +434,9 @@ if json_file:
                                     marker_line_color="black",
                                     marker_line_width=1,
                                     opacity=0.8))
-        fig.update_layout(title="Wall Area")
-        st.plotly_chart(fig, width=200, use_container_width=True)
+        fig.update_layout(title="Wall Area", polar = dict(
+        radialaxis = dict(showticklabels=False, ticks='')))
+        st.plotly_chart(fig, use_container_width=True)
 
     with col3:
         d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
@@ -453,9 +454,10 @@ if json_file:
                                     marker_line_color="black",
                                     marker_line_width=1,
                                     opacity=0.8))
-        fig.update_layout(title="WWR By Orientation")
+        fig.update_layout(title="WWR By Orientation", polar = dict(
+        radialaxis = dict(showticklabels=False, ticks='')))
         
-        st.plotly_chart(fig, width=200, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
     with col4:
         d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
@@ -473,5 +475,6 @@ if json_file:
                                     marker_line_color="black",
                                     marker_line_width=1,
                                     opacity=0.8))
-        fig.update_layout(title="WWR By Project")
-        st.plotly_chart(fig, width=200, use_container_width=True)
+        fig.update_layout(title="WWR By Project", polar = dict(
+        radialaxis = dict(showticklabels=False, ticks='')))
+        st.plotly_chart(fig, use_container_width=True)
