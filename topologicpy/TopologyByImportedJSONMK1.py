@@ -410,4 +410,4 @@ def processItem(item):
 		processSelectors(vertexSelectors, topology, True, False, False, False, 0.001)
 		topologies.append(topology)
 	return topologies
-return None
+
