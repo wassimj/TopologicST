@@ -396,6 +396,8 @@ with input_column:
                                 round(sw_aperture_area,2),
                                 round(w_aperture_area,2),
                                 round(nw_aperture_area,2)]}
+            df = px.data.wind()
+            st.write(df)
             df = pd.DataFrame(data=d)
             fig = go.Figure(go.scatter_polar(df, r="Window Area", theta="Orientation"))
             st.plotly_chart(fig, width=600,height=600)
