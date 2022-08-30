@@ -324,6 +324,7 @@ def getApertures(apertureList):
 	returnApertures = []
 	for item in apertureList:
 		aperture = topologic.Topology.ByString(item['brep'])
+		brep = brep.replace("CASCADE Topology V3, (c) Open Cascade", "CASCADE Topology V1, (c) Matra-Datavision")
 		dictionary = item['dictionary']
 		keys = list(dictionary.keys())
 		values = []
