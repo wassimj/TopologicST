@@ -229,7 +229,7 @@ if json_file:
                     dataList = dataList + apertureData
         fig = go.Figure(data=dataList)
         fig.update_layout(
-            bgolor = "black",
+            bgcolor = "black",
             width=600,
             height=600,
             scene = dict(
