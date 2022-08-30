@@ -415,7 +415,7 @@ if json_file:
                                     marker_line_width=1,
                                     opacity=0.8))
         fig.update_layout(title="Window Area", polar = dict(
-        radialaxis = dict(showticklabels=False, ticks=''))
+        radialaxis = dict(showticklabels=False, ticks='')))
         st.plotly_chart(fig, width=200, use_container_width=True)
 
     with col2:
