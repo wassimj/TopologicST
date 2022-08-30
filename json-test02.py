@@ -400,6 +400,7 @@ with input_column:
             df = px.data.wind()
             st.write(df)
             fig = go.scatter_polar(df, r="frequency", theta="direction")
+            fig.show()
             st.plotly_chart(fig, width=600,height=600)
             df = pd.DataFrame(data=d)
             st.write(df)
