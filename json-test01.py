@@ -158,7 +158,7 @@ with icon_column:
 with title_column:
     st.title("Topologic JSON Test App")
 input_column, viewer_column = st.columns([1,2],gap="small")
-string_data = None
+json_file = None
 #--------------------------
 # INPUT
 with input_column:
@@ -262,7 +262,7 @@ with input_column:
 # 3D VIEWER
 with viewer_column:
     st.subheader("3D View")
-    if datalist:
+    if json_file:
         fig = go.Figure(data=dataList)
         fig.update_layout(
             width=600,
