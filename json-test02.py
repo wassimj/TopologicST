@@ -410,7 +410,7 @@ if json_file:
                             round(se_aperture_area,2)]}
         st.subheader("Window Area")
         fig = go.Figure(go.Barpolar(r=d["Window Area"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
-        st.plotly_chart(fig, width=200)
+        st.plotly_chart(fig, width=200, use_container_width=True)
 
     with col2:
         d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
@@ -429,7 +429,7 @@ if json_file:
                                     marker_line_color="black",
                                     marker_line_width=2,
                                     opacity=0.8))
-        st.plotly_chart(fig, width=200)
+        st.plotly_chart(fig, width=200, use_container_width=True)
 
     with col3:
         d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
@@ -449,7 +449,7 @@ if json_file:
                                     marker_line_width=2,
                                     opacity=0.8))
         
-        st.plotly_chart(fig, width=200)
+        st.plotly_chart(fig, width=200, use_container_width=True)
 
     with col4:
         d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
@@ -469,4 +469,4 @@ if json_file:
                                     marker_line_width=2,
                                     opacity=0.8))
         
-        st.plotly_chart(fig, width=200)
+        st.plotly_chart(fig, width=200, use_container_width=True)
