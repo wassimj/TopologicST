@@ -200,203 +200,202 @@ with icon_column:
     st.image("https://topologic.app/wp-content/uploads/2018/10/Topologic-Logo-250x250.png",width=100)
 with title_column:
     st.title("Topologic JSON Test App")
-input_column, viewer_column = st.columns([1,1],gap="small")
-string_data = None
+
 #--------------------------
 # INPUT
-with input_column:
-    st.subheader("Upload JSON MK1 File")
-    json_file = st.file_uploader("", type="json", accept_multiple_files=False)
-    if json_file:
-        topologies = TopologyByImportedJSONMK1.processItem(json_file)
-    
-    #--------------------------
-    # CONTENT CREATION
 
-        c = topologies[0]
-        if c:
-            datalist = []
-            evf, ivf, thf, bhf, ihf, eva, iva, tha, bha, iha = CellComplexDecompose.processItem(c)
-            north = [0,1,0]
-            n_walls = []
-            s_walls = []
-            e_walls = []
-            w_walls = []
-            ne_walls = []
-            nw_walls = []
-            se_walls = []
-            sw_walls = []
+st.subheader("Upload JSON MK1 File")
+json_file = st.file_uploader("", type="json", accept_multiple_files=False)
+if json_file:
+    topologies = TopologyByImportedJSONMK1.processItem(json_file)
 
-            n_wall_area = 0
-            s_wall_area = 0
-            e_wall_area = 0
-            w_wall_area = 0
-            ne_wall_area = 0
-            nw_wall_area = 0
-            se_wall_area = 0
-            sw_wall_area = 0
+#--------------------------
+# CONTENT CREATION
 
-            n_apertures = []
-            s_apertures = []
-            e_apertures = []
-            w_apertures = []
-            ne_apertures = []
-            nw_apertures = []
-            se_apertures = []
-            sw_apertures = []
-            
+    c = topologies[0]
+    if c:
+        datalist = []
+        evf, ivf, thf, bhf, ihf, eva, iva, tha, bha, iha = CellComplexDecompose.processItem(c)
+        north = [0,1,0]
+        n_walls = []
+        s_walls = []
+        e_walls = []
+        w_walls = []
+        ne_walls = []
+        nw_walls = []
+        se_walls = []
+        sw_walls = []
 
-            n_aperture_area = 0
-            s_aperture_area = 0
-            e_aperture_area = 0
-            w_aperture_area = 0
-            
-            ne_aperture_area = 0
-            nw_aperture_area = 0
-            se_aperture_area = 0
-            sw_aperture_area = 0
-            
+        n_wall_area = 0
+        s_wall_area = 0
+        e_wall_area = 0
+        w_wall_area = 0
+        ne_wall_area = 0
+        nw_wall_area = 0
+        se_wall_area = 0
+        sw_wall_area = 0
 
-            for f in evf:
-                ang, ang_str, color_str = faceAngleFromNorth(f, north)
-                wall_area = topologic.FaceUtility.Area(f)
-                apertures, aperture_area = faceAperturesAndArea(f)
-                if ang_str == "N":
-                    n_walls.append(f)
-                    n_wall_area = n_wall_area + wall_area
-                    n_apertures = n_apertures + apertures
-                    n_aperture_area = n_aperture_area + aperture_area
-                elif ang_str == "S":
-                    s_walls.append(f)
-                    s_wall_area = s_wall_area + wall_area
-                    s_apertures = s_apertures + apertures
-                    s_aperture_area = s_aperture_area + aperture_area
-                elif ang_str == "E":
-                    e_walls.append(f)
-                    e_wall_area = e_wall_area + wall_area
-                    e_apertures = e_apertures + apertures
-                    e_aperture_area = e_aperture_area + aperture_area
-                elif ang_str == "W":
-                    w_walls.append(f)
-                    w_wall_area = w_wall_area + wall_area
-                    w_apertures = w_apertures + apertures
-                    w_aperture_area = w_aperture_area + aperture_area
-                elif ang_str == "NE":
-                    ne_walls.append(f)
-                    ne_wall_area = ne_wall_area + wall_area
-                    ne_apertures = ne_apertures + apertures
-                    ne_aperture_area = ne_aperture_area + aperture_area
-                elif ang_str == "NW":
-                    nw_walls.append(f)
-                    nw_wall_area = nw_wall_area + wall_area
-                    nw_apertures = nw_apertures + apertures
-                    nw_aperture_area = nw_aperture_area + aperture_area
-                elif ang_str == "SE":
-                    se_walls.append(f)
-                    se_wall_area = se_wall_area + wall_area
-                    se_apertures = se_apertures + apertures
-                    se_aperture_area = se_aperture_area + aperture_area
-                elif ang_str == "SW":
-                    sw_walls.append(f)
-                    sw_wall_area = sw_wall_area + wall_area
-                    sw_apertures = sw_apertures + apertures
-                    sw_aperture_area = sw_aperture_area + aperture_area
+        n_apertures = []
+        s_apertures = []
+        e_apertures = []
+        w_apertures = []
+        ne_apertures = []
+        nw_apertures = []
+        se_apertures = []
+        sw_apertures = []
+        
 
-            if n_wall_area > 0:
-                n_ap_or = n_aperture_area / n_wall_area * 100
-            else:
-                n_ap_or = 0
-            if s_wall_area > 0:
-                s_ap_or = s_aperture_area / s_wall_area * 100
-            else:
-                s_ap_or = 0
-            if e_wall_area > 0:
-                e_ap_or = e_aperture_area / e_wall_area * 100
-            else:
-                e_ap_or = 0
-            if w_wall_area > 0:
-                w_ap_or = w_aperture_area / w_wall_area * 100
-            else:
-                w_ap_or = 0
-            if ne_wall_area > 0:
-                ne_ap_or = ne_aperture_area / ne_wall_area * 100
-            else:
-                ne_ap_or = 0
-            if nw_wall_area > 0:
-                nw_ap_or = nw_aperture_area / nw_wall_area * 100
-            else:
-                nw_ap_or = 0
-            if se_wall_area > 0:
-                se_ap_or = se_aperture_area / se_wall_area * 100
-            else:
-                se_ap_or = 0
-            if sw_wall_area > 0:
-                sw_ap_or = sw_aperture_area / sw_wall_area * 100
-            else:
-                sw_ap_or = 0
+        n_aperture_area = 0
+        s_aperture_area = 0
+        e_aperture_area = 0
+        w_aperture_area = 0
+        
+        ne_aperture_area = 0
+        nw_aperture_area = 0
+        se_aperture_area = 0
+        sw_aperture_area = 0
+        
 
-            total_project_wall_area = s_wall_area + n_wall_area + ne_wall_area + nw_wall_area + sw_wall_area + se_wall_area
-            total_project_aperture_area = n_aperture_area + s_aperture_area + e_aperture_area + w_aperture_area + ne_aperture_area + nw_aperture_area + se_aperture_area + sw_aperture_area
-            
-            n_ap_proj = n_aperture_area / total_project_wall_area * 100
-            s_ap_proj = s_aperture_area / total_project_wall_area * 100
-            e_ap_proj = e_aperture_area / total_project_wall_area * 100
-            w_ap_proj = w_aperture_area / total_project_wall_area * 100
-            ne_ap_proj = ne_aperture_area / total_project_wall_area * 100
-            nw_ap_proj = nw_aperture_area / total_project_wall_area * 100
-            se_ap_proj = se_aperture_area / total_project_wall_area * 100
-            sw_ap_proj = sw_aperture_area / total_project_wall_area * 100
-            
-            total_ap_proj_percent = n_ap_proj+s_ap_proj+e_ap_proj+w_ap_proj+ne_ap_proj+nw_ap_proj+se_ap_proj+sw_ap_proj
-            col_labels = ["Orientation", "Window Area", "Wall Area", "WWR By Orientation", "WWR By Project"]
-            d = {"Orientation": ["E", "NE", "N", "NW", "W", "SW", "S", "SE", "Total"],
-                'Window Area': [round(e_aperture_area,2),
-                                round(ne_aperture_area,2),
-                                round(n_aperture_area,2),
-                                round(nw_aperture_area,2),
-                                round(w_aperture_area,2),
-                                round(sw_aperture_area,2),
-                                round(s_aperture_area,2),
-                                round(se_aperture_area,2),
-                                round(total_project_aperture_area,2)],
-                'Wall Area': [round(e_wall_area,2),
-                              round(ne_wall_area,2),
-                              round(n_wall_area,2),
-                              round(nw_wall_area,2),
-                              round(w_wall_area,2),
-                              round(sw_wall_area,2),
-                              round(s_wall_area,2),
-                              round(se_wall_area,2),
-                              round(total_project_wall_area,2)],
-                'WWR By Orientation': [round(e_ap_or,2),
-                                       round(ne_ap_or,2),
-                                       round(n_ap_or,2),
-                                       round(nw_ap_or,2),
-                                       round(w_ap_or,2),
-                                       round(sw_ap_or,2),
-                                       round(s_ap_or,2),
-                                       round(se_ap_or,2),
-                                       0],
-                'WWR By Project': [round(e_ap_proj,2),
-                                   round(ne_ap_proj,2),
-                                   round(n_ap_proj,2),
-                                   round(nw_ap_proj,2),
-                                   round(w_ap_proj,2),
-                                   round(sw_ap_proj,2),
-                                   round(s_ap_proj,2),
-                                   round(se_ap_proj,2),
-                                   round(total_ap_proj_percent,2)]}
-            df = pd.DataFrame(data=d)
-            st.table(df)
-            d = {"Orientation": ["E", "NE", "N", "NW", "W", "SW", "S", "SE"],
-                'Window Area': [round(e_wall_area,2),
-                                round(ne_wall_area,2),
-                                round(n_wall_area,2),
-                                round(nw_wall_area,2),
-                                round(w_wall_area,2),
-                                round(sw_wall_area,2),
-                                round(s_wall_area,2),
-                                round(se_wall_area,2)]}
+        for f in evf:
+            ang, ang_str, color_str = faceAngleFromNorth(f, north)
+            wall_area = topologic.FaceUtility.Area(f)
+            apertures, aperture_area = faceAperturesAndArea(f)
+            if ang_str == "N":
+                n_walls.append(f)
+                n_wall_area = n_wall_area + wall_area
+                n_apertures = n_apertures + apertures
+                n_aperture_area = n_aperture_area + aperture_area
+            elif ang_str == "S":
+                s_walls.append(f)
+                s_wall_area = s_wall_area + wall_area
+                s_apertures = s_apertures + apertures
+                s_aperture_area = s_aperture_area + aperture_area
+            elif ang_str == "E":
+                e_walls.append(f)
+                e_wall_area = e_wall_area + wall_area
+                e_apertures = e_apertures + apertures
+                e_aperture_area = e_aperture_area + aperture_area
+            elif ang_str == "W":
+                w_walls.append(f)
+                w_wall_area = w_wall_area + wall_area
+                w_apertures = w_apertures + apertures
+                w_aperture_area = w_aperture_area + aperture_area
+            elif ang_str == "NE":
+                ne_walls.append(f)
+                ne_wall_area = ne_wall_area + wall_area
+                ne_apertures = ne_apertures + apertures
+                ne_aperture_area = ne_aperture_area + aperture_area
+            elif ang_str == "NW":
+                nw_walls.append(f)
+                nw_wall_area = nw_wall_area + wall_area
+                nw_apertures = nw_apertures + apertures
+                nw_aperture_area = nw_aperture_area + aperture_area
+            elif ang_str == "SE":
+                se_walls.append(f)
+                se_wall_area = se_wall_area + wall_area
+                se_apertures = se_apertures + apertures
+                se_aperture_area = se_aperture_area + aperture_area
+            elif ang_str == "SW":
+                sw_walls.append(f)
+                sw_wall_area = sw_wall_area + wall_area
+                sw_apertures = sw_apertures + apertures
+                sw_aperture_area = sw_aperture_area + aperture_area
+
+        if n_wall_area > 0:
+            n_ap_or = n_aperture_area / n_wall_area * 100
+        else:
+            n_ap_or = 0
+        if s_wall_area > 0:
+            s_ap_or = s_aperture_area / s_wall_area * 100
+        else:
+            s_ap_or = 0
+        if e_wall_area > 0:
+            e_ap_or = e_aperture_area / e_wall_area * 100
+        else:
+            e_ap_or = 0
+        if w_wall_area > 0:
+            w_ap_or = w_aperture_area / w_wall_area * 100
+        else:
+            w_ap_or = 0
+        if ne_wall_area > 0:
+            ne_ap_or = ne_aperture_area / ne_wall_area * 100
+        else:
+            ne_ap_or = 0
+        if nw_wall_area > 0:
+            nw_ap_or = nw_aperture_area / nw_wall_area * 100
+        else:
+            nw_ap_or = 0
+        if se_wall_area > 0:
+            se_ap_or = se_aperture_area / se_wall_area * 100
+        else:
+            se_ap_or = 0
+        if sw_wall_area > 0:
+            sw_ap_or = sw_aperture_area / sw_wall_area * 100
+        else:
+            sw_ap_or = 0
+
+        total_project_wall_area = s_wall_area + n_wall_area + ne_wall_area + nw_wall_area + sw_wall_area + se_wall_area
+        total_project_aperture_area = n_aperture_area + s_aperture_area + e_aperture_area + w_aperture_area + ne_aperture_area + nw_aperture_area + se_aperture_area + sw_aperture_area
+        
+        n_ap_proj = n_aperture_area / total_project_wall_area * 100
+        s_ap_proj = s_aperture_area / total_project_wall_area * 100
+        e_ap_proj = e_aperture_area / total_project_wall_area * 100
+        w_ap_proj = w_aperture_area / total_project_wall_area * 100
+        ne_ap_proj = ne_aperture_area / total_project_wall_area * 100
+        nw_ap_proj = nw_aperture_area / total_project_wall_area * 100
+        se_ap_proj = se_aperture_area / total_project_wall_area * 100
+        sw_ap_proj = sw_aperture_area / total_project_wall_area * 100
+        
+        total_ap_proj_percent = n_ap_proj+s_ap_proj+e_ap_proj+w_ap_proj+ne_ap_proj+nw_ap_proj+se_ap_proj+sw_ap_proj
+        col_labels = ["Orientation", "Window Area", "Wall Area", "WWR By Orientation", "WWR By Project"]
+        d = {"Orientation": ["E", "NE", "N", "NW", "W", "SW", "S", "SE", "Total"],
+            'Window Area': [round(e_aperture_area,2),
+                            round(ne_aperture_area,2),
+                            round(n_aperture_area,2),
+                            round(nw_aperture_area,2),
+                            round(w_aperture_area,2),
+                            round(sw_aperture_area,2),
+                            round(s_aperture_area,2),
+                            round(se_aperture_area,2),
+                            round(total_project_aperture_area,2)],
+            'Wall Area': [round(e_wall_area,2),
+                            round(ne_wall_area,2),
+                            round(n_wall_area,2),
+                            round(nw_wall_area,2),
+                            round(w_wall_area,2),
+                            round(sw_wall_area,2),
+                            round(s_wall_area,2),
+                            round(se_wall_area,2),
+                            round(total_project_wall_area,2)],
+            'WWR By Orientation': [round(e_ap_or,2),
+                                    round(ne_ap_or,2),
+                                    round(n_ap_or,2),
+                                    round(nw_ap_or,2),
+                                    round(w_ap_or,2),
+                                    round(sw_ap_or,2),
+                                    round(s_ap_or,2),
+                                    round(se_ap_or,2),
+                                    0],
+            'WWR By Project': [round(e_ap_proj,2),
+                                round(ne_ap_proj,2),
+                                round(n_ap_proj,2),
+                                round(nw_ap_proj,2),
+                                round(w_ap_proj,2),
+                                round(sw_ap_proj,2),
+                                round(s_ap_proj,2),
+                                round(se_ap_proj,2),
+                                round(total_ap_proj_percent,2)]}
+        df = pd.DataFrame(data=d)
+        st.table(df)
+        d = {"Orientation": ["E", "NE", "N", "NW", "W", "SW", "S", "SE"],
+            'Window Area': [round(e_wall_area,2),
+                            round(ne_wall_area,2),
+                            round(n_wall_area,2),
+                            round(nw_wall_area,2),
+                            round(w_wall_area,2),
+                            round(sw_wall_area,2),
+                            round(s_wall_area,2),
+                            round(se_wall_area,2)]}
 col1, col2, col3, col4 = st.columns([1,1,1,1], gap="small")
 with col1:
     d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
