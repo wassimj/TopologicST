@@ -403,5 +403,5 @@ with input_column:
             st.plotly_chart(fig, width=600,height=600)
             df = pd.DataFrame(data=d)
             st.write(df)
-            fig = px.scatter_polar(df, r="Window Area", theta="Orientation")
+            fig = go.Figure(go.Barpolar(df, r="Window Area", theta="Orientation"))
             st.plotly_chart(fig, width=600,height=600)
