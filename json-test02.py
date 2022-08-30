@@ -224,7 +224,7 @@ if json_file:
 
     c = topologies[0]
     if c:
-        dataList = plotlyDataByTopology(topology=c, mesh_opacity=0.5, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=False, draw_wire=True)
+        mesh_data, dataList = plotlyDataByTopology(topology=c, mesh_opacity=0.5, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=False, draw_wire=True)
         faces = []
         _ = c.Faces(None, faces)
         north = [0,1,0]
