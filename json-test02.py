@@ -409,7 +409,7 @@ if json_file:
                             round(se_aperture_area,2)]}
         st.subheader("Window Area")
         fig = go.Figure(go.Barpolar(r=d["Window Area"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
-        st.plotly_chart(fig, width=400,height=400)
+        st.plotly_chart(fig, width=200,height=200)
 
     with col2:
         d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
@@ -423,7 +423,7 @@ if json_file:
                             round(se_wall_area,2)]}
         st.subheader("Wall Area")
         fig = go.Figure(go.Barpolar(r=d["Wall Area"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
-        st.plotly_chart(fig, width=400,height=400)
+        st.plotly_chart(fig, width=200,height=200)
 
     with col3:
         d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
@@ -437,7 +437,7 @@ if json_file:
                             round(se_ap_or,2)]}
         st.subheader("WWR By Orient.")
         fig = go.Figure(go.Barpolar(r=d["WWR By Orient"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
-        st.plotly_chart(fig, width=400,height=400)
+        st.plotly_chart(fig, width=200,height=200)
 
     with col4:
         d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
@@ -451,4 +451,4 @@ if json_file:
                             round(se_ap_proj,2)]}
         st.subheader("Window Area Percent By Orientation")
         fig = go.Figure(go.Barpolar(r=d["WWR By Project"], theta=d["Orientation"], marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple']))
-        st.plotly_chart(fig, width=400,height=400)
+        st.plotly_chart(fig, width=200,height=200)
