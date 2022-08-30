@@ -223,31 +223,7 @@ if json_file:
             ap, apertures = TopologyApertures.processItem(face)
             if len(apertures) > 0: #This face has a window so must be a wall, count it.
                 dirA = FaceNormalAtParameters.processItem([face, 0.5, 0.5], "XYZ", 3)
-                ang = round(faceAngleFromNorth(face, north),2)
-                if 22.5 < ang <= 67.5:
-                    ang_str = "NW"
-                    color_str = "red"
-                elif 67.5 < ang <= 112.5:
-                    ang_str = "W"
-                    color_str = "green"
-                elif 112.5 < ang <= 157.5:
-                    ang_str = "SW"
-                    color_str = "blue"
-                elif 157.5 < ang <= 202.5:
-                    ang_str = "S"
-                    color_str = "yellow"
-                elif 202.5 < ang <= 247.5:
-                    ang_str = "SE"
-                    color_str = "purple"
-                elif 247.5 < ang <= 292.5:
-                    ang_str = "E"
-                    color_str = "cyan"
-                elif 292.5 < ang <= 337.5:
-                    ang_str = "NE"
-                    color_str = "brown"
-                else:
-                    ang_str = "N"
-                    color_str = "white"
+                ang, ang_str, color_str = faceAngleFromNorth(face, north)
                 for aperture in apertures:
                     apertureData = plotlyDataByTopology(aperture, 0.5, color_str, "black")
                     dataList = dataList + apertureData
