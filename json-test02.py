@@ -446,7 +446,7 @@ if json_file:
                             round(sw_ap_or,2),
                             round(s_ap_or,2),
                             round(se_ap_or,2)]}
-        fig = go.Figure(go.Barpolar(title = "WWR By Orient."
+        fig = go.Figure(go.Barpolar(title = "WWR By Orient.",
                                     r=d["WWR By Orient"],
                                     theta=d["Orientation"],
                                     marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple'],
