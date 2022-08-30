@@ -81,7 +81,7 @@ def faceAngleFromNorth(f, north):
         color_str = "red"
     else:
         ang_str = "N"
-        color_str = "cyan"
+        color_str = "white"
     return [ang, ang_str, color_str]
 
 def faceAperturesAndArea(f):
