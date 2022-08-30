@@ -233,27 +233,27 @@ if json_file:
         st.write(evf)
         if evf_f:
             for f in evf:
-                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
                 dataList += [mesh_data]
                 dataList += [wire_data]
         if ivf_f:
             for f in ivf:
-                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
                 dataList += [mesh_data]
                 dataList +=[wire_data]
         if thf_f:
             for f in thf:
-                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
                 dataList += [mesh_data]
                 dataList += [wire_data]
         if bhf_f:
             for f in bhf:
-                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
                 dataList += [mesh_data]
                 dataList += [wire_data]
         if ihf_f:
             for f in ihf:
-                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
                 dataList += [mesh_data]
                 dataList += [wire_data]
         # Draw color-coded apertures
@@ -267,7 +267,6 @@ if json_file:
                     dataList += mesh_data
                     dataList += wire_data
 
-        st.write(dataList)
         fig = go.Figure(data=dataList)
         fig.update_layout(
             width=600,
