@@ -252,7 +252,7 @@ if json_file:
                 dirA = FaceNormalAtParameters.processItem([face, 0.5, 0.5], "XYZ", 3)
                 ang, ang_str, color_str = faceAngleFromNorth(face, north)
                 for aperture in apertures:
-                    apertureData = plotlyDataByTopology(aperture, 0.5, color_str, "black")
+                    apertureData = plotlyDataByTopology(aperture, mesh_opacity=0.5, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
                     dataList = dataList + apertureData
         fig = go.Figure(data=dataList)
         fig.update_layout(
