@@ -1,4 +1,5 @@
 import topologic
+from topologicpy import VertexNearestVertex, DictionaryValueAtKey, DictionaryByKeysValues, TopologySetDictionary
 import json
 
 def relevantSelector(topology, tol):
@@ -254,7 +255,53 @@ def internalVertex(topology, tolerance):
 		vst = topology.Centroid()
 	return vst
 
-def processApertures(subTopologies, apertures, exclusive, tolerance):
+def processApertures(subTopologies, apertureCluster, exclusive, tolerance):
+	if not apertureCluster:
+		return None
+	apertures = []
+	cells = []
+	faces = []
+	edges = []
+	vertices = []
+	_ = apertureCluster.Cells(None, cells)
+	_ = apertureCluster.Faces(None, faces)
+	_ = apertureCluster.Vertices(None, vertices)
+	# apertures are assumed to all be of the same topology type.
+	if len(cells) > 0:
+		apertures = cells
+	elif len(faces) > 0:
+		apertures = faces
+	elif len(edges) > 0:
+		apertures = edges
+	elif len(vertices) > 0:
+		apertures = vertices
+	else:
+		apertures = []
+	usedTopologies = []
+	temp_verts = []
+	for i, subTopology in enumerate(subTopologies):
+			usedTopologies.append(0)
+			temp_v = internalVertex(subTopology, tolerance)
+			d = DictionaryByKeysValues.processItem([["id"], [i]])
+			temp_v = TopologySetDictionary.processItem([temp_v, d])
+			temp_verts.append(temp_v)
+	clus = topologic.Cluster.ByTopologies(temp_verts)
+	tree = VertexNearestVertex.kdtree(clus)
+	for aperture in apertures:
+		apCenter = internalVertex(aperture, tolerance)
+		nearest_vert = VertexNearestVertex.find_nearest_neighbor(tree=tree, vertex=apCenter)
+		d = nearest_vert.GetDictionary()
+		i = DictionaryValueAtKey.processItem([d,"id"])
+		subTopology = subTopologies[i]
+		if exclusive == True and usedTopologies[i] == 1:
+			continue
+		context = topologic.Context.ByTopologyParameters(subTopology, 0.5, 0.5, 0.5)
+		_ = topologic.Aperture.ByTopologyContext(aperture, context)
+		if exclusive == True:
+			usedTopologies[i] = 1
+	return None
+
+def processApertures_old(subTopologies, apertures, exclusive, tolerance):
 	usedTopologies = []
 	for subTopology in subTopologies:
 			usedTopologies.append(0)
@@ -276,9 +323,7 @@ def processApertures(subTopologies, apertures, exclusive, tolerance):
 def getApertures(apertureList):
 	returnApertures = []
 	for item in apertureList:
-		brep = item['brep']
-		brep = brep.replace("CASCADE Topology V3, (c) Open Cascade", "CASCADE Topology V1, (c) Matra-Datavision")
-		aperture = topologic.Topology.ByString(brep)
+		aperture = topologic.Topology.ByString(item['brep'])
 		dictionary = item['dictionary']
 		keys = list(dictionary.keys())
 		values = []
@@ -307,64 +352,64 @@ def assignDictionary(item):
 
 def processItem(item):
 	topology = None
-	topologies = []
-	jsondata = json.load(item)
-	for jsonItem in jsondata:
-		brep = jsonItem['brep']
-		brep = brep.replace("CASCADE Topology V3, (c) Open Cascade", "CASCADE Topology V1, (c) Matra-Datavision")
-		topology = topologic.Topology.ByString(brep)
-		dictionary = jsonItem['dictionary']
-		topDictionary = dictionaryByPythonDictionary(dictionary)
-		_ = topology.SetDictionary(topDictionary)
-		cellApertures = getApertures(jsonItem['cellApertures'])
-		cells = []
-		try:
-			_ = topology.Cells(None, cells)
-		except:
-			pass
-		processApertures(cells, cellApertures, False, 0.001)
-		faceApertures = getApertures(jsonItem['faceApertures'])
-		faces = []
-		try:
-			_ = topology.Faces(None, faces)
-		except:
-			pass
-		processApertures(faces, faceApertures, False, 0.001)
-		edgeApertures = getApertures(jsonItem['edgeApertures'])
-		edges = []
-		try:
-			_ = topology.Edges(None, edges)
-		except:
-			pass
-		processApertures(edges, edgeApertures, False, 0.001)
-		vertexApertures = getApertures(jsonItem['vertexApertures'])
-		vertices = []
-		try:
-			_ = topology.Vertices(None, vertices)
-		except:
-			pass
-		processApertures(vertices, vertexApertures, False, 0.001)
-		cellDataList = jsonItem['cellDictionaries']
-		cellSelectors = []
-		for cellDataItem in cellDataList:
-			cellSelectors.append(assignDictionary(cellDataItem))
-		processSelectors(cellSelectors, topology, False, False, False, True, 0.001)
-		faceDataList = jsonItem['faceDictionaries']
-		faceSelectors = []
-		for faceDataItem in faceDataList:
-			faceSelectors.append(assignDictionary(faceDataItem))
-		processSelectors(faceSelectors, topology, False, False, True, False, 0.001)
-		edgeDataList = jsonItem['edgeDictionaries']
-		edgeSelectors = []
-		for edgeDataItem in edgeDataList:
-			edgeSelectors.append(assignDictionary(edgeDataItem))
-		processSelectors(edgeSelectors, topology, False, True, False, False, 0.001)
-		vertexDataList = jsonItem['vertexDictionaries']
-		vertexSelectors = []
-		for vertexDataItem in vertexDataList:
-			vertexSelectors.append(assignDictionary(vertexDataItem))
-		processSelectors(vertexSelectors, topology, True, False, False, False, 0.001)
-		topologies.append(topology)
-	return topologies
-
-
+	file = open(item)
+	if file:
+		topologies = []
+		jsondata = json.load(file)
+		for jsonItem in jsondata:
+			brep = jsonItem['brep']
+			topology = topologic.Topology.ByString(brep)
+			dictionary = jsonItem['dictionary']
+			topDictionary = dictionaryByPythonDictionary(dictionary)
+			_ = topology.SetDictionary(topDictionary)
+			cellApertures = getApertures(jsonItem['cellApertures'])
+			cells = []
+			try:
+				_ = topology.Cells(None, cells)
+			except:
+				pass
+			processApertures(cells, topologic.Cluster.ByTopologies(cellApertures), False, 0.001)
+			faceApertures = getApertures(jsonItem['faceApertures'])
+			faces = []
+			try:
+				_ = topology.Faces(None, faces)
+			except:
+				pass
+			processApertures(faces, topologic.Cluster.ByTopologies(faceApertures), False, 0.001)
+			edgeApertures = getApertures(jsonItem['edgeApertures'])
+			edges = []
+			try:
+				_ = topology.Edges(None, edges)
+			except:
+				pass
+			processApertures(edges, topologic.Cluster.ByTopologies(edgeApertures), False, 0.001)
+			vertexApertures = getApertures(jsonItem['vertexApertures'])
+			vertices = []
+			try:
+				_ = topology.Vertices(None, vertices)
+			except:
+				pass
+			processApertures(vertices, topologic.Cluster.ByTopologies(vertexApertures), False, 0.001)
+			cellDataList = jsonItem['cellDictionaries']
+			cellSelectors = []
+			for cellDataItem in cellDataList:
+				cellSelectors.append(assignDictionary(cellDataItem))
+			processSelectors(cellSelectors, topology, False, False, False, True, 0.001)
+			faceDataList = jsonItem['faceDictionaries']
+			faceSelectors = []
+			for faceDataItem in faceDataList:
+				faceSelectors.append(assignDictionary(faceDataItem))
+			processSelectors(faceSelectors, topology, False, False, True, False, 0.001)
+			edgeDataList = jsonItem['edgeDictionaries']
+			edgeSelectors = []
+			for edgeDataItem in edgeDataList:
+				edgeSelectors.append(assignDictionary(edgeDataItem))
+			processSelectors(edgeSelectors, topology, False, True, False, False, 0.001)
+			vertexDataList = jsonItem['vertexDictionaries']
+			vertexSelectors = []
+			for vertexDataItem in vertexDataList:
+				vertexSelectors.append(assignDictionary(vertexDataItem))
+			processSelectors(vertexSelectors, topology, True, False, False, False, 0.001)
+			topologies.append(topology)
+		return topologies
+	return None
