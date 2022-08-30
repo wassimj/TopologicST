@@ -222,7 +222,7 @@ if json_file:
         for face in evf:
             ap, apertures = TopologyApertures.processItem(face)
             if len(apertures) > 0: #This face has a window so must be a wall, count it.
-                dirA = FaceNormalAtParameters.processItem([cell_face, 0.5, 0.5], "XYZ", 3)
+                dirA = FaceNormalAtParameters.processItem([face, 0.5, 0.5], "XYZ", 3)
                 ang = round(faceAngleFromNorth(face, north),2)
                 if 22.5 < ang <= 67.5:
                     ang_str = "NW"
