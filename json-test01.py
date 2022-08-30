@@ -262,16 +262,17 @@ with input_column:
 # 3D VIEWER
 with viewer_column:
     st.subheader("3D View")
-    fig = go.Figure(data=dataList)
-    fig.update_layout(
-        width=600,
-        height=600,
-        scene = dict(
-            xaxis = dict(visible=False),
-            yaxis = dict(visible=False),
-            zaxis =dict(visible=False),
+    if datalist:
+        fig = go.Figure(data=dataList)
+        fig.update_layout(
+            width=600,
+            height=600,
+            scene = dict(
+                xaxis = dict(visible=False),
+                yaxis = dict(visible=False),
+                zaxis =dict(visible=False),
+                )
             )
-        )
 
-    #fig.show()
-    st.plotly_chart(fig, width=600,height=600)
+        #fig.show()
+        st.plotly_chart(fig, width=600,height=600)
