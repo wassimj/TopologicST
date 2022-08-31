@@ -91,6 +91,12 @@ def faceAperturesAndArea(f):
         aperture_area = aperture_area + topologic.FaceUtility.Area(aperture)
     return [apertures, aperture_area]
 
+def addData(dataset, new_data):
+    if not isinstance(new_data, list):
+        new_data = [new_data]
+    if len(new_data) > 0:
+        return (dataset += new_data)
+
 def plotlyDataByTopology(topology=None, mesh_opacity=0.5, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=False, draw_wire=True):
     mesh_data = []
     wire_data = []
@@ -232,29 +238,30 @@ if json_file:
         evf, ivf, thf, bhf, ihf, eva, iva, tha, bha, iha = CellComplexDecompose.processItem(c)
         if evf_f:
             for f in evf:
-                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
-                dataList += [mesh_data]
-                dataList += [wire_data]
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                addData(dataList, mesh_data)
+                addData(dataList, wire_data)
         if ivf_f:
             for f in ivf:
-                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
-                dataList += [mesh_data]
-                dataList +=[wire_data]
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                addData(dataList, mesh_data)
+                addData(dataList, wire_data)
         if thf_f:
             for f in thf:
-                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
-                dataList += [mesh_data]
-                dataList += [wire_data]
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                addData(dataList, mesh_data)
+                addData(dataList, wire_data)
         if bhf_f:
             for f in bhf:
-                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
-                dataList += [mesh_data]
-                dataList += [wire_data]
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                addData(dataList, mesh_data)
+                addData(dataList, wire_data)
         if ihf_f:
             for f in ihf:
-                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
-                dataList += [mesh_data]
-                dataList += [wire_data]
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                addData(dataList, mesh_data)
+                addData(dataList, wire_data)
+        
         # Draw color-coded apertures
         for face in evf:
             ap, apertures = TopologyApertures.processItem(face)
@@ -263,9 +270,8 @@ if json_file:
                 ang, ang_str, color_str = faceAngleFromNorth(face, north)
                 for aperture in apertures:
                     mesh_data, wire_data = plotlyDataByTopology(aperture, mesh_opacity=0.5, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
-                    dataList += mesh_data
-                    dataList += wire_data
-
+                    addData(dataList, mesh_data)
+                addData(dataList, wire_data)
         fig = go.Figure(data=dataList)
         fig.update_layout(
             width=600,
