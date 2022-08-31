@@ -230,14 +230,17 @@ st.subheader("Upload JSON MK1 File")
 json_file = st.file_uploader("", type="json", accept_multiple_files=False)
 if json_file:
     topologies = TopologyByImportedJSONMK1.processItem(json_file)
-    ex_ve_f_f = st.checkbox("External Vertical Faces", value=True)
-    in_ve_f_f = st.checkbox("Internal Vertical Faces", value=True)
-    to_ho_f_f = st.checkbox("Top Horizontal Faces", value=True)
-    bo_ho_f_f = st.checkbox("Bottom Horizontal Faces", value=True)
-    in_ho_f_f = st.checkbox("Internal Horizontal Faces", value=True)
-    ex_in_f_f = st.checkbox("External Inclined Faces", value=True)
-    in_in_f_f = st.checkbox("Internal Inclined Faces", value=True)
-    apr_f = st.checkbox("Apertures", value=True)
+    col1, col2 = st.columns([1,1], gap="small")
+    with col1:
+        ex_ve_f_f = st.checkbox("External Vertical Faces", value=True)
+        in_ve_f_f = st.checkbox("Internal Vertical Faces", value=True)
+        to_ho_f_f = st.checkbox("Top Horizontal Faces", value=True)
+        bo_ho_f_f = st.checkbox("Bottom Horizontal Faces", value=True)
+    with col2:
+        in_ho_f_f = st.checkbox("Internal Horizontal Faces", value=True)
+        ex_in_f_f = st.checkbox("External Inclined Faces", value=True)
+        in_in_f_f = st.checkbox("Internal Inclined Faces", value=True)
+        apr_f = st.checkbox("Apertures", value=True)
 
 
 #--------------------------
