@@ -83,6 +83,7 @@ def processItem(item):
 		cells = []
 		aFace.Cells(item, cells)
 		n = len(cells)
+		st.write("Angle String", ang_str)
 		if ang_str == "E" or ang_str == "W":
 			if n == 1:
 				externalVerticalFaces.append(aFace)
@@ -112,7 +113,6 @@ def processItem(item):
 				internalInclinedFaces.append(aFace)
 				internalInclinedApertures.append(getApertures(aFace))
 	
-	st.write("External Inclined Faces:", externalInclinedFaces)
 
 	ex_ve_f = []
 	in_ve_f = []
