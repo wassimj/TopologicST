@@ -94,8 +94,9 @@ def faceAperturesAndArea(f):
 def addData(dataset, new_data):
     if not isinstance(new_data, list):
         new_data = [new_data]
-    if len(new_data) > 0:
-        return (dataset += new_data)
+    if len(new_data) >
+        dataset += new_data
+    return dataset
 
 def plotlyDataByTopology(topology=None, mesh_opacity=0.5, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=False, draw_wire=True):
     mesh_data = []
