@@ -365,7 +365,7 @@ if json_file:
         sw_aperture_area = 0
         
 
-        for f in evf:
+        for f in ex_ve_f:
             ang, ang_str, color_str = faceAngleFromNorth(f, north)
             wall_area = topologic.FaceUtility.Area(f)
             apertures, aperture_area = faceAperturesAndArea(f)
