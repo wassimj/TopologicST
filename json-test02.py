@@ -230,11 +230,13 @@ st.subheader("Upload JSON MK1 File")
 json_file = st.file_uploader("", type="json", accept_multiple_files=False)
 if json_file:
     topologies = TopologyByImportedJSONMK1.processItem(json_file)
-    evf_f = st.checkbox("External Vertical Faces", value=True)
-    ivf_f = st.checkbox("Internal Vertical Faces", value=True)
-    thf_f = st.checkbox("Top Horizontal Faces", value=True)
-    bhf_f = st.checkbox("Bottom Horizontal Faces", value=True)
-    ihf_f = st.checkbox("Internal Horizontal Faces", value=True)
+    ex_ve_f_f = st.checkbox("External Vertical Faces", value=True)
+    in_ve_f_f = st.checkbox("Internal Vertical Faces", value=True)
+    to_ho_f_f = st.checkbox("Top Horizontal Faces", value=True)
+    bo_ho_f_f = st.checkbox("Bottom Horizontal Faces", value=True)
+    in_ho_f_f = st.checkbox("Internal Horizontal Faces", value=True)
+    ex_in_f_f = st.checkbox("External Inclined Faces", value=True)
+    in_in_f_f = st.checkbox("Internal Inclined Faces", value=True)
     apr_f = st.checkbox("Apertures", value=True)
 
 
@@ -248,37 +250,51 @@ if json_file:
         faces = []
         _ = c.Faces(None, faces)
         north = [0,1,0]
-        evf, ivf, thf, bhf, ihf, eva, iva, tha, bha, iha = CellComplexDecompose.processItem(c)
-        if evf_f:
-            for f in evf:
+        ex_ve_f, in_ve_f, to_ho_f, bo_ho_f, in_ho_f, ex_in_f, in_in_f, ex_ve_a, in_ve_a, to_ho_a, bo_ho_a, in_ho_a, ex_in_a, in_in_a = CellComplexDecompose.processItem(c)
+        if ex_ve_f_f:
+            for f in ex_ve_f:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
                 addData(dataList, mesh_data)
                 addData(dataList, wire_data)
                 if apr_f:
                     addApertures(dataList, f, north)
-        if ivf_f:
-            for f in ivf:
+        if in_ve_f_f:
+            for f in in_ve_f:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
                 addData(dataList, mesh_data)
                 addData(dataList, wire_data)
                 if apr_f:
                     addApertures(dataList, f, north)
-        if thf_f:
-            for f in thf:
+        if to_ho_f_f:
+            for f in to_ho_f:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
                 addData(dataList, mesh_data)
                 addData(dataList, wire_data)
                 if apr_f:
                     addApertures(dataList, f, north)
-        if bhf_f:
-            for f in bhf:
+        if bo_ho_f_f:
+            for f in bo_ho_f:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
                 addData(dataList, mesh_data)
                 addData(dataList, wire_data)
                 if apr_f:
                     addApertures(dataList, f, north)
-        if ihf_f:
-            for f in ihf:
+        if in_ho_f_f:
+            for f in in_ho_f:
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                addData(dataList, mesh_data)
+                addData(dataList, wire_data)
+                if apr_f:
+                    addApertures(dataList, f, north)
+        if ex_in_f_f:
+            for f in ex_in_f:
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                addData(dataList, mesh_data)
+                addData(dataList, wire_data)
+                if apr_f:
+                    addApertures(dataList, f, north)
+        if in_in_f_f:
+            for f in in_in_f:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
                 addData(dataList, mesh_data)
                 addData(dataList, wire_data)
