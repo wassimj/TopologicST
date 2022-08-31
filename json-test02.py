@@ -226,7 +226,6 @@ if json_file:
     if c:
         mesh_data, wire_data = plotlyDataByTopology(topology=c, mesh_opacity=0.5, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
         dataList = [wire_data]
-        fig = go.Figure(data=dataList)
         faces = []
         _ = c.Faces(None, faces)
         north = [0,1,0]
@@ -236,6 +235,7 @@ if json_file:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
                 dataList += [mesh_data]
                 dataList += [wire_data]
+            fig = go.Figure(data=dataList)
         if ivf_f:
             for f in ivf:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
