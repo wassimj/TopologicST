@@ -111,6 +111,9 @@ def processItem(item):
 			else:
 				internalInclinedFaces.append(aFace)
 				internalInclinedApertures.append(getApertures(aFace))
+	
+	st.write("External Inclined Faces:", externalInclinedFaces)
+
 	ex_ve_f = []
 	in_ve_f = []
 	to_ho_f = []
@@ -156,7 +159,6 @@ def processItem(item):
 		ex_in_a = flatten(externalInclinedApertures)
 	if len(internalInclinedApertures) > 0:
 		in_in_a = flatten(internalInclinedApertures)
-	st.write("External Inclined Faces:", ex_in_f)
 	return [ex_ve_f, in_ve_f, to_ho_f, bo_ho_f, in_ho_f, ex_in_f, in_in_f, ex_ve_a, in_ve_a, to_ho_a, bo_ho_a, in_ho_a, ex_in_a, in_in_a]
 
 
