@@ -226,11 +226,11 @@ if json_file:
     if c:
         mesh_data, wire_data = plotlyDataByTopology(topology=c, mesh_opacity=0.5, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
         dataList = [wire_data]
+        fig = go.Figure(data=dataList)
         faces = []
         _ = c.Faces(None, faces)
         north = [0,1,0]
         evf, ivf, thf, bhf, ihf, eva, iva, tha, bha, iha = CellComplexDecompose.processItem(c)
-        st.write(evf)
         if evf_f:
             for f in evf:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
@@ -267,7 +267,7 @@ if json_file:
                     dataList += mesh_data
                     dataList += wire_data
 
-        fig = go.Figure(data=dataList)
+        #fig = go.Figure(data=dataList)
         fig.update_layout(
             width=600,
             height=600,
