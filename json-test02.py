@@ -94,7 +94,7 @@ def faceAperturesAndArea(f):
 def addData(dataset, new_data):
     if not isinstance(new_data, list):
         new_data = [new_data]
-    if len(new_data) >
+    if len(new_data) > 0:
         dataset += new_data
     return dataset
 
