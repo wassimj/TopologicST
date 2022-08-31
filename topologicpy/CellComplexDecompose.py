@@ -77,13 +77,10 @@ def processItem(item):
 	up = [0,0,1]
 	for aFace in faces:
 		ang, ang_str, color_str = faceAngleFromUp(aFace, up)
-		print("ANGLE",ang)
-
-		z = topologic.FaceUtility.NormalAtParameters(aFace, 0.5, 0.5)[2]
+		st.write("Angle:", ang)
 		cells = []
 		aFace.Cells(item, cells)
 		n = len(cells)
-		st.write("Angle String", ang_str)
 		if ang_str == "E" or ang_str == "W":
 			if n == 1:
 				externalVerticalFaces.append(aFace)
