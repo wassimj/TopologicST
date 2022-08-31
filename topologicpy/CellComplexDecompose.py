@@ -20,7 +20,7 @@ def compass_angle(p1, p2):
 
 def faceAngleFromUp(f, up):
     dirA = FaceNormalAtParameters.processItem([f, 0.5, 0.5], "XYZ", 3)
-    ang = compass_angle((dirA[1],dirA[2]), (up[0], up[1]))
+    ang = compass_angle((dirA[0],dirA[2]), (up[0], up[2]))
     if 22.5 < ang <= 67.5:
         ang_str = "NW"
         color_str = "red"
