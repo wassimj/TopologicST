@@ -76,6 +76,7 @@ def processItem(item):
 	up = [0,0,1]
 	for aFace in faces:
 		ang, ang_str, color_str = faceAngleFromUp(aFace, up)
+		print("ANGLE",ang)
 
 		z = topologic.FaceUtility.NormalAtParameters(aFace, 0.5, 0.5)[2]
 		cells = []
