@@ -255,7 +255,6 @@ if json_file:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
                 dataList += [mesh_data]
                 dataList += [wire_data]
-            fig = go.Figure(data=dataList)
         # Draw color-coded apertures
         for face in evf:
             ap, apertures = TopologyApertures.processItem(face)
@@ -263,11 +262,11 @@ if json_file:
                 dirA = FaceNormalAtParameters.processItem([face, 0.5, 0.5], "XYZ", 3)
                 ang, ang_str, color_str = faceAngleFromNorth(face, north)
                 for aperture in apertures:
-                    mesh_data, wire_data = plotlyDataByTopology(aperture, mesh_opacity=0.5, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                    mesh_data, wire_data = plotlyDataByTopology(aperture, mesh_opacity=0.5, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
                     dataList += mesh_data
                     dataList += wire_data
 
-        #fig = go.Figure(data=dataList)
+        fig = go.Figure(data=dataList)
         fig.update_layout(
             width=600,
             height=600,
