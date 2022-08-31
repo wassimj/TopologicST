@@ -1,6 +1,6 @@
 import topologic
 from numpy import arctan, pi, signbit, arctan2, rad2deg
-from topologicpy import FaceNormalAtParameters
+from topologicpy import FaceNormalAtParameters, FaceAngle
 import streamlit as st
 
 # From https://stackabuse.com/python-how-to-flatten-list-of-lists/
@@ -20,33 +20,22 @@ def compass_angle(p1, p2):
     return rad2deg((ang1 - ang2) % (2 * pi))
 
 def faceAngleFromUp(f, up):
-    dirA = FaceNormalAtParameters.processItem([f, 0.5, 0.5], "XYZ", 3)
-    ang = compass_angle((dirA[0],dirA[2]), (up[0], up[2]))
-    if 11.25 < ang <= 78.75:
-        ang_str = "NW"
-        color_str = "red"
-    elif 78.75 < ang <= 101.25:
-        ang_str = "W"
-        color_str = "green"
-    elif 101.25 < ang <= 168.75:
-        ang_str = "SW"
-        color_str = "blue"
-    elif 168.75 < ang <= 191.25:
-        ang_str = "S"
-        color_str = "yellow"
-    elif 191.25 < ang <= 258.75:
-        ang_str = "SE"
-        color_str = "purple"
-    elif 258.75 < ang <= 281.25:
-        ang_str = "E"
-        color_str = "cyan"
-    elif 281.25 < ang <= 348.75:
-        ang_str = "NE"
-        color_str = "brown"
-    else:
-        ang_str = "N"
-        color_str = "white"
-    return [ang, ang_str, color_str]
+	dirA = FaceNormalAtParameters.processItem([f, 0.5, 0.5], "XYZ", 3)
+	ang = FaceAngle.angle_between(dirA, up)
+    
+	if abs(ang) < 11.25:
+		ang_str = "N"
+		color_str = "white"
+	elif abs(ang - 180) < 11.25:
+		ang_str = "S"
+		color_str = "yellow"
+	elif abs(ang - 90) < 11.25:
+		ang_str = "E"
+		color_str = "green"
+	else:
+		ang_str = "NE"
+		color_str = "red"
+	return [ang, ang_str, color_str]
 
 def getApertures(topology):
 	apertures = []
