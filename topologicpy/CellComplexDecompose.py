@@ -1,7 +1,6 @@
 import topologic
 from numpy import arctan, pi, signbit, arctan2, rad2deg
 from topologicpy import FaceNormalAtParameters, FaceAngle
-import streamlit as st
 
 # From https://stackabuse.com/python-how-to-flatten-list-of-lists/
 def flatten(element):
@@ -67,7 +66,6 @@ def processItem(item):
 	up = [0,0,1]
 	for aFace in faces:
 		ang, ang_str, color_str = faceAngleFromUp(aFace, up)
-		st.write("Angle:", ang)
 		cells = []
 		aFace.Cells(item, cells)
 		n = len(cells)
