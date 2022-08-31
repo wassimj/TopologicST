@@ -22,6 +22,7 @@ def compass_angle(p1, p2):
 def faceAngleFromUp(f, up):
 	dirA = FaceNormalAtParameters.processItem([f, 0.5, 0.5], "XYZ", 3)
 	ang = FaceAngle.angle_between(dirA, up)
+	ang = round((ang * 180 / pi), 2) # convert to degrees and round
     
 	if abs(ang) < 11.25:
 		ang_str = "N"
