@@ -2,7 +2,7 @@ from numpy import arctan, pi, signbit
 from numpy.linalg import norm
 
 import topologic
-from topologicpy FaceNormalAtParameters
+from topologicpy import FaceNormalAtParameters
 
 def angle_between(v1, v2):
 	u1 = v1 / norm(v1)
