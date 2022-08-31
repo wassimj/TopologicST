@@ -91,12 +91,23 @@ def faceAperturesAndArea(f):
         aperture_area = aperture_area + topologic.FaceUtility.Area(aperture)
     return [apertures, aperture_area]
 
-def addData(dataset, new_data):
+def addData(dataList, new_data):
     if not isinstance(new_data, list):
         new_data = [new_data]
     if len(new_data) > 0:
-        dataset += new_data
-    return dataset
+        dataList += new_data
+    return dataList
+
+def addApertures(dataList, f, north):
+    ap, apertures = TopologyApertures.processItem(f)
+    if len(apertures) > 0: #This face has a window so must be a wall, count it.
+        dirA = FaceNormalAtParameters.processItem([f, 0.5, 0.5], "XYZ", 3)
+        ang, ang_str, color_str = faceAngleFromNorth(f, north)
+        for aperture in apertures:
+            mesh_data, wire_data = plotlyDataByTopology(aperture, mesh_opacity=0.5, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
+            addData(dataList, mesh_data)
+            addData(dataList, wire_data)
+    return dataList
 
 def plotlyDataByTopology(topology=None, mesh_opacity=0.5, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=False, draw_wire=True):
     mesh_data = []
@@ -224,6 +235,7 @@ if json_file:
     thf_f = st.checkbox("Top Horizontal Faces", value=True)
     bhf_f = st.checkbox("Bottom Horizontal Faces", value=True)
     ihf_f = st.checkbox("Internal Horizontal Faces", value=True)
+    apr_f = st.checkbox("Apertures", value=True)
 
 
 #--------------------------
@@ -242,37 +254,48 @@ if json_file:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
                 addData(dataList, mesh_data)
                 addData(dataList, wire_data)
+                if apr_f:
+                    addApertures(dataList, f, north)
         if ivf_f:
             for f in ivf:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
                 addData(dataList, mesh_data)
                 addData(dataList, wire_data)
+                if apr_f:
+                    addApertures(dataList, f, north)
         if thf_f:
             for f in thf:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
                 addData(dataList, mesh_data)
                 addData(dataList, wire_data)
+                if apr_f:
+                    addApertures(dataList, f, north)
         if bhf_f:
             for f in bhf:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
                 addData(dataList, mesh_data)
                 addData(dataList, wire_data)
+                if apr_f:
+                    addApertures(dataList, f, north)
         if ihf_f:
             for f in ihf:
                 mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=0.5, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
                 addData(dataList, mesh_data)
                 addData(dataList, wire_data)
+                if apr_f:
+                    addApertures(dataList, f, north)
         
         # Draw color-coded apertures
-        for face in evf:
-            ap, apertures = TopologyApertures.processItem(face)
-            if len(apertures) > 0: #This face has a window so must be a wall, count it.
-                dirA = FaceNormalAtParameters.processItem([face, 0.5, 0.5], "XYZ", 3)
-                ang, ang_str, color_str = faceAngleFromNorth(face, north)
-                for aperture in apertures:
-                    mesh_data, wire_data = plotlyDataByTopology(aperture, mesh_opacity=0.5, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
-                    addData(dataList, mesh_data)
-                addData(dataList, wire_data)
+        #if apr_f:
+           # for face in evf:
+                #ap, apertures = TopologyApertures.processItem(face)
+                #if len(apertures) > 0: #This face has a window so must be a wall, count it.
+                    #dirA = FaceNormalAtParameters.processItem([face, 0.5, 0.5], "XYZ", 3)
+                    #ang, ang_str, color_str = faceAngleFromNorth(face, north)
+                    #for aperture in apertures:
+                       # mesh_data, wire_data = plotlyDataByTopology(aperture, mesh_opacity=0.5, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
+                        #addData(dataList, mesh_data)
+                    #addData(dataList, wire_data)
         fig = go.Figure(data=dataList)
         fig.update_layout(
             width=600,
