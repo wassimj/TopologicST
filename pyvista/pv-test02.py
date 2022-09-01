@@ -25,12 +25,10 @@ if platform == 'win32':
 else:
     os_name = 'linux'
 sitePackagesFolderName = os.path.join(os.path.dirname(os.path.realpath(__file__)), "bin", os_name)
-st.write(sitePackagesFolderName)
-st.stop()
-#topologicFolderName = [filename for filename in os.listdir(sitePackagesFolderName) if filename.startswith("topologic")][0]
-#topologicPath = os.path.join(sitePackagesFolderName, topologicFolderName)
-#sys.path.append(topologicPath)
-#import topologic
+topologicFolderName = [filename for filename in os.listdir(sitePackagesFolderName) if filename.startswith("topologic")][0]
+topologicPath = os.path.join(sitePackagesFolderName, topologicFolderName)
+sys.path.append(topologicPath)
+import topologic
 
 from topologicpy import TopologyGeometry, TopologyByImportedJSONMK1, TopologyApertures, TopologyTriangulate, DictionaryValueAtKey, DictionaryKeys, FaceNormalAtParameters, CellComplexDecompose
 #--------------------------
