@@ -6,12 +6,12 @@ from ipywidgets import embed
 import pyvista as pv
 from pyvista.jupyter.pv_pythreejs import convert_plotter
 
-pv.start_xvfb()
 
 #pv.set_plot_theme('document')
 
 
 def pyvista_streamlit(plotter):
+    pv.start_xvfb()
     widget = convert_plotter(plotter)
     state = embed.dependency_state(widget)
     fp = io.StringIO()
