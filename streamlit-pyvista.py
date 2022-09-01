@@ -5,7 +5,8 @@ import streamlit.components.v1 as components
 from ipywidgets import embed
 import pyvista as pv
 from pyvista.jupyter.pv_pythreejs import convert_plotter
-
+import pyvista as pv
+from pyvista import examples
 
 #pv.set_plot_theme('document')
 
@@ -13,9 +14,9 @@ from pyvista.jupyter.pv_pythreejs import convert_plotter
 def pyvista_streamlit(plotter):
     pv.start_xvfb()
     #widget = convert_plotter(plotter)
-    state = embed.dependency_state(plotter)
+    #state = embed.dependency_state(plotter)
     fp = io.StringIO()
-    embed.embed_minimal_html(fp, None, title="", state=state)
+    embed.embed_minimal_html(fp, None, title="", state=plotter)
     fp.seek(0)
     snippet = fp.read()
     st.write(snippet)
@@ -23,8 +24,7 @@ def pyvista_streamlit(plotter):
 
 
 
-import pyvista as pv
-from pyvista import examples
+
 
 # Example dataset with normals
 mesh = examples.load_random_hills()
