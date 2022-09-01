@@ -99,16 +99,15 @@ def addData(dataList, new_data):
         dataList += new_data
     return dataList
 
-def addApertures(dataList, f, north):
+def addApertures(p, f, north):
     ap, apertures = TopologyApertures.processItem(f)
-    if len(apertures) > 0: #This face has a window so must be a wall, count it.
+    if len(apertures) > 0:
         dirA = FaceNormalAtParameters.processItem([f, 0.5, 0.5], "XYZ", 3)
         ang, ang_str, color_str = faceAngleFromNorth(f, north)
         for aperture in apertures:
-            mesh_data, wire_data = plotlyDataByTopology(aperture, mesh_opacity=0.5, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
-            addData(dataList, mesh_data)
-            addData(dataList, wire_data)
-    return dataList
+            mesh_data = pvMeshByTopology(topology=aperture)
+            p.add_mesh(mesh_data)
+    return p
 
 def pvMeshByTopology(topology=None):
     if topology:
