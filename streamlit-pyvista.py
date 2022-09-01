@@ -19,7 +19,7 @@ def pyvista_streamlit(plotter):
     fp.seek(0)
     snippet = fp.read()
     st.write(snippet)
-    components.html(snippet, width=900, height=500)
+    #components.html(snippet, width=900, height=500)
 
 
 
