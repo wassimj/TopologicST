@@ -21,18 +21,18 @@ def pyvista_streamlit(plotter):
     components.html(snippet, width=900, height=500)
 
 
-with st.echo():
-    import pyvista as pv
-    from pyvista import examples
 
-    # Example dataset with normals
-    mesh = examples.load_random_hills()
+import pyvista as pv
+from pyvista import examples
 
-    # create a subset of arrows using the glyph filter
-    arrows = mesh.glyph(scale="Normals", orient="Normals", tolerance=0.05)
+# Example dataset with normals
+mesh = examples.load_random_hills()
 
-    p = pv.Plotter()
-    p.add_mesh(arrows, color="black")
-    p.add_mesh(mesh, scalars="Elevation", cmap="terrain", smooth_shading=True)
+# create a subset of arrows using the glyph filter
+arrows = mesh.glyph(scale="Normals", orient="Normals", tolerance=0.05)
 
-    pyvista_streamlit(p)
+p = pv.Plotter()
+p.add_mesh(arrows, color="black")
+p.add_mesh(mesh, scalars="Elevation", cmap="terrain", smooth_shading=True)
+
+pyvista_streamlit(p)
