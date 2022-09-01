@@ -12,14 +12,14 @@ from pyvista.jupyter.pv_pythreejs import convert_plotter
 
 def pyvista_streamlit(plotter):
     pv.start_xvfb()
-    widget = convert_plotter(plotter)
-    state = embed.dependency_state(widget)
+    #widget = convert_plotter(plotter)
+    state = embed.dependency_state(plotter)
     fp = io.StringIO()
     embed.embed_minimal_html(fp, None, title="", state=state)
     fp.seek(0)
     snippet = fp.read()
     st.write(snippet)
-    #components.html(snippet, width=900, height=500)
+    components.html(snippet, width=900, height=500)
 
 
 
