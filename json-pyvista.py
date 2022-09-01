@@ -1,6 +1,8 @@
 #--------------------------
 # IMPORT LIBRARIES
 import streamlit as st
+import streamlit.components.v1 as components
+from ipywidgets import embed
 import plotly.graph_objects as go
 import plotly.express as px
 import json
@@ -9,7 +11,8 @@ import numpy as np
 from numpy import arctan, pi, signbit, arctan2, rad2deg
 from numpy.linalg import norm
 import pandas as pd
-from pyvista import PolyData, Plotter
+import pyvista as pv
+from pyvista.jupyter.pv_pythreejs import convert_plotter
 # import topologic
 # This requires some checking of the used OS platform to load the correct version of Topologic
 import sys
@@ -114,9 +117,17 @@ def pvMeshByTopology(topology=None):
         vertices, edges, faces = TopologyGeometry.processItem(topology)
         vertices = np.array(vertices)
         faces = np.hstack(faces)
-        mesh = PolyData(vertices, faces)
+        mesh = pv.PolyData(vertices, faces)
         return (mesh)
 
+def pyvista_streamlit(plotter):
+    widget = convert_plotter(plotter)
+    state = embed.dependency_state(widget)
+    fp = io.StringIO()
+    embed.embed_minimal_html(fp, None, title="", state=state)
+    fp.seek(0)
+    snippet = fp.read()
+    components.html(snippet, width=900, height=500)
 #--------------------------
 # PAGE LAYOUT
 #--------------------------
@@ -153,9 +164,11 @@ if json_file:
 
     c = topologies[0]
     if c:
+        pv.start_xvfb()
+        pv.set_plot_theme('document')
         mesh_data = pvMeshByTopology(topology=c)
 # plot each face with a different color
-        p = Plotter(window_size=[500, 500])
+        p = pv.Plotter(window_size=[500, 500])
         faces = []
         _ = c.Faces(None, faces)
         north = [0,1,0]
@@ -206,10 +219,7 @@ if json_file:
         # Draw the 3D view
         p.add_floor('-z', lighting=True, color='white', pad=1.0)
         p.enable_shadows()
-        p.export_html('pyvista.html')  # doctest:+SKIP
-        HtmlFile = open("pyvista.html", 'r', encoding='utf-8')
-        source_code = HtmlFile.read()
-        st.components.v1.html(source_code, height = 500,width=500)
+        pyvista_streamlit(p)
 
         n_walls = []
         s_walls = []

@@ -7,3 +7,6 @@ streamlit-ws-localstorage==1.0.0
 vtk
 pythreejs
 pyvista
+ipywidgets
+pythreejs
+click<=8.0.4  # streamlit compatibility
