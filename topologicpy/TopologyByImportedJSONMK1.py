@@ -360,59 +360,58 @@ def processItem(item):
 		brep = jsonItem['brep']
 		brep = brep.replace("CASCADE Topology V3, (c) Open Cascade", "CASCADE Topology V1, (c) Matra-Datavision")
 		topology = topologic.Topology.ByString(brep)
-		if not topology:
-			continue
-		dictionary = jsonItem['dictionary']
-		topDictionary = dictionaryByPythonDictionary(dictionary)
-		_ = topology.SetDictionary(topDictionary)
-		cellApertures = getApertures(jsonItem['cellApertures'])
-		cells = []
-		try:
-			_ = topology.Cells(None, cells)
-		except:
-			pass
-		processApertures(cells, topologic.Cluster.ByTopologies(cellApertures), False, 0.001)
-		faceApertures = getApertures(jsonItem['faceApertures'])
-		faces = []
-		try:
-			_ = topology.Faces(None, faces)
-		except:
-			pass
-		processApertures(faces, topologic.Cluster.ByTopologies(faceApertures), False, 0.001)
-		edgeApertures = getApertures(jsonItem['edgeApertures'])
-		edges = []
-		try:
-			_ = topology.Edges(None, edges)
-		except:
-			pass
-		processApertures(edges, topologic.Cluster.ByTopologies(edgeApertures), False, 0.001)
-		vertexApertures = getApertures(jsonItem['vertexApertures'])
-		vertices = []
-		try:
-			_ = topology.Vertices(None, vertices)
-		except:
-			pass
-		processApertures(vertices, topologic.Cluster.ByTopologies(vertexApertures), False, 0.001)
-		cellDataList = jsonItem['cellDictionaries']
-		cellSelectors = []
-		for cellDataItem in cellDataList:
-			cellSelectors.append(assignDictionary(cellDataItem))
-		processSelectors(cellSelectors, topology, False, False, False, True, 0.001)
-		faceDataList = jsonItem['faceDictionaries']
-		faceSelectors = []
-		for faceDataItem in faceDataList:
-			faceSelectors.append(assignDictionary(faceDataItem))
-		processSelectors(faceSelectors, topology, False, False, True, False, 0.001)
-		edgeDataList = jsonItem['edgeDictionaries']
-		edgeSelectors = []
-		for edgeDataItem in edgeDataList:
-			edgeSelectors.append(assignDictionary(edgeDataItem))
-		processSelectors(edgeSelectors, topology, False, True, False, False, 0.001)
-		vertexDataList = jsonItem['vertexDictionaries']
-		vertexSelectors = []
-		for vertexDataItem in vertexDataList:
-			vertexSelectors.append(assignDictionary(vertexDataItem))
-		processSelectors(vertexSelectors, topology, True, False, False, False, 0.001)
-		topologies.append(topology)
+		if topology:
+			dictionary = jsonItem['dictionary']
+			topDictionary = dictionaryByPythonDictionary(dictionary)
+			_ = topology.SetDictionary(topDictionary)
+			cellApertures = getApertures(jsonItem['cellApertures'])
+			cells = []
+			try:
+				_ = topology.Cells(None, cells)
+			except:
+				pass
+			processApertures(cells, topologic.Cluster.ByTopologies(cellApertures), False, 0.001)
+			faceApertures = getApertures(jsonItem['faceApertures'])
+			faces = []
+			try:
+				_ = topology.Faces(None, faces)
+			except:
+				pass
+			processApertures(faces, topologic.Cluster.ByTopologies(faceApertures), False, 0.001)
+			edgeApertures = getApertures(jsonItem['edgeApertures'])
+			edges = []
+			try:
+				_ = topology.Edges(None, edges)
+			except:
+				pass
+			processApertures(edges, topologic.Cluster.ByTopologies(edgeApertures), False, 0.001)
+			vertexApertures = getApertures(jsonItem['vertexApertures'])
+			vertices = []
+			try:
+				_ = topology.Vertices(None, vertices)
+			except:
+				pass
+			processApertures(vertices, topologic.Cluster.ByTopologies(vertexApertures), False, 0.001)
+			cellDataList = jsonItem['cellDictionaries']
+			cellSelectors = []
+			for cellDataItem in cellDataList:
+				cellSelectors.append(assignDictionary(cellDataItem))
+			processSelectors(cellSelectors, topology, False, False, False, True, 0.001)
+			faceDataList = jsonItem['faceDictionaries']
+			faceSelectors = []
+			for faceDataItem in faceDataList:
+				faceSelectors.append(assignDictionary(faceDataItem))
+			processSelectors(faceSelectors, topology, False, False, True, False, 0.001)
+			edgeDataList = jsonItem['edgeDictionaries']
+			edgeSelectors = []
+			for edgeDataItem in edgeDataList:
+				edgeSelectors.append(assignDictionary(edgeDataItem))
+			processSelectors(edgeSelectors, topology, False, True, False, False, 0.001)
+			vertexDataList = jsonItem['vertexDictionaries']
+			vertexSelectors = []
+			for vertexDataItem in vertexDataList:
+				vertexSelectors.append(assignDictionary(vertexDataItem))
+			processSelectors(vertexSelectors, topology, True, False, False, False, 0.001)
+			topologies.append(topology)
 	return topologies
 
