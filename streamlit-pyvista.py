@@ -18,6 +18,7 @@ def pyvista_streamlit(plotter):
     embed.embed_minimal_html(fp, None, title="", state=state)
     fp.seek(0)
     snippet = fp.read()
+    st.write(snippet)
     components.html(snippet, width=900, height=500)
 
 
