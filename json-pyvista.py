@@ -9,7 +9,7 @@ import numpy as np
 from numpy import arctan, pi, signbit, arctan2, rad2deg
 from numpy.linalg import norm
 import pandas as pd
-from pyvista import PloyData, Plotter
+from pyvista import PolyData, Plotter
 # import topologic
 # This requires some checking of the used OS platform to load the correct version of Topologic
 import sys
