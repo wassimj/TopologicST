@@ -4,4 +4,5 @@ plotly
 pandas
 httpx-oauth==0.3.5
 streamlit-ws-localstorage==1.0.0
+vtk
 pyvista
