@@ -115,7 +115,6 @@ def pvMeshByTopology(topology=None):
         vertices = np.array(vertices)
         faces = np.hstack(faces)
         mesh = PolyData(vertices, faces)
-        st.write(mesh)
         return (mesh)
 
 #--------------------------
