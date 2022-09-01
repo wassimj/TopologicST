@@ -1,16 +1,5 @@
-import bpy
-import bmesh
-from bpy.props import FloatProperty, StringProperty, BoolProperty
-from sverchok.node_tree import SverchCustomTreeNode
-from sverchok.data_structure import updateNode
-from bpy_extras.object_utils import AddObjectHelper, object_data_add
-import uuid
-from sverchok.utils.sv_mesh_utils import get_unique_faces
-
 import topologic
 from topologic import Topology, Vertex, Edge, Wire, Face, Shell, Cell, CellComplex, Cluster, Graph, Dictionary, Attribute, VertexUtility, EdgeUtility, WireUtility, FaceUtility, ShellUtility, CellUtility, TopologyUtility
-from . import Replication
-import time
 
 def getSubTopologies(topology, subTopologyClass):
 	topologies = []
@@ -122,67 +111,3 @@ def processItem(item):
 	if len(faces) == 0:
 		faces = [[]]
 	return [vertices, edges, faces]
-
-
-
-class SvTopologyGeometry(bpy.types.Node, SverchCustomTreeNode):
-	"""
-	Triggers: Topologic
-	Tooltip: Converts the input Topology into a geometry
-	"""
-	bl_idname = 'SvTopologyGeometry'
-	bl_label = 'Topology.Geometry'
-	bl_icon = 'SELECT_DIFFERENCE'
-
-	def sv_init(self, context):
-		self.inputs.new('SvStringsSocket', 'Topology')
-		self.outputs.new('SvVerticesSocket', 'Vertices')
-		self.outputs.new('SvStringsSocket', 'Edges')
-		self.outputs.new('SvStringsSocket', 'Faces')
-		self.width = 175
-		for socket in self.inputs:
-			if socket.prop_name != '':
-				socket.custom_draw = "draw_sockets"
-
-	def draw_sockets(self, socket, context, layout):
-		row = layout.row()
-		split = row.split(factor=0.5)
-		split.row().label(text=(socket.name or "Untitled") + f". {socket.objects_number or ''}")
-		split.row().prop(self, socket.prop_name, text="")
-
-	def process(self):
-		start = time.time()
-		if not any(socket.is_linked for socket in self.outputs):
-			return
-		if not any(socket.is_linked for socket in self.inputs):
-			return
-		inputs = self.inputs['Topology'].sv_get(deepcopy=True)
-		inputs = Replication.flatten(inputs)
-		vertex_list = []
-		edge_list = []
-		face_list = []
-		for anInput in inputs:
-			v, e, f = processItem(anInput)
-			vertex_list.append(v)
-			edge_list.append(e)
-			face_list.append(f)
-			'''
-			if v:
-				vertex_list.append(v)
-			if e:
-				edge_list.append(e)
-			if f:
-				face_list.append(f)
-			'''
-		self.outputs['Vertices'].sv_set(vertex_list)
-		self.outputs['Edges'].sv_set(edge_list)
-		self.outputs['Faces'].sv_set(face_list)
-		end = time.time()
-		print("Topology.Geometry Operation consumed "+str(round(end - start,2)*1000)+" ms")
-
-def register():
-	bpy.utils.register_class(SvTopologyGeometry)
-
-def unregister():
-	bpy.utils.unregister_class(SvTopologyGeometry)
-
