@@ -9,6 +9,8 @@ def angle_between(v1, v2):
 	u2 = v2 / norm(v2)
 	y = u1 - u2
 	x = u1 + u2
+	if norm(x) == 0:
+		return 0
 	a0 = 2 * arctan(norm(y) / norm(x))
 	if (not signbit(a0)) or signbit(pi - a0):
 		return a0
