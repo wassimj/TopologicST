@@ -9,7 +9,7 @@ import numpy as np
 from numpy import arctan, pi, signbit, arctan2, rad2deg
 from numpy.linalg import norm
 import pandas as pd
-import pyvista as pv
+from pyvista import PloyData, Plotter
 # import topologic
 # This requires some checking of the used OS platform to load the correct version of Topologic
 import sys
@@ -115,7 +115,7 @@ def pvMeshByTopology(topology=None):
         vertices, edges, faces = TopologyGeometry.processItem(topology)
         vertices = np.array(vertices)
         faces = np.hstack(faces)
-        mesh = pv.PolyData(vertices, faces)
+        mesh = PolyData(vertices, faces)
         st.write(mesh)
         return (mesh)
 
@@ -158,7 +158,7 @@ if json_file:
         mesh_data, wire_data = plotlyDataByTopology(topology=c, mesh_opacity=mesh_opacity, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
         mesh_data = pvMeshByTopology(topology=c)
 # plot each face with a different color
-        p = pv.Plotter(window_size=[500, 500])
+        p = Plotter(window_size=[500, 500])
         faces = []
         _ = c.Faces(None, faces)
         north = [0,1,0]
