@@ -170,8 +170,8 @@ if json_file:
 
     c = topologies[0]
     if c:
-        pv.start_xvfb()
-        pv.set_plot_theme('document')
+        #pv.start_xvfb()
+        #pv.set_plot_theme('document')
         mesh_data = pvMeshByTopology(topology=c)
 # plot each face with a different color
         p = pv.Plotter(window_size=[500, 500])
