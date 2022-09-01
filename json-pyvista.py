@@ -209,7 +209,7 @@ if json_file:
         p.export_html('pyvista.html')  # doctest:+SKIP
         HtmlFile = open("pyvista.html", 'r', encoding='utf-8')
         source_code = HtmlFile.read()
-        st.components.html(source_code, height = 500,width=500)
+        st.components.v1.html(source_code, height = 500,width=500)
 
         n_walls = []
         s_walls = []
