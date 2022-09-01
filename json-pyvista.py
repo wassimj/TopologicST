@@ -155,7 +155,6 @@ if json_file:
 
     c = topologies[0]
     if c:
-        mesh_data, wire_data = plotlyDataByTopology(topology=c, mesh_opacity=mesh_opacity, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
         mesh_data = pvMeshByTopology(topology=c)
 # plot each face with a different color
         p = Plotter(window_size=[500, 500])
