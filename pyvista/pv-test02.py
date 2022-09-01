@@ -126,9 +126,9 @@ def pyvista_streamlit(plotter):
     ## Export to a pythreejs HTML
     model_html = io.StringIO()
     plotter.export_html(model_html, backend='pythreejs')
-    st.write(model_html.getvalue())
+    #st.write(model_html.getvalue())
     ## Show in webpage
-    #st.components.v1.html(model_html.getvalue(),height=400)
+    st.components.v1.html(model_html.getvalue(),height=400)
 #--------------------------
 # PAGE LAYOUT
 #--------------------------
