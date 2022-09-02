@@ -14,6 +14,7 @@ import pyvista as pv
 
 import io
 import tempfile
+import pythreejs
 
 # import topologic
 # This requires some checking of the used OS platform to load the correct version of Topologic
