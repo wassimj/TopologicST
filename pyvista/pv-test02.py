@@ -217,7 +217,8 @@ if json_file:
         if ex_in_f_f:
             for f in ex_in_f:
                 mesh_data = pvMeshByTopology(topology=f)
-                p.add_mesh(mesh_data, color='silver', specular=1.0, specular_power=10, show_edges=True, opacity=mesh_opacity, lighting=True)
+                ang, ang_str, color_str = faceAngleFromNorth(f, north)
+                p.add_mesh(mesh_data, color=color_str, specular=1.0, specular_power=10, show_edges=True, opacity=mesh_opacity, lighting=True)
                 if apr_f:
                     addApertures(p, f, north)
         if in_in_f_f:
