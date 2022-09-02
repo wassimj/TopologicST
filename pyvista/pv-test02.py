@@ -134,25 +134,11 @@ def pvMeshByTopology(topology=None):
 
 def pyvista_streamlit(plotter):
     plotter.reset_camera_clipping_range()
-    #plotter.export_html(model_html)
-    #st.download_button("Download HTML", model_html.getvalue(), file_name="pyvista.html", mime='text/plain')
     #scene = plotter.show(jupyter_backend='pythreejs', return_viewer=True)
     model_html = io.StringIO()
-    plotter.export_html(model_html, backend='panel')
-    #html = embed.html_template.format(title="", snippet=model_html.getvalue())
-    html = embed.embed_snippet(model_html.getvalue())
-    components.html(html, width=500, height=500)
-    #st.components.v1.html(scene,height=500)
-
-    # vectors contient nos 3 vecteurs de maillescene = plotter.show(jupyter_backend='pythreejs', return_viewer=True)
-    ## Export to a pythreejs HTML
-    #model_html = io.StringIO()
-    #plotter.export_html(model_html, backend='pythreejs')
-    
-    #st.write(model_html.getvalue())
-    ## Show in webpage
-    #snippet = embed.embed_snippet(views=view(model_html.getvalue()))
-    #html = embed.html_template.format(title="", snippet=snippet)
+    plotter.export_html(model_html, backend='pythreejs')
+    st.download_button("Download HTML", model_html.getvalue(), file_name="pyvista.html", mime='text/plain')
+    components.html(model_html.getvalue(), width=500, height=500)
 
 #--------------------------
 # PAGE LAYOUT
