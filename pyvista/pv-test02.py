@@ -112,7 +112,7 @@ def addApertures(p, f, north):
         ang, ang_str, color_str = faceAngleFromNorth(f, north)
         for aperture in apertures:
             mesh_data = pvMeshByTopology(topology=aperture)
-            p.add_mesh(mesh_data, color='cyan', specular=1.0, specular_power=10, show_edges=True, opacity=0.5, lighting=True)
+            p.add_mesh(mesh_data, color=color_str, specular=1.0, specular_power=10, show_edges=True, opacity=1.0, lighting=True)
     return p
 
 def pvMeshByTopology(topology=None):
@@ -184,7 +184,8 @@ if json_file:
         if ex_ve_f_f:
             for f in ex_ve_f:
                 mesh_data = pvMeshByTopology(topology=f)
-                p.add_mesh(mesh_data, color='silver', specular=1.0, specular_power=10, show_edges=True, opacity=mesh_opacity, lighting=True)
+                ang, ang_str, color_str = faceAngleFromNorth(f, north)
+                p.add_mesh(mesh_data, color=color_str, specular=1.0, specular_power=10, show_edges=True, opacity=mesh_opacity, lighting=True)
                 if apr_f:
                     addApertures(p, f, north)
         if in_ve_f_f:
