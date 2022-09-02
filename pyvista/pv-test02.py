@@ -122,7 +122,6 @@ def pvMeshByTopology(topology=None):
         pv_faces = []
         for f in faces:
             temp_f = [len(f)]+f
-            st.write(temp_f) #Debugging
             pv_faces.append(temp_f)
         faces = np.hstack(pv_faces)
         mesh = pv.PolyData(vertices, faces)
@@ -135,7 +134,7 @@ def pyvista_streamlit(plotter):
     st.download_button("Download HTML", model_html.getvalue(), file_name="pyvista.html", mime='text/plain')
     #st.write(model_html.getvalue())
     ## Show in webpage
-    #st.components.v1.html(model_html.getvalue(),height=400)
+    st.components.v1.html(model_html.getvalue(),height=400)
 #--------------------------
 # PAGE LAYOUT
 #--------------------------
