@@ -112,7 +112,7 @@ def addApertures(p, f, north):
         ang, ang_str, color_str = faceAngleFromNorth(f, north)
         for aperture in apertures:
             mesh_data = pvMeshByTopology(topology=aperture)
-            p.add_mesh(mesh_data)
+            p.add_mesh(mesh_datacolor='cyan', specular=1.0, specular_power=10, show_edges=True, opacity=0.5, lighting=True)
     return p
 
 def pvMeshByTopology(topology=None):
@@ -184,43 +184,43 @@ if json_file:
         if ex_ve_f_f:
             for f in ex_ve_f:
                 mesh_data = pvMeshByTopology(topology=f)
-                p.add_mesh(mesh_data)
+                p.add_mesh(mesh_data, color='silver', specular=1.0, specular_power=10, show_edges=True, opacity=mesh_opacity, lighting=True)
                 if apr_f:
                     addApertures(p, f, north)
         if in_ve_f_f:
             for f in in_ve_f:
                 mesh_data = pvMeshByTopology(topology=f)
-                p.add_mesh(mesh_data)
+                p.add_mesh(mesh_data, color='silver', specular=1.0, specular_power=10, show_edges=True, opacity=mesh_opacity, lighting=True)
                 if apr_f:
                     addApertures(p, f, north)
         if to_ho_f_f:
             for f in to_ho_f:
                 mesh_data = pvMeshByTopology(topology=f)
-                p.add_mesh(mesh_data)
+                p.add_mesh(mesh_data, color='silver', specular=1.0, specular_power=10, show_edges=True, opacity=mesh_opacity, lighting=True)
                 if apr_f:
                     addApertures(p, f, north)
         if bo_ho_f_f:
             for f in bo_ho_f:
                 mesh_data = pvMeshByTopology(topology=f)
-                p.add_mesh(mesh_data)
+                p.add_mesh(mesh_data, color='silver', specular=1.0, specular_power=10, show_edges=True, opacity=mesh_opacity, lighting=True)
                 if apr_f:
                     addApertures(p, f, north)
         if in_ho_f_f:
             for f in in_ho_f:
                 mesh_data = pvMeshByTopology(topology=f)
-                p.add_mesh(mesh_data)
+                p.add_mesh(mesh_data, color='silver', specular=1.0, specular_power=10, show_edges=True, opacity=mesh_opacity, lighting=True)
                 if apr_f:
                     addApertures(p, f, north)
         if ex_in_f_f:
             for f in ex_in_f:
                 mesh_data = pvMeshByTopology(topology=f)
-                p.add_mesh(mesh_data)
+                p.add_mesh(mesh_data, color='silver', specular=1.0, specular_power=10, show_edges=True, opacity=mesh_opacity, lighting=True)
                 if apr_f:
                     addApertures(p, f, north)
         if in_in_f_f:
             for f in in_in_f:
                 mesh_data = pvMeshByTopology(topology=f)
-                p.add_mesh(mesh_data)
+                p.add_mesh(mesh_data, color='silver', specular=1.0, specular_power=10, show_edges=True, opacity=mesh_opacity, lighting=True)
                 if apr_f:
                     addApertures(p, f, north)
 
