@@ -119,7 +119,10 @@ def pvMeshByTopology(topology=None):
     if topology:
         vertices, edges, faces = TopologyGeometry.processItem(topology)
         vertices = np.array(vertices)
-        faces = np.hstack(faces)
+        pv_faces = []
+        for f in faces:
+            pv_faces.append([len(f)]+f)
+        faces = np.hstack(pv_faces)
         mesh = pv.PolyData(vertices, faces)
         return (mesh)
 
