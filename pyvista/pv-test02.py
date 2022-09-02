@@ -133,16 +133,22 @@ def pvMeshByTopology(topology=None):
         return (mesh)
 
 def pyvista_streamlit(plotter):
-    ## Export to a pythreejs HTML
-    model_html = io.StringIO()
-    #plotter.export_html(model_html, backend='pythreejs')
+    plotter.reset_camera_clipping_range()
     plotter.export_html(model_html)
     st.download_button("Download HTML", model_html.getvalue(), file_name="pyvista.html", mime='text/plain')
+    scene = plotter.show(jupyter_backend='pythreejs', return_viewer=True)
+    st.components.v1.html(scene,height=500)
+
+    # vectors contient nos 3 vecteurs de maillescene = plotter.show(jupyter_backend='pythreejs', return_viewer=True)
+    ## Export to a pythreejs HTML
+    #model_html = io.StringIO()
+    #plotter.export_html(model_html, backend='pythreejs')
+    
     #st.write(model_html.getvalue())
     ## Show in webpage
     #snippet = embed.embed_snippet(views=view(model_html.getvalue()))
     #html = embed.html_template.format(title="", snippet=snippet)
-    st.components.v1.html(model_html.getvalue(),height=400)
+
 #--------------------------
 # PAGE LAYOUT
 #--------------------------
@@ -184,7 +190,8 @@ if json_file:
         #pv.set_plot_theme('document')
         mesh_data = pvMeshByTopology(topology=c)
 # plot each face with a different color
-        p = pv.Plotter(window_size=[500, 500])
+        p = pv.Plotter(window_size=[500, 500], notebook=True)
+        p.set_background('white')
         faces = []
         _ = c.Faces(None, faces)
         north = [0,1,0]
