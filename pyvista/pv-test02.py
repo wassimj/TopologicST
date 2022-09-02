@@ -136,8 +136,9 @@ def pyvista_streamlit(plotter):
     plotter.reset_camera_clipping_range()
     #plotter.export_html(model_html)
     #st.download_button("Download HTML", model_html.getvalue(), file_name="pyvista.html", mime='text/plain')
-    plotter.show()
-    #scene = plotter.show(jupyter_backend='pythreejs', return_viewer=True)
+    scene = plotter.show(jupyter_backend='pythreejs', return_viewer=True)
+    html = embed.html_template.format(title="", snippet=scene)
+    components.html(html, width=500, height=500)
     #st.components.v1.html(scene,height=500)
 
     # vectors contient nos 3 vecteurs de maillescene = plotter.show(jupyter_backend='pythreejs', return_viewer=True)
