@@ -135,10 +135,12 @@ def pvMeshByTopology(topology=None):
 def pyvista_streamlit(plotter):
     plotter.reset_camera_clipping_range()
     #scene = plotter.show(jupyter_backend='pythreejs', return_viewer=True)
-    model_html = io.StringIO()
+    model_html = io.StringIO(encoding="utf-8")
     plotter.export_html(model_html, backend='pythreejs')
     st.download_button("Download HTML", model_html.getvalue(), file_name="pyvista.html", mime='text/plain')
-    components.html(model_html.getvalue(), width=500, height=500)
+    source_code = model_html.read() 
+    components.html(source_code, height = 500,width=500)
+    #components.html(model_html.getvalue(), width=500, height=500)
 
 #--------------------------
 # PAGE LAYOUT
