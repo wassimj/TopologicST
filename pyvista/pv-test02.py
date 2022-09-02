@@ -121,7 +121,9 @@ def pvMeshByTopology(topology=None):
         vertices = np.array(vertices)
         pv_faces = []
         for f in faces:
-            pv_faces.append([len(f)]+f)
+            temp_f = [len(f)]+f
+            st.write(temp_f) #Debugging
+            pv_faces.append(temp_f)
         faces = np.hstack(pv_faces)
         mesh = pv.PolyData(vertices, faces)
         return (mesh)
