@@ -135,13 +135,14 @@ def pvMeshByTopology(topology=None):
 def pyvista_streamlit(plotter):
     ## Export to a pythreejs HTML
     model_html = io.StringIO()
-    plotter.export_html(model_html, backend='pythreejs')
+    #plotter.export_html(model_html, backend='pythreejs')
+    plotter.export_html(model_html)
     st.download_button("Download HTML", model_html.getvalue(), file_name="pyvista.html", mime='text/plain')
     #st.write(model_html.getvalue())
     ## Show in webpage
-    snippet = embed.embed_snippet(views=view(model_html.getvalue()))
-    html = embed.html_template.format(title="", snippet=snippet)
-    st.components.v1.html(html,height=400)
+    #snippet = embed.embed_snippet(views=view(model_html.getvalue()))
+    #html = embed.html_template.format(title="", snippet=snippet)
+    st.components.v1.html(model_html.getvalue(),height=400)
 #--------------------------
 # PAGE LAYOUT
 #--------------------------
