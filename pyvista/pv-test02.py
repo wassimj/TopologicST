@@ -138,7 +138,7 @@ def pyvista_streamlit(plotter):
     #st.download_button("Download HTML", model_html.getvalue(), file_name="pyvista.html", mime='text/plain')
     #scene = plotter.show(jupyter_backend='pythreejs', return_viewer=True)
     model_html = io.StringIO()
-    plotter.export_html(model_html, backend='pythreejs')
+    plotter.export_html(model_html, backend='none')
     html = embed.html_template.format(title="", snippet=model_html.getvalue())
     components.html(html, width=500, height=500)
     #st.components.v1.html(scene,height=500)
