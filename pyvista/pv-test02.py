@@ -112,7 +112,7 @@ def addApertures(p, f, north):
         ang, ang_str, color_str = faceAngleFromNorth(f, north)
         for aperture in apertures:
             mesh_data = pvMeshByTopology(topology=aperture)
-            p.add_mesh(mesh_datacolor='cyan', specular=1.0, specular_power=10, show_edges=True, opacity=0.5, lighting=True)
+            p.add_mesh(mesh_data, color='cyan', specular=1.0, specular_power=10, show_edges=True, opacity=0.5, lighting=True)
     return p
 
 def pvMeshByTopology(topology=None):
