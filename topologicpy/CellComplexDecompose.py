@@ -63,11 +63,11 @@ def processItem(item):
 
 	faces = []
 	_ = item.Faces(None, faces)
-	#zList = []
-	#for f in faces:
-		#zList.append(f.Centroid().Z())
-	#zMin = min(zList)
-	#zMax = max(zList)
+	zList = []
+	for f in faces:
+		zList.append(f.Centroid().Z())
+	zMin = min(zList)
+	zMax = max(zList)
 	up = [0,0,1]
 	for aFace in faces:
 		ang, ang_str, color_str = faceAngleFromUp(aFace, up)
@@ -83,23 +83,23 @@ def processItem(item):
 				internalVerticalApertures.append(getApertures(aFace))
 		elif ang_str == "N":
 			if n == 1:
-				#if abs(aFace.Centroid().Z() - zMin) < 0.0001:
-					#bottomHorizontalFaces.append(aFace)
-					#bottomHorizontalApertures.append(getApertures(aFace))
-				#else:
-				topHorizontalFaces.append(aFace)
-				topHorizontalApertures.append(getApertures(aFace))
+				if abs(aFace.Centroid().Z() - zMin) < 0.0001:
+					bottomHorizontalFaces.append(aFace)
+					bottomHorizontalApertures.append(getApertures(aFace))
+				else:
+					topHorizontalFaces.append(aFace)
+					topHorizontalApertures.append(getApertures(aFace))
 			else:
 				internalHorizontalFaces.append(aFace)
 				internalHorizontalApertures.append(getApertures(aFace))
 		elif ang_str == "S":
 			if n == 1:
-				#if abs(aFace.Centroid().Z() - zMax) < 0.0001:
-					#topHorizontalFaces.append(aFace)
-					#topHorizontalApertures.append(getApertures(aFace))
-				#else:
-				bottomHorizontalFaces.append(aFace)
-				bottomHorizontalApertures.append(getApertures(aFace))
+				if abs(aFace.Centroid().Z() - zMax) < 0.0001:
+					topHorizontalFaces.append(aFace)
+					topHorizontalApertures.append(getApertures(aFace))
+				else:
+					bottomHorizontalFaces.append(aFace)
+					bottomHorizontalApertures.append(getApertures(aFace))
 			else:
 				internalHorizontalFaces.append(aFace)
 				internalHorizontalApertures.append(getApertures(aFace))
