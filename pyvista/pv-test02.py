@@ -18,10 +18,8 @@ import pandas as pd
 import pyvista as pv
 
 import io
-import tempfile
 import pythreejs
 
-import tempfile
 import webbrowser
 
 # import topologic
@@ -142,8 +140,9 @@ def pyvista_streamlit(plotter):
     plotter.export_html(model_html, backend='pythreejs')
     st.download_button("Download HTML", model_html.getvalue(), file_name="pyvista.html", mime='text/plain')
     html = model_html.read()
-    with tempfile.NamedTemporaryFile('w', delete=False, suffix='.html') as f:
-        url = 'file://' + f.name
+    path = os.path.abspath('temp.html')
+    url = 'file://' + path
+    with open(path, 'w') as f:
         f.write(html)
     webbrowser.open(url)
     #components.html(source_code, height = 500,width=500)

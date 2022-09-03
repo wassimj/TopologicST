@@ -1,6 +1,5 @@
 # Requirements for TopologicST
 streamlit
 plotly
-tempfile
 webbrowser
 
