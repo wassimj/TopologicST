@@ -307,7 +307,8 @@ if c:
             zaxis =dict(visible=False),
             ),
         paper_bgcolor='lightgrey',
-        plot_bgcolor='lightgrey'
+        plot_bgcolor='darkgrey',
+        margin=dict(l=1, r=1, t=1, b=1),
         )
     st.plotly_chart(fig)
     n_walls = []
