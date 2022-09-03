@@ -512,7 +512,7 @@ if c:
                                         marker_line_color="black",
                                         marker_line_width=1,
                                         opacity=0.8))
-            fig.update_layout(title="Window Area", margin=dict(l=2, r=2, t=6, b=2), polar = dict(
+            fig.update_layout(title="Window Area", margin=dict(l=2, r=2, t=20, b=2), polar = dict(
             radialaxis = dict(showticklabels=False, ticks='')))
             st.plotly_chart(fig, use_container_width=True)
 
