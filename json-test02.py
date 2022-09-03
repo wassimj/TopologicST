@@ -216,6 +216,7 @@ if 'faceList' not in st.session_state:
 with st.sidebar:
     if st.button('Reset'):
         st.session_state['topology'] = None
+        st.session_state['faceList'] = None
     json_file = st.file_uploader("", type="json", accept_multiple_files=False)
 c = st.session_state['topology']
 faceList = st.session_state['faceList']
