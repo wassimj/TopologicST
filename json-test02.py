@@ -89,11 +89,12 @@ def addApertures(dataList, f, north):
         dirA = FaceNormalAtParameters.processItem([f, 0.5, 0.5], "XYZ", 3)
         ang, ang_str, color_str = faceAngleFromNorth(f, north)
         for aperture in apertures:
-            mesh_data, wire_data = plotlyDataByTopology(aperture, mesh_opacity=0.5, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
+            mesh_data, wire_data = plotlyDataByTopology(aperture, mesh_opacity=1, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
             addData(dataList, mesh_data)
             addData(dataList, wire_data)
     return dataList
 
+@st.cache
 def plotlyDataByTopology(topology=None, mesh_opacity=0.5, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=False, draw_wire=True):
     mesh_data = []
     wire_data = []
@@ -293,22 +294,11 @@ if json_file:
                 addData(dataList, wire_data)
                 if apr_f:
                     addApertures(dataList, f, north)
-        
-        # Draw color-coded apertures
-        #if apr_f:
-           # for face in evf:
-                #ap, apertures = TopologyApertures.processItem(face)
-                #if len(apertures) > 0: #This face has a window so must be a wall, count it.
-                    #dirA = FaceNormalAtParameters.processItem([face, 0.5, 0.5], "XYZ", 3)
-                    #ang, ang_str, color_str = faceAngleFromNorth(face, north)
-                    #for aperture in apertures:
-                       # mesh_data, wire_data = plotlyDataByTopology(aperture, mesh_opacity=0.5, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
-                        #addData(dataList, mesh_data)
-                    #addData(dataList, wire_data)
+
         fig = go.Figure(data=dataList, )
         fig.update_layout(
-            width=1920,
-            height=1080,
+            width=900,
+            height=700,
             scene = dict(
                 xaxis = dict(visible=False),
                 yaxis = dict(visible=False),
