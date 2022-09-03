@@ -218,9 +218,8 @@ def reset():
 st.subheader("Upload Topologic JSON MK1 File")
 
 # Initialize
-c = None
 if 'topology' not in st.session_state:
-    st.session_state['topology'] = c
+    st.session_state['topology'] = None
 
 st.button("Reset", on_click=reset(), disabled=False)
 json_file = st.file_uploader("", type="json", accept_multiple_files=False)
