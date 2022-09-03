@@ -210,13 +210,12 @@ with icon_column:
 with title_column:
     st.title("Topologic JSON Test App")
 
+
 #--------------------------
 # INPUT
 
 st.subheader("Upload JSON MK1 File")
 json_file = st.file_uploader("", type="json", accept_multiple_files=False)
-if json_file:
-    topologies = TopologyByImportedJSONMK1.processItem(json_file)
     col1, col2 = st.columns([1,1], gap="small")
     with col1:
         ex_ve_f_f = st.checkbox("External Vertical Faces", value=True)
@@ -234,9 +233,17 @@ if json_file:
 #--------------------------
 # CONTENT CREATION
 
-    c = topologies[0]
-    st.write(c)
+    try:
+        c = st.session_state['topology']
+    except:
+        if json_file:
+            topologies = TopologyByImportedJSONMK1.processItem(json_file)
+            c = topologies[0]
+            # Initialization
+            if 'topology' not in st.session_state:
+                st.session_state['topology'] = c
     if c:
+        st.subheader(c)
         mesh_data, wire_data = plotlyDataByTopology(topology=c, mesh_opacity=mesh_opacity, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
         dataList = [wire_data]
         #faces = []
