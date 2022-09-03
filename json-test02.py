@@ -205,14 +205,11 @@ def plotlyDataByTopology(topology=None, mesh_opacity=0.5, mesh_color="lightgrey"
 #--------------------------
 # TITLE
 with st.sidebar:
-st.image("https://topologic.app/wp-content/uploads/2018/10/Topologic-Logo-250x250.png",width=100)
-st.subheader("Topologic JSON Test App")
-
+    st.image("https://topologic.app/wp-content/uploads/2018/10/Topologic-Logo-250x250.png",width=100)
+    st.subheader("Topologic JSON Test App")
 
 #--------------------------
 # INPUT
-
-st.subheader("Upload Topologic JSON MK1 File")
 
 # Initialize
 if 'topology' not in st.session_state:
