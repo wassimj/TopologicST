@@ -299,8 +299,8 @@ if c:
 
     fig = go.Figure(data=dataList)
     fig.update_layout(
-        width=900,
-        height=600,
+        width=950,
+        height=500,
         scene = dict(
             xaxis = dict(visible=False),
             yaxis = dict(visible=False),
