@@ -310,7 +310,7 @@ if c:
         plot_bgcolor='grey',
         margin=dict(l=2, r=2, t=2, b=2),
         )
-    tab1, tab2 = st.tabs(["3D View", "WWR Report"])
+    tab1, tab2, tab3 = st.tabs(["3D View", "Report", "Charts"])
     with tab1:
         st.plotly_chart(fig)
     n_walls = []
@@ -484,7 +484,6 @@ if c:
     df = pd.DataFrame(data=d)
     with tab2:
         st.write(df)
-        st.table(df)
     d = {"Orientation": ["E", "NE", "N", "NW", "W", "SW", "S", "SE"],
         'Window Area': [round(e_wall_area,2),
                         round(ne_wall_area,2),
@@ -495,7 +494,7 @@ if c:
                         round(s_wall_area,2),
                         round(se_wall_area,2)]}
 
-    with tab2:
+    with tab3:
         col1, col2, col3, col4 = st.columns([1,1,1,1], gap="small")
         with col1:
             d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
