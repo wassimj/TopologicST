@@ -216,6 +216,7 @@ with title_column:
 
 st.subheader("Upload JSON MK1 File")
 json_file = st.file_uploader("", type="json", accept_multiple_files=False)
+if json_file:
     col1, col2 = st.columns([1,1], gap="small")
     with col1:
         ex_ve_f_f = st.checkbox("External Vertical Faces", value=True)
