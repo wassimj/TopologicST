@@ -1,14 +1,6 @@
 # Requirements for TopologicST
 streamlit
 plotly
-vtk
-pythreejs
-pyvista
-itkwidgets
-ipywidgets
-pythreejs
-click<=8.0.4  # streamlit compatibility
-panel
 tempfile
 webbrowser
 
