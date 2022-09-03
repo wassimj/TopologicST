@@ -495,7 +495,7 @@ if c:
                         round(se_wall_area,2)]}
 
     with tab3:
-        col1, col2, col3, col4 = st.columns([1,1,1,1], gap="small")
+        col1, col2, col3, col4 = st.columns([1,1,1,1], gap="medium")
         with col1:
             d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
                 'Window Area': [round(e_aperture_area,2),
@@ -512,7 +512,7 @@ if c:
                                         marker_line_color="black",
                                         marker_line_width=1,
                                         opacity=0.8))
-            fig.update_layout(title="Window Area", margin=dict(l=2, r=2, t=2, b=2), polar = dict(
+            fig.update_layout(title="Window Area", margin=dict(l=2, r=2, t=6, b=2), polar = dict(
             radialaxis = dict(showticklabels=False, ticks='')))
             st.plotly_chart(fig, use_container_width=True)
 
@@ -532,7 +532,7 @@ if c:
                                         marker_line_color="black",
                                         marker_line_width=1,
                                         opacity=0.8))
-            fig.update_layout(title="Wall Area", margin=dict(l=2, r=2, t=2, b=2), polar = dict(
+            fig.update_layout(title="Wall Area", margin=dict(l=2, r=2, t=6, b=2), polar = dict(
             radialaxis = dict(showticklabels=False, ticks='')))
             st.plotly_chart(fig, use_container_width=True)
 
@@ -552,7 +552,7 @@ if c:
                                         marker_line_color="black",
                                         marker_line_width=1,
                                         opacity=0.8))
-            fig.update_layout(title="WWR By Orientation", margin=dict(l=2, r=2, t=2, b=2), polar = dict(
+            fig.update_layout(title="WWR By Orientation", margin=dict(l=2, r=2, t=6, b=2), polar = dict(
             radialaxis = dict(showticklabels=False, ticks='')))
             
             st.plotly_chart(fig, use_container_width=True)
@@ -573,6 +573,6 @@ if c:
                                         marker_line_color="black",
                                         marker_line_width=1,
                                         opacity=0.8))
-            fig.update_layout(title="WWR By Project", margin=dict(l=2, r=2, t=2, b=2), polar = dict(
+            fig.update_layout(title="WWR By Project", margin=dict(l=2, r=2, t=6, b=2), polar = dict(
             radialaxis = dict(showticklabels=False, ticks='')))
             st.plotly_chart(fig, use_container_width=True)
