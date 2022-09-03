@@ -297,7 +297,7 @@ if c:
             if apr_f:
                 addApertures(dataList, f, north)
 
-    fig = go.Figure(data=dataList, )
+    fig = go.Figure(data=dataList)
     fig.update_layout(
         width=900,
         height=700,
@@ -306,6 +306,8 @@ if c:
             yaxis = dict(visible=False),
             zaxis =dict(visible=False),
             )
+        paper_bgcolor='lightgrey',
+        plot_bgcolor='lightgrey'
         )
     st.plotly_chart(fig)
     n_walls = []
