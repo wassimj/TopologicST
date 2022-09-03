@@ -237,12 +237,11 @@ if c:
     st.subheader(c)
     ex_ve_f, in_ve_f, to_ho_f, bo_ho_f, in_ho_f, ex_in_f, in_in_f, ex_ve_a, in_ve_a, to_ho_a, bo_ho_a, in_ho_a, ex_in_a, in_in_a = st.session_state['faceList']
     col1, col2 = st.columns([1,1], gap="small")
-    with col1:
+    with st.sidebar:
         ex_ve_f_f = st.checkbox("External Vertical Faces", value=True)
         in_ve_f_f = st.checkbox("Internal Vertical Faces", value=True)
         to_ho_f_f = st.checkbox("Top Horizontal Faces", value=True)
         bo_ho_f_f = st.checkbox("Bottom Horizontal Faces", value=True)
-    with col2:
         in_ho_f_f = st.checkbox("Internal Horizontal Faces", value=True)
         ex_in_f_f = st.checkbox("External Inclined Faces", value=True)
         in_in_f_f = st.checkbox("Internal Inclined Faces", value=True)
