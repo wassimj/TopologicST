@@ -1,5 +1,0 @@
-# Requirements for TopologicST
-streamlit
-plotly
-
-
