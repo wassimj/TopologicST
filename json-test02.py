@@ -218,6 +218,9 @@ def reset():
 st.subheader("Upload Topologic JSON MK1 File")
 
 c = None
+ # Initialization
+if 'topology' not in st.session_state:
+    st.session_state['topology'] = c
 st.button("Reset", on_click=reset(), disabled=False)
 try:
     c = st.session_state['topology']
@@ -226,9 +229,7 @@ except:
     if json_file:
         topologies = TopologyByImportedJSONMK1.processItem(json_file)
         c = topologies[0]
-        # Initialization
-        if 'topology' not in st.session_state:
-            st.session_state['topology'] = c
+        st.session_state['topology'] = c
 
 if c:
     st.subheader(c)
