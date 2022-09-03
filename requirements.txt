@@ -1,8 +1,5 @@
 # Requirements for TopologicST
+streamlit
 plotly
-vtk
-pythreejs
-pyvista
-ipywidgets
-pythreejs
-click<=8.0.4  # streamlit compatibility
+pandas
+numpy
