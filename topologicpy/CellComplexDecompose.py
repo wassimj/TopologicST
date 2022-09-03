@@ -83,7 +83,7 @@ def processItem(item):
 				internalVerticalApertures.append(getApertures(aFace))
 		elif ang_str == "N":
 			if n == 1:
-				if abs(aFace.Centroid.Z() - zMin) < 0.0001:
+				if abs(aFace.Centroid().Z() - zMin) < 0.0001:
 					bottomHorizontalFaces.append(aFace)
 					bottomHorizontalApertures.append(getApertures(aFace))
 				else:
@@ -94,7 +94,7 @@ def processItem(item):
 				internalHorizontalApertures.append(getApertures(aFace))
 		elif ang_str == "S":
 			if n == 1:
-				if abs(aFace.Centroid.Z() - zMax) < 0.0001:
+				if abs(aFace.Centroid().Z() - zMax) < 0.0001:
 					topHorizontalFaces.append(aFace)
 					topHorizontalApertures.append(getApertures(aFace))
 				else:
