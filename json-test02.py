@@ -307,8 +307,8 @@ if json_file:
                     #addData(dataList, wire_data)
         fig = go.Figure(data=dataList, )
         fig.update_layout(
-            width=900,
-            height=600,
+            width=1920,
+            height=1080,
             scene = dict(
                 xaxis = dict(visible=False),
                 yaxis = dict(visible=False),
