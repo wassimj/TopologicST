@@ -211,6 +211,7 @@ with title_column:
     st.title("Topologic JSON Test App")
 
 def reset():
+    st.write('Deleting session state')
     del st.session_state['topology']
 #--------------------------
 # INPUT
@@ -222,10 +223,10 @@ c = None
 if 'topology' not in st.session_state:
     st.session_state['topology'] = c
 st.button("Reset", on_click=reset(), disabled=False)
+json_file = st.file_uploader("", type="json", accept_multiple_files=False)
 try:
     c = st.session_state['topology']
 except:
-    json_file = st.file_uploader("", type="json", accept_multiple_files=False)
     if json_file:
         topologies = TopologyByImportedJSONMK1.processItem(json_file)
         c = topologies[0]
@@ -496,84 +497,84 @@ if c:
                         round(s_wall_area,2),
                         round(se_wall_area,2)]}
 
-col1, col2, col3, col4 = st.columns([1,1,1,1], gap="small")
-with col1:
-    d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
-        'Window Area': [round(e_aperture_area,2),
-                        round(ne_aperture_area,2),
-                        round(n_aperture_area,2),
-                        round(nw_aperture_area,2),
-                        round(w_aperture_area,2),
-                        round(sw_aperture_area,2),
-                        round(s_aperture_area,2),
-                        round(se_aperture_area,2)]}
-    fig = go.Figure(go.Barpolar(r=d["Window Area"],
-                                theta=d["Orientation"],
-                                marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple'],
-                                marker_line_color="black",
-                                marker_line_width=1,
-                                opacity=0.8))
-    fig.update_layout(title="Window Area", polar = dict(
-    radialaxis = dict(showticklabels=False, ticks='')))
-    st.plotly_chart(fig, use_container_width=True)
+    col1, col2, col3, col4 = st.columns([1,1,1,1], gap="small")
+    with col1:
+        d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
+            'Window Area': [round(e_aperture_area,2),
+                            round(ne_aperture_area,2),
+                            round(n_aperture_area,2),
+                            round(nw_aperture_area,2),
+                            round(w_aperture_area,2),
+                            round(sw_aperture_area,2),
+                            round(s_aperture_area,2),
+                            round(se_aperture_area,2)]}
+        fig = go.Figure(go.Barpolar(r=d["Window Area"],
+                                    theta=d["Orientation"],
+                                    marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple'],
+                                    marker_line_color="black",
+                                    marker_line_width=1,
+                                    opacity=0.8))
+        fig.update_layout(title="Window Area", polar = dict(
+        radialaxis = dict(showticklabels=False, ticks='')))
+        st.plotly_chart(fig, use_container_width=True)
 
-with col2:
-    d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
-        'Wall Area': [round(e_wall_area,2),
-                        round(ne_wall_area,2),
-                        round(n_wall_area,2),
-                        round(nw_wall_area,2),
-                        round(w_wall_area,2),
-                        round(sw_wall_area,2),
-                        round(s_wall_area,2),
-                        round(se_wall_area,2)]}
-    fig = go.Figure(go.Barpolar(r=d["Wall Area"],
-                                theta=d["Orientation"],
-                                marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple'],
-                                marker_line_color="black",
-                                marker_line_width=1,
-                                opacity=0.8))
-    fig.update_layout(title="Wall Area", polar = dict(
-    radialaxis = dict(showticklabels=False, ticks='')))
-    st.plotly_chart(fig, use_container_width=True)
+    with col2:
+        d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
+            'Wall Area': [round(e_wall_area,2),
+                            round(ne_wall_area,2),
+                            round(n_wall_area,2),
+                            round(nw_wall_area,2),
+                            round(w_wall_area,2),
+                            round(sw_wall_area,2),
+                            round(s_wall_area,2),
+                            round(se_wall_area,2)]}
+        fig = go.Figure(go.Barpolar(r=d["Wall Area"],
+                                    theta=d["Orientation"],
+                                    marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple'],
+                                    marker_line_color="black",
+                                    marker_line_width=1,
+                                    opacity=0.8))
+        fig.update_layout(title="Wall Area", polar = dict(
+        radialaxis = dict(showticklabels=False, ticks='')))
+        st.plotly_chart(fig, use_container_width=True)
 
-with col3:
-    d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
-        'WWR By Orient': [round(e_ap_or,2),
-                        round(ne_ap_or,2),
-                        round(n_ap_or,2),
-                        round(nw_ap_or,2),
-                        round(w_ap_or,2),
-                        round(sw_ap_or,2),
-                        round(s_ap_or,2),
-                        round(se_ap_or,2)]}
-    fig = go.Figure(go.Barpolar(r=d["WWR By Orient"],
-                                theta=d["Orientation"],
-                                marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple'],
-                                marker_line_color="black",
-                                marker_line_width=1,
-                                opacity=0.8))
-    fig.update_layout(title="WWR By Orientation", polar = dict(
-    radialaxis = dict(showticklabels=False, ticks='')))
-    
-    st.plotly_chart(fig, use_container_width=True)
+    with col3:
+        d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
+            'WWR By Orient': [round(e_ap_or,2),
+                            round(ne_ap_or,2),
+                            round(n_ap_or,2),
+                            round(nw_ap_or,2),
+                            round(w_ap_or,2),
+                            round(sw_ap_or,2),
+                            round(s_ap_or,2),
+                            round(se_ap_or,2)]}
+        fig = go.Figure(go.Barpolar(r=d["WWR By Orient"],
+                                    theta=d["Orientation"],
+                                    marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple'],
+                                    marker_line_color="black",
+                                    marker_line_width=1,
+                                    opacity=0.8))
+        fig.update_layout(title="WWR By Orientation", polar = dict(
+        radialaxis = dict(showticklabels=False, ticks='')))
+        
+        st.plotly_chart(fig, use_container_width=True)
 
-with col4:
-    d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
-        'WWR By Project': [round(e_ap_proj,2),
-                        round(ne_ap_proj,2),
-                        round(n_ap_proj,2),
-                        round(nw_ap_proj,2),
-                        round(w_ap_proj,2),
-                        round(sw_ap_proj,2),
-                        round(s_ap_proj,2),
-                        round(se_ap_proj,2)]}
-    fig = go.Figure(go.Barpolar(r=d["WWR By Project"],
-                                theta=d["Orientation"],
-                                marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple'],
-                                marker_line_color="black",
-                                marker_line_width=1,
-                                opacity=0.8))
-    fig.update_layout(title="WWR By Project", polar = dict(
-    radialaxis = dict(showticklabels=False, ticks='')))
-    st.plotly_chart(fig, use_container_width=True)
+    with col4:
+        d = {'Orientation': ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'],
+            'WWR By Project': [round(e_ap_proj,2),
+                            round(ne_ap_proj,2),
+                            round(n_ap_proj,2),
+                            round(nw_ap_proj,2),
+                            round(w_ap_proj,2),
+                            round(sw_ap_proj,2),
+                            round(s_ap_proj,2),
+                            round(se_ap_proj,2)]}
+        fig = go.Figure(go.Barpolar(r=d["WWR By Project"],
+                                    theta=d["Orientation"],
+                                    marker_color=['cyan', 'brown', 'white', 'red', 'green', 'blue', 'yellow', 'purple'],
+                                    marker_line_color="black",
+                                    marker_line_width=1,
+                                    opacity=0.8))
+        fig.update_layout(title="WWR By Project", polar = dict(
+        radialaxis = dict(showticklabels=False, ticks='')))
+        st.plotly_chart(fig, use_container_width=True)
