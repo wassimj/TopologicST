@@ -41,23 +41,9 @@ def compass_angle(p1, p2):
     ang2 = arctan2(*p2[::-1])
     return rad2deg((ang1 - ang2) % (2 * pi))
 
-def angle_between(v1, v2):
-	u1 = v1 / norm(v1)
-	u2 = v2 / norm(v2)
-	y = u1 - u2
-	x = u1 + u2
-	a0 = 2 * arctan(norm(y) / norm(x))
-	if (not signbit(a0)) or signbit(pi - a0):
-		return a0
-	elif signbit(a0):
-		return 0
-	else:
-		return pi
-
 def faceAngleFromNorth(f, north):
     dirA = FaceNormalAtParameters.processItem([f, 0.5, 0.5], "XYZ", 3)
     ang = compass_angle((dirA[0],dirA[1]), (north[0], north[1]))
-    #ang = round((angle_between(dirA, north) * 180 / pi), 2)
     if 22.5 < ang <= 67.5:
         ang_str = "NW"
         color_str = "red"
