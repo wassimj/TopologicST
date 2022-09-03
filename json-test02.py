@@ -259,7 +259,8 @@ if json_file:
         ex_ve_f, in_ve_f, to_ho_f, bo_ho_f, in_ho_f, ex_in_f, in_in_f, ex_ve_a, in_ve_a, to_ho_a, bo_ho_a, in_ho_a, ex_in_a, in_in_a = CellComplexDecompose.processItem(c)
         if ex_ve_f_f:
             for f in ex_ve_f:
-                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=mesh_opacity, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                ang, ang_str, color_str = faceAngleFromNorth(f, north)
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=mesh_opacity, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
                 addData(dataList, mesh_data)
                 addData(dataList, wire_data)
                 if apr_f:
@@ -294,7 +295,8 @@ if json_file:
                     addApertures(dataList, f, north)
         if ex_in_f_f:
             for f in ex_in_f:
-                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=mesh_opacity, mesh_color="red", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
+                ang, ang_str, color_str = faceAngleFromNorth(f, north)
+                mesh_data, wire_data = plotlyDataByTopology(topology=f, mesh_opacity=mesh_opacity, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=False)
                 addData(dataList, mesh_data)
                 addData(dataList, wire_data)
                 if apr_f:
