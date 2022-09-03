@@ -21,6 +21,9 @@ import io
 import tempfile
 import pythreejs
 
+import tempfile
+import webbrowser
+
 # import topologic
 # This requires some checking of the used OS platform to load the correct version of Topologic
 import sys
@@ -138,8 +141,12 @@ def pyvista_streamlit(plotter):
     model_html = io.StringIO()
     plotter.export_html(model_html, backend='pythreejs')
     st.download_button("Download HTML", model_html.getvalue(), file_name="pyvista.html", mime='text/plain')
-    source_code = model_html.read() 
-    components.html(source_code, height = 500,width=500)
+    html = model_html.read()
+    with tempfile.NamedTemporaryFile('w', delete=False, suffix='.html') as f:
+        url = 'file://' + f.name
+        f.write(html)
+    webbrowser.open(url)
+    #components.html(source_code, height = 500,width=500)
     #components.html(model_html.getvalue(), width=500, height=500)
 
 #--------------------------
