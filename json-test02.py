@@ -208,7 +208,9 @@ def plotlyDataByTopology(topology=None, mesh_opacity=0.5, mesh_color="lightgrey"
                     showscale=False,
                     showlegend = False,
                     color = mesh_color,
-                    opacity = mesh_opacity
+                    opacity = mesh_opacity,
+                    flatshading = True,
+                    lighting = {"facenormalsepsilon": 0},
                 )
         return ([mesh_data, wire_data])
 
@@ -316,7 +318,7 @@ if json_file:
                        # mesh_data, wire_data = plotlyDataByTopology(aperture, mesh_opacity=0.5, mesh_color=color_str, wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
                         #addData(dataList, mesh_data)
                     #addData(dataList, wire_data)
-        fig = go.Figure(data=dataList)
+        fig = go.Figure(data=dataList, )
         fig.update_layout(
             width=600,
             height=600,
