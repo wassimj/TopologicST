@@ -210,13 +210,15 @@ with icon_column:
 with title_column:
     st.title("Topologic JSON Test App")
 
-
+def reset():
+    del st.session_state['topology']
 #--------------------------
 # INPUT
 
 st.subheader("Upload JSON MK1 File")
 json_file = st.file_uploader("", type="json", accept_multiple_files=False)
 if json_file:
+    st.button("Reset", on_click=reset(), disabled=False)
     col1, col2 = st.columns([1,1], gap="small")
     with col1:
         ex_ve_f_f = st.checkbox("External Vertical Faces", value=True)
