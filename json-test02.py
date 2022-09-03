@@ -206,7 +206,8 @@ def plotlyDataByTopology(topology=None, mesh_opacity=0.5, mesh_color="lightgrey"
 # TITLE
 with st.sidebar:
     st.image("https://topologic.app/wp-content/uploads/2018/10/Topologic-Logo-250x250.png",width=100)
-    st.subheader("Topologic JSON Test App")
+
+st.subheader("Topologic JSON Test App")
 
 #--------------------------
 # INPUT
@@ -216,10 +217,10 @@ if 'topology' not in st.session_state:
     st.session_state['topology'] = None
 if 'faceList' not in st.session_state:
     st.session_state['faceList'] = None
-if st.button('Reset'):
-    st.write("Reset Pushed!")
-    st.session_state['topology'] = None
 with st.sidebar:
+    if st.button('Reset'):
+        st.write("Reset Pushed!")
+        st.session_state['topology'] = None
     json_file = st.file_uploader("", type="json", accept_multiple_files=False)
 c = st.session_state['topology']
 faceList = st.session_state['faceList']
