@@ -210,9 +210,7 @@ with icon_column:
 with title_column:
     st.title("Topologic JSON Test App")
 
-def reset():
-    st.write("Reset Pushed!")
-    st.session_state['topology'] = None
+
 #--------------------------
 # INPUT
 
@@ -221,8 +219,9 @@ st.subheader("Upload Topologic JSON MK1 File")
 # Initialize
 if 'topology' not in st.session_state:
     st.session_state['topology'] = None
-
-st.button("Reset", on_click=reset(), disabled=False)
+if st.button('Reset'):
+    st.write("Reset Pushed!")
+    st.session_state['topology'] = None
 json_file = st.file_uploader("", type="json", accept_multiple_files=False)
 c = st.session_state['topology']
 if not c:
