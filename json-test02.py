@@ -94,7 +94,6 @@ def addApertures(dataList, f, north):
             addData(dataList, wire_data)
     return dataList
 
-@st.cache
 def plotlyDataByTopology(topology=None, mesh_opacity=0.5, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=False, draw_wire=True):
     mesh_data = []
     wire_data = []
@@ -237,12 +236,11 @@ if json_file:
 
     c = topologies[0]
     st.write(c)
-    c = None
     if c:
         mesh_data, wire_data = plotlyDataByTopology(topology=c, mesh_opacity=mesh_opacity, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
         dataList = [wire_data]
-        faces = []
-        _ = c.Faces(None, faces)
+        #faces = []
+        #_ = c.Faces(None, faces)
         north = [0,1,0]
         #ex_ve_f, in_ve_f, to_ho_f, bo_ho_f, in_ho_f, ex_in_f, in_in_f, ex_ve_a, in_ve_a, to_ho_a, bo_ho_a, in_ho_a, ex_in_a, in_in_a = CellComplexDecompose.processItem(c)
         ex_ve_f, in_ve_f, to_ho_f, bo_ho_f, in_ho_f, ex_in_f, in_in_f, ex_ve_a, in_ve_a, to_ho_a, bo_ho_a, in_ho_a, ex_in_a, in_in_a = CellComplexDecompose.processItem(None)
