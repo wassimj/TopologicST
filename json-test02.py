@@ -218,9 +218,9 @@ def reset():
 st.subheader("Upload Topologic JSON MK1 File")
 
 c = None
+st.button("Reset", on_click=reset(), disabled=False)
 try:
     c = st.session_state['topology']
-    st.button("Reset", on_click=reset(), disabled=False)
 except:
     json_file = st.file_uploader("", type="json", accept_multiple_files=False)
     if json_file:
