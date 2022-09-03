@@ -305,7 +305,7 @@ if c:
             xaxis = dict(visible=False),
             yaxis = dict(visible=False),
             zaxis =dict(visible=False),
-            )
+            ),
         paper_bgcolor='lightgrey',
         plot_bgcolor='lightgrey'
         )
