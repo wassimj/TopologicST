@@ -211,6 +211,7 @@ with title_column:
     st.title("Topologic JSON Test App")
 
 def reset():
+    st.write("Reset Pushed!")
     st.session_state['topology'] = None
 #--------------------------
 # INPUT
