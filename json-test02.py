@@ -310,7 +310,7 @@ if c:
         plot_bgcolor='grey',
         margin=dict(l=2, r=2, t=2, b=2),
         )
-    tab1, tab2 = st.tabs("3D View", "WWR Report")
+    tab1, tab2 = st.tabs(["3D View", "WWR Report"])
     with tab1:
         st.plotly_chart(fig)
     n_walls = []
