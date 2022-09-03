@@ -306,9 +306,9 @@ if c:
             yaxis = dict(visible=False),
             zaxis =dict(visible=False),
             ),
-        paper_bgcolor='lightgrey',
-        plot_bgcolor='darkgrey',
-        margin=dict(l=1, r=1, t=1, b=1),
+        paper_bgcolor='rgba(0.9,0.9,0.9,1)',
+        plot_bgcolor='grey',
+        margin=dict(l=2, r=2, t=2, b=2),
         )
     st.plotly_chart(fig)
     n_walls = []
