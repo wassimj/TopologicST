@@ -483,6 +483,7 @@ if c:
                             round(total_ap_proj_percent,2)]}
     df = pd.DataFrame(data=d)
     with tab2:
+        st.write(df)
         st.table(df)
     d = {"Orientation": ["E", "NE", "N", "NW", "W", "SW", "S", "SE"],
         'Window Area': [round(e_wall_area,2),
