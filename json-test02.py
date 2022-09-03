@@ -4,7 +4,6 @@ import streamlit as st
 import plotly.graph_objects as go
 import plotly.express as px
 import json
-from io import StringIO
 from numpy import arctan, pi, signbit, arctan2, rad2deg
 from numpy.linalg import norm
 import pandas as pd
@@ -308,7 +307,7 @@ if json_file:
                     #addData(dataList, wire_data)
         fig = go.Figure(data=dataList, )
         fig.update_layout(
-            width=600,
+            width=900,
             height=600,
             scene = dict(
                 xaxis = dict(visible=False),
