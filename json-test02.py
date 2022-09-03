@@ -204,11 +204,9 @@ def plotlyDataByTopology(topology=None, mesh_opacity=0.5, mesh_color="lightgrey"
 # PAGE LAYOUT
 #--------------------------
 # TITLE
-icon_column, title_column = st.columns([1,10], gap="small")
-with icon_column:
-    st.image("https://topologic.app/wp-content/uploads/2018/10/Topologic-Logo-250x250.png",width=100)
-with title_column:
-    st.title("Topologic JSON Test App")
+with st.sidebar:
+st.image("https://topologic.app/wp-content/uploads/2018/10/Topologic-Logo-250x250.png",width=100)
+st.subheader("Topologic JSON Test App")
 
 
 #--------------------------
