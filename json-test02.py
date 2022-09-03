@@ -219,19 +219,23 @@ st.subheader("Upload Topologic JSON MK1 File")
 # Initialize
 if 'topology' not in st.session_state:
     st.session_state['topology'] = None
+if 'faceList' not in st.session_state:
+    st.session_state['faceList'] = None
 if st.button('Reset'):
     st.write("Reset Pushed!")
     st.session_state['topology'] = None
 json_file = st.file_uploader("", type="json", accept_multiple_files=False)
 c = st.session_state['topology']
+faceList = st.session_state['faceList']
 if not c:
     if json_file:
         topologies = TopologyByImportedJSONMK1.processItem(json_file)
         c = topologies[0]
-        ex_ve_f, in_ve_f, to_ho_f, bo_ho_f, in_ho_f, ex_in_f, in_in_f, ex_ve_a, in_ve_a, to_ho_a, bo_ho_a, in_ho_a, ex_in_a, in_in_a = CellComplexDecompose.processItem(c)
+        st.session_state['faceList'] = CellComplexDecompose.processItem(c)
         st.session_state['topology'] = c
 if c:
     st.subheader(c)
+    ex_ve_f, in_ve_f, to_ho_f, bo_ho_f, in_ho_f, ex_in_f, in_in_f, ex_ve_a, in_ve_a, to_ho_a, bo_ho_a, in_ho_a, ex_in_a, in_in_a = st.session_state['faceList']
     col1, col2 = st.columns([1,1], gap="small")
     with col1:
         ex_ve_f_f = st.checkbox("External Vertical Faces", value=True)
