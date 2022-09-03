@@ -229,9 +229,6 @@ except:
         if 'topology' not in st.session_state:
             st.session_state['topology'] = c
 
-if json_file:
-    
-
 if c:
     st.subheader(c)
     col1, col2 = st.columns([1,1], gap="small")
