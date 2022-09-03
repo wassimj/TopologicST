@@ -236,6 +236,8 @@ if json_file:
 # CONTENT CREATION
 
     c = topologies[0]
+    st.write(c)
+    c = None
     if c:
         mesh_data, wire_data = plotlyDataByTopology(topology=c, mesh_opacity=mesh_opacity, mesh_color="lightgrey", wire_color="black", wire_width=1, draw_mesh=True, draw_wire=True)
         dataList = [wire_data]
